@@ -1,0 +1,73 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  text-shadow: 0.125em 0.125em 0 #0004;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.px-icon {
+  display: inline-block;
+  vertical-align: middle;
+  filter: drop-shadow(0.125em 0.125em 0 #0004);
+}
+
+:root {
+  --px-chamfer-level: 4px;
+  --px-border-width: 2px;
+  --px-border-color: var(--px-color-black);
+
+  --px-color-red: #f44336;
+  --px-color-red-hover: #e53935;
+  --px-color-red-active: #d32f2f;
+
+  --px-color-orange: #ff9800;
+  --px-color-orange-hover: #fb8c00;
+  --px-color-orange-active: #f57c00;
+
+  --px-color-yellow: #ffeb3b;
+  --px-color-yellow-hover: #fdd835;
+  --px-color-yellow-active: #fbc02d;
+
+  --px-color-green: #4caf50;
+  --px-color-green-hover: #43a047;
+  --px-color-green-active: #388e3c;
+
+  --px-color-blue: #2196f3;
+  --px-color-blue-hover: #1e88e5;
+  --px-color-blue-active: #1976d2;
+}
+:root,
+.light-mode {
+  --px-color-on-light: #343a40;
+  --px-color-on-dark: #f8f9fa;
+
+  --px-color-white: #fff;
+  --px-color-black: #000;
+
+  --px-color-dark: #ffd9ab;
+  --px-color-dark-hover: #ebc89d;
+  --px-color-dark-active: #e3bc98;
+
+  --px-color-light: #f8f9fa;
+  --px-color-light-hover: #e2e6ea;
+  --px-color-light-active: #dae0e5;
+
+  --px-color-page-header: #ffd9ab;
+  --px-color-page-background: bisque;
+}
+
+.dark-mode {
+  --px-color-on-light: #f8f9fa;
+  --px-color-on-dark: #343a40;
+
+  --px-color-dark: #343a40;
+  --px-color-dark-hover: #23272b;
+  --px-color-dark-active: #1d2124;
+
+  --px-color-page-header: #343a40;
+  --px-color-page-background: #121212;
+}

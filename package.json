@@ -1,0 +1,43 @@
+{
+  "name": "sea-battle",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "postinstall": "bun db:generate && bunx nuxt prepare",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@nuxtjs/color-mode": "^3.3.2",
+    "@pinia/nuxt": "^0.5.1",
+    "@prisma/client": "5.6.0",
+    "@vee-validate/nuxt": "^4.11.8",
+    "@vee-validate/zod": "^4.11.8",
+    "bcryptjs": "^2.4.3",
+    "crc": "^4.3.2",
+    "google-auth-library": "^9.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "nuxt-icon": "^0.6.6",
+    "nuxt-vue3-google-signin": "^0.0.10",
+    "pinia": "^2.1.7",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
+    "trpc-nuxt": "^0.10.12",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "nuxt": "^3.8.1",
+    "prisma": "5.6.0",
+    "sass": "^1.69.5",
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5"
+  }
+}

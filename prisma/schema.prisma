@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id() @default(dbgenerated("gen_random_uuid()")) @map("user_id") @db.Uuid
+
+  email    String  @unique @map("email")
+  username String  @map("username")
+  password String? @map("password") @db.Char(60)
+
+  emailVerifiedAt DateTime? @map("email_verified_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Room {
+  id String @id() @default(dbgenerated("gen_random_uuid()")) @map("room_id") @db.Uuid
+
+  @@map("rooms")
+}
