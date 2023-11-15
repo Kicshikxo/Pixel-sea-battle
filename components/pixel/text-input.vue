@@ -124,7 +124,7 @@ function handleClear() {
   &__field {
     width: 100%;
     font-size: 16px;
-    color: var(--px-color-dark);
+    color: var(--px-color-black);
     background: transparent;
 
     &:-webkit-autofill,
@@ -132,7 +132,7 @@ function handleClear() {
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
       box-shadow: 0 0 0 50px var(--px-color-white) inset !important;
-      -webkit-text-fill-color: var(--px-color-dark) !important;
+      -webkit-text-fill-color: var(--px-color-black) !important;
     }
 
     &:-webkit-autofill::first-line,
@@ -146,6 +146,7 @@ function handleClear() {
 
   &__icon {
     display: flex;
+    color: var(--px-color-black);
     transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     &-clear,
