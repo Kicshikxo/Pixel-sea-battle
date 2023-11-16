@@ -84,7 +84,7 @@ export const authRouter = trpcRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const googleUser = (await new OAuth2Client({ clientId: useRuntimeConfig().googleClientId }).verifyIdToken({ idToken: input.accessToken, audience: useRuntimeConfig().googleClientId })).getPayload()
+      const googleUser = (await new OAuth2Client().verifyIdToken({ idToken: input.accessToken, audience: useRuntimeConfig().googleClientId })).getPayload()
 
       if (!googleUser || !googleUser.email) {
         throw new TRPCError({
