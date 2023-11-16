@@ -6,7 +6,6 @@ import * as middleware from '~/server/socket.io/middleware'
 export const io = {} as { server: SocketServer }
 
 export default (nuxtServer: HttpServer) => {
-  console.log(`init socket.io: ${!!nuxtServer}`)
   io.server = new SocketServer(nuxtServer)
 
   Object.values(middleware).forEach(({ handler }) => io.server.use(handler))

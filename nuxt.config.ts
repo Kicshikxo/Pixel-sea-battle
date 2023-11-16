@@ -27,6 +27,9 @@ export default defineNuxtConfig({
   },
 
   devtools: { enabled: true },
+  typescript: {
+    strict: true,
+  },
 
   css: ['assets/css/minecraft.fontface.scss', 'assets/css/pixel.scss', 'assets/css/main.scss'],
 
