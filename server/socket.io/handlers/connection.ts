@@ -1,12 +1,13 @@
 import { Socket } from 'socket.io'
-import { prisma } from '../../../prisma/client'
-import * as handlers from './index'
+import { prisma } from '~/prisma/client'
+import * as handlers from '~/server/socket.io/handlers'
 
 export default {
   event: 'connection',
   handler: async (socket) => {
     console.log('connect', socket.id)
-    socket.emit('message', {
+
+    socket.timeout(1000).emit('message', {
       socketId: socket.id,
       status: 'connected',
       user: socket.user,

@@ -1,8 +1,8 @@
 import type { User } from '@prisma/client'
 import jwt from 'jsonwebtoken'
 import { Socket } from 'socket.io'
+import { prisma } from '~/prisma/client'
 import { AuthTokenData } from '~/types/auth'
-import { prisma } from '../../../prisma/client'
 
 declare module 'socket.io' {
   interface Socket {

@@ -1,5 +1,5 @@
 import { Socket } from 'socket.io'
-import { authMiddleware } from '../middleware'
+import { authMiddleware } from '~/server/socket.io/middleware'
 
 export default {
   event: 'initSocket',

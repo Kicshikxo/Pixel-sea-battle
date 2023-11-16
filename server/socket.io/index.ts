@@ -1,15 +1,15 @@
 import { Server as HttpServer } from 'node:http'
 import { Server as SocketServer } from 'socket.io'
-import { connectionHandler } from './handlers'
-import * as middleware from './middleware'
+import { connectionHandler } from '~/server/socket.io/handlers'
+import * as middleware from '~/server/socket.io/middleware'
+
+export const io = {} as { server: SocketServer }
 
 export default (nuxtServer: HttpServer) => {
   console.log(`init socket.io: ${!!nuxtServer}`)
-  const io = new SocketServer(nuxtServer)
+  io.server = new SocketServer(nuxtServer)
 
-  Object.values(middleware).forEach(({ handler }) => io.use(handler))
+  Object.values(middleware).forEach(({ handler }) => io.server.use(handler))
 
-  io.on(connectionHandler.event, connectionHandler.handler)
-
-  return io
+  io.server.on(connectionHandler.event, connectionHandler.handler)
 }

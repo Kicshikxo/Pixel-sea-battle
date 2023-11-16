@@ -19,6 +19,12 @@
         <icon name="pixelarticons:cloud" />
       </template>
     </pixel-button>
+    <pixel-button @click="handleHello" style="margin-right: 8px">
+      Поздороваться со всеми
+      <template #append-icon>
+        <icon name="pixelarticons:human-handsup" />
+      </template>
+    </pixel-button>
     <pixel-button @click="handleSignout">
       Выйти
       <template #append-icon>
@@ -31,9 +37,13 @@
 <script setup lang="ts">
 import useSocketStore from '~/store/socket'
 
+const client = useClient()
 const { state, signOut } = useAuth()
 const socketStore = useSocketStore()
 
+function handleHello() {
+  client.hello.useQuery({ text: 'broadcast!' })
+}
 function handleSignout() {
   signOut({ redirectTo: '/login' })
 }

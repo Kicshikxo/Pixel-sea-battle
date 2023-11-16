@@ -1,6 +1,7 @@
 import { z } from 'zod'
+import { io } from '~/server/socket.io'
 import { trpcAuthProcedure } from '~/server/trpc/middleware/auth'
-import { authRouter } from './auth'
+import { authRouter } from '~/server/trpc/routes/auth'
 
 export const mainRouter = trpcRouter({
   auth: authRouter,
@@ -11,6 +12,7 @@ export const mainRouter = trpcRouter({
       }),
     )
     .query(({ ctx, input }) => {
+      io.server.sockets.emit('message', { message: `hello everyone with text: ${input.text}` })
       return {
         greeting: `hello ${input?.text ?? 'world'}`,
       }
