@@ -13,6 +13,7 @@ declare module 'socket.io' {
 export default {
   name: 'auth',
   handler: async (socket, next) => {
+    console.log('auth', socket.id)
     try {
       const token = Object.fromEntries((socket.request.headers.cookie ?? '').split(';').map((cookie) => cookie.split('=').map((part) => decodeURIComponent(part.trim()))))[process.env.AUTH_COOKIE_NAME ?? 'sea-battle__auth-token']
       const data = jwt.verify(token, process.env.JWT_SECRET_KEY ?? '<jwt_secret_key>') as AuthTokenData

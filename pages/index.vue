@@ -2,6 +2,8 @@
   <div class="index-page">
     <div>Статус входа: {{ state.status }}</div>
     <div>Данные аккаунта: {{ state.data.value }}</div>
+    <div>Статус соединения сокета: {{ socketStore.socket.connected }}</div>
+    <div>ID сокета: {{ socketStore.socket.id }}</div>
     <div>
       Сообщения сокетов:
       <pixel-border v-for="message in socketStore.messages" style="margin: 8px 0">

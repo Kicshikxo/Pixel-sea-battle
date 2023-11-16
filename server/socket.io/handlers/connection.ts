@@ -5,6 +5,7 @@ import * as handlers from './index'
 export default {
   event: 'connection',
   handler: async (socket) => {
+    console.log('connect', socket.id)
     socket.emit('message', {
       socketId: socket.id,
       status: 'connected',

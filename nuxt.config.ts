@@ -1,4 +1,4 @@
-import startSocketIOServer from './server/socket.io'
+// import startSocketIOServer from './server/socket.io'
 
 export default defineNuxtConfig({
   app: {
@@ -50,9 +50,9 @@ export default defineNuxtConfig({
     clientId: process.env.GOOGLE_CLIENT_ID,
   },
 
-  hooks: {
-    listen: startSocketIOServer,
-  },
+  // hooks: {
+  //   listen: startSocketIOServer,
+  // },
 
   build: {
     transpile: ['trpc-nuxt'],
