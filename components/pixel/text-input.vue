@@ -38,7 +38,9 @@
     </pixel-border>
 
     <div class="px-text-input__info">
-      <span v-if="error" class="px-text-input__info__error">{{ error }}</span>
+      <transition name="px-text-input__info__error-swipe" mode="out-in">
+        <span v-if="error" class="px-text-input__info__error">{{ error }}</span>
+      </transition>
       <span v-if="maxLength" class="px-text-input__info__max-length-counter"> {{ modelValue.length ?? 0 }} / {{ maxLength }} </span>
     </div>
   </div>
@@ -116,6 +118,7 @@ function handleClear() {
     align-items: center;
     gap: 4px;
     width: 100%;
+    height: 40px;
     padding: 8px;
     color: var(--px-color-dark);
     background: var(--px-color-white);
@@ -168,11 +171,22 @@ function handleClear() {
     display: flex;
     align-items: flex-start;
     height: 24px;
+    overflow: hidden;
 
     &__error {
       margin-right: auto;
       font-size: 12px;
       color: var(--px-color-red);
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+      &-swipe-enter-from {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      &-swipe-leave-to {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
     }
 
     &__max-length-counter {
