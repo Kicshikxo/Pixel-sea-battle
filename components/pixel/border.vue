@@ -1,5 +1,5 @@
 <template>
-  <pixel-shadow :full-width="fullWidth">
+  <pixel-shadow :color="color" :full-width="fullWidth">
     <pixel-chamfer :level="level" :full-width="fullWidth">
       <div :class="['px-border', `px-border--${color}`, { 'px-border--full-width': fullWidth }]" :style="{ '--px-border-width': `${width}px` }">
         <pixel-chamfer :level="level" :full-width="fullWidth">
@@ -15,7 +15,7 @@ const props = withDefaults(
   defineProps<{
     width?: string | number
     level?: string | number
-    color?: 'dark' | 'light' | 'red' | 'green' | 'blue'
+    color?: 'dark' | 'light' | 'red' | 'yellow' | 'green' | 'blue'
     fullWidth?: boolean
   }>(),
   {
@@ -30,27 +30,31 @@ const props = withDefaults(
 <style lang="scss" scoped>
 .px-border {
   display: inline-flex;
-  background: var(--px-border-color);
+  background: var(--px-color-border);
   padding: var(--px-border-width);
+  transition: background 0.125s;
 
   &--full-width {
     width: 100%;
   }
 
   &--dark {
-    --px-border-color: var(--px-color-black);
+    --px-color-border: var(--px-color-black);
   }
   &--light {
-    --px-border-color: var(--px-color-white);
+    --px-color-border: var(--px-color-white);
   }
   &--red {
-    --px-border-color: var(--px-color-red);
+    --px-color-border: var(--px-color-red);
+  }
+  &--yellow {
+    --px-color-border: var(--px-color-yellow);
   }
   &--green {
-    --px-border-color: var(--px-color-green);
+    --px-color-border: var(--px-color-green);
   }
   &--blue {
-    --px-border-color: var(--px-color-blue);
+    --px-color-border: var(--px-color-blue);
   }
 }
 </style>

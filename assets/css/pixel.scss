@@ -5,20 +5,20 @@
   outline: none;
   border: none;
   text-decoration: none;
-  text-shadow: 0.125em 0.125em 0 #0004;
+  text-shadow: 0.125em 0.125em 0 var(--px-color-text-shadow);
   -webkit-tap-highlight-color: transparent;
 }
 
 .px-icon {
   display: inline-block;
   vertical-align: middle;
-  filter: drop-shadow(0.125em 0.125em 0 #0004);
+  filter: drop-shadow(0.125em 0.125em 0 var(--px-color-icon-shadow));
 }
 
 :root {
   --px-chamfer-level: 4px;
   --px-border-width: 2px;
-  --px-border-color: var(--px-color-black);
+  --px-color-border: var(--px-color-black);
 
   --px-color-red: #f44336;
   --px-color-red-hover: #e53935;
@@ -39,6 +39,18 @@
   --px-color-blue: #2196f3;
   --px-color-blue-hover: #1e88e5;
   --px-color-blue-active: #1976d2;
+
+  --px-color-shadow: #0004;
+  --px-color-text-shadow: #0004;
+  --px-color-icon-shadow: #0004;
+
+  --px-color-shadow-red: #f4433645;
+  --px-color-shadow-orange: #ff980045;
+  --px-color-shadow-yellow: #ffeb3b45;
+  --px-color-shadow-green: #4caf5045;
+  --px-color-shadow-blue: #2196f345;
+  --px-color-shadow-black: #0004;
+  --px-color-shadow-white: #fff4;
 }
 :root,
 .light-mode {

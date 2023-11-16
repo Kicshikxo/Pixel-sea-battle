@@ -35,7 +35,7 @@
   height: 64px;
   padding: 8px;
   background: var(--px-color-page-header);
-  border-bottom: 2px solid var(--px-border-color);
+  border-bottom: 2px solid var(--px-color-border);
 }
 .px-main {
   flex: 1;
