@@ -61,7 +61,7 @@ async function handleSubmit(values: z.infer<typeof schema>) {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 48px;
+    height: 64px !important;
   }
 }
 </style>
