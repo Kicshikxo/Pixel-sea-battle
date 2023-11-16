@@ -29,13 +29,14 @@ const schema = z.object({
   password: z.string().min(1, 'Необходимое поле').max(100, { message: 'Слишком много символов' }),
 })
 
+const route = useRoute()
 const { signIn, googleSignin } = useAuth()
 
 async function handleGoogleSignin(response: CredentialResponse) {
-  await googleSignin({ accessToken: response.credential!, redirectTo: '/' })
+  await googleSignin({ accessToken: response.credential!, redirectTo: (route.query.redirectTo as string) ?? '/' })
 }
 async function handleSubmit(values: z.infer<typeof schema>) {
-  await signIn({ email: values.email, password: values.password, redirectTo: '/' })
+  await signIn({ email: values.email, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
 }
 </script>
 
