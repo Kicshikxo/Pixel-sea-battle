@@ -1,18 +1,5 @@
 <template>
   <div class="index-page">
-    <div>Статус входа: {{ state.status }}</div>
-    <div>Данные аккаунта: {{ state.data.value }}</div>
-    <div>Статус соединения сокета: {{ socketStore.socket.connected }}</div>
-    <div>ID сокета: {{ socketStore.socket.id }}</div>
-    <div>
-      Сообщения сокетов:
-      <pixel-border v-for="message in socketStore.messages" style="margin: 8px 0">
-        <div style="padding: 8px; background: var(--px-color-dark)">
-          {{ message }}
-        </div>
-      </pixel-border>
-    </div>
-    <br />
     <pixel-button @click="socketStore.initSocket()" style="margin-right: 8px">
       Инициализация сокетов
       <template #append-icon>
@@ -31,6 +18,21 @@
         <icon name="pixelarticons:logout" />
       </template>
     </pixel-button>
+    <br />
+    <br />
+    <div>Статус входа: {{ state.status }}</div>
+    <div>Данные аккаунта: {{ state.data.value }}</div>
+    <div>Статус соединения сокета: {{ socketStore.socket.connected }}</div>
+    <div>ID сокета: {{ socketStore.socket.id }}</div>
+    <br />
+    <div>
+      Сообщения сокетов:
+      <pixel-border v-for="message in socketStore.messages" style="margin: 8px 0">
+        <div style="display: flex; flex-wrap: wrap; padding: 8px; background: var(--px-color-dark)">
+          {{ message }}
+        </div>
+      </pixel-border>
+    </div>
   </div>
 </template>
 

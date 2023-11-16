@@ -19,18 +19,19 @@ export default defineStore('socket', () => {
 
   function initSocket() {
     socket.emit('initSocket', {}, (data: Object) => {
-      messages.value.push(`initSocket: ${JSON.stringify(data)}`)
+      messages.value = [`initSocket: ${JSON.stringify(data)}`, ...messages.value]
     })
   }
 
   socket.on('connect', () => {
-    messages.value.push('connected')
+    messages.value = ['connected', ...messages.value]
   })
   socket.on('disconnect', () => {
-    messages.value.push('disconnect')
+    messages.value = ['disconnect', ...messages.value]
   })
   socket.on('message', (data) => {
-    messages.value.push(`message: ${JSON.stringify(data)}`)
+    messages.value = [`message: ${JSON.stringify(data)}`, ...messages.value]
+    messages.value.push()
   })
 
   return { socket, messages, connectSocket, disconnectSocket, reconnectSocket, initSocket }
