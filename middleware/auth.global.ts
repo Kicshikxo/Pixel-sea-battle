@@ -6,5 +6,5 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (state.status.value === 'unauthenticated') await getSession()
   if (state.status.value === 'authenticated') return
 
-  return navigateTo(`/login?redirectTo=${to.fullPath}`)
+  return navigateTo(`/signIn?redirectTo=${to.fullPath}`)
 })

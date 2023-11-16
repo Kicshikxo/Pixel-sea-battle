@@ -44,15 +44,16 @@ const { state, signOut } = useAuth()
 const socketStore = useSocketStore()
 
 function handleHello() {
-  client.hello.useQuery({ text: 'broadcast!' })
+  client.hello.useQuery({ text: new Date().toJSON() })
 }
 function handleSignout() {
-  signOut({ redirectTo: '/login' })
+  signOut({ redirectTo: '/signIn' })
 }
 </script>
 
 <style lang="scss" scoped>
 .index-page {
   padding: 32px;
+  width: 100%;
 }
 </style>
