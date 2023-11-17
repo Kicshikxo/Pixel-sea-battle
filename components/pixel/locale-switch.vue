@@ -11,14 +11,15 @@
 </template>
 
 <script setup lang="ts">
-import locales from '~/locales'
-
 const { locale, setLocale } = useI18n()
 
-const localesList = ref(Object.keys(locales))
-
 function handleClick() {
-  setLocale(localesList.value.at((localesList.value.indexOf(locale.value) + 1) % localesList.value.length)!)
+  if (locale.value === 'ru') {
+    return setLocale('en')
+  }
+  if (locale.value === 'en') {
+    return setLocale('ru')
+  }
 }
 </script>
 

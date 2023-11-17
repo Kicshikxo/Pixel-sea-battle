@@ -1,25 +1,25 @@
 <template>
   <div class="sign-in-page">
     <pixel-form class="sign-in-page__form" :validation-schema="schema" @submit="handleSubmit">
-      <div class="sign-in-page__form-title">{{ t('signInPage.title') }}</div>
-      <pixel-form-text-input name="email" :label="t('signInPage.emailLabel')" :placeholder="t('signInPage.emailPlaceholder')" />
-      <pixel-form-text-input name="password" type="password" :label="t('signInPage.passwordLabel')" :placeholder="t('signInPage.passwordPlaceholder')" />
+      <div class="sign-in-page__form-title">{{ $t('signInPage.title') }}</div>
+      <pixel-form-text-input name="email" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')" />
+      <pixel-form-text-input name="password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')" />
 
       <div class="sign-in-page__options">
-        <pixel-checkbox class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="t('signInPage.rememberMe')" />
-        <span class="sign-in-page__options__sign-up">{{ t('signInPage.noAccount') }}</span>
+        <pixel-checkbox class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('signInPage.rememberMe')" />
+        <span class="sign-in-page__options__sign-up">{{ $t('signInPage.noAccount') }}</span>
       </div>
 
-      <pixel-button type="submit" :label="t('signInPage.signIn')" :loading="loading" :disabled="googleLoading" full-width>
+      <pixel-button type="submit" :label="$t('signInPage.signIn')" :loading="loading" :disabled="googleLoading" full-width>
         <template #append-icon>
           <icon name="pixelarticons:login" />
         </template>
       </pixel-button>
 
-      <pixel-divider :text="t('signInPage.googleSignIn')" width="32" />
+      <pixel-divider :text="$t('signInPage.googleSignIn')" width="32" />
 
       <pixel-border class="sign-in-page__google-signin" full-width>
-        <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignin" :locale="locale" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" :width="372" text="continue_with" />
+        <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignin" :locale="$locale" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" :width="372" text="continue_with" />
       </pixel-border>
     </pixel-form>
   </div>
@@ -38,7 +38,6 @@ const schema = z.object({
   password: z.string().min(1, 'Необходимое поле').max(100, { message: 'Слишком много символов' }),
 })
 
-const { t, locale } = useI18n()
 const route = useRoute()
 const { signIn, googleSignin } = useAuth()
 

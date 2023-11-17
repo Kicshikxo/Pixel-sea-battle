@@ -3,9 +3,6 @@ import locales from './locales'
 export default defineNuxtConfig({
   app: {
     head: {
-      htmlAttrs: {
-        lang: 'ru',
-      },
       title: 'Морской бой',
       meta: [
         {
@@ -40,6 +37,7 @@ export default defineNuxtConfig({
   i18n: {
     locales: Object.keys(locales),
     strategy: 'no_prefix',
+    defaultLocale: 'ru',
 
     detectBrowserLanguage: {
       useCookie: true,

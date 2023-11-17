@@ -13,7 +13,7 @@
       </template>
     </pixel-button>
     <pixel-button @click="handleSignout">
-      {{ t('indexPage.signOut') }}
+      {{ $t('indexPage.signOut') }}
       <template #append-icon>
         <icon name="pixelarticons:logout" />
       </template>
@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import useSocketStore from '~/store/socket'
 
-const { t } = useI18n()
 const client = useClient()
 const { state, signOut } = useAuth()
 const socketStore = useSocketStore()
