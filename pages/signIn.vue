@@ -1,16 +1,25 @@
 <template>
   <div class="sign-in-page">
-    <pixel-form class="sign-in-page__form" :validation-schema="schema" @submit="handleSubmit">
-      <div class="sign-in-page__form-title">{{ $t('signInPage.title') }}</div>
-      <pixel-form-text-input name="email" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')" />
-      <pixel-form-text-input name="password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')" />
+    <pixel-form class="sign-in-page__form" :validation-schema="validationSchema" @submit="handleSubmit">
+      <div class="sign-in-page__form-title">{{ action === 'signIn' ? $t('signInPage.signInTitle') : $t('signInPage.signUpTitle') }}</div>
+
+      <template v-if="action === 'signIn'">
+        <pixel-form-text-input name="email" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')" />
+        <pixel-form-text-input name="password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')" />
+      </template>
+      <template v-if="action === 'signUp'">
+        <pixel-form-text-input name="email" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')" />
+        <pixel-form-text-input name="username" :label="$t('signInPage.usernameLabel')" :placeholder="$t('signInPage.usernamePlaceholder')" />
+        <pixel-form-text-input name="password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')" />
+      </template>
 
       <div class="sign-in-page__options">
-        <pixel-checkbox class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('signInPage.rememberMe')" />
-        <span class="sign-in-page__options__sign-up">{{ $t('signInPage.noAccount') }}</span>
+        <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('signInPage.rememberMe')" />
+        <span v-if="action === 'signIn'" class="sign-in-page__options__sign-up" @click="action = 'signUp'">{{ $t('signInPage.noAccount') }}</span>
+        <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('signInPage.alreadyHaveAccount') }}</span>
       </div>
 
-      <pixel-button type="submit" :label="$t('signInPage.signIn')" :loading="loading" :disabled="googleLoading" full-width>
+      <pixel-button type="submit" :label="action === 'signIn' ? $t('signInPage.signIn') : $t('signInPage.signUp')" :loading="loading" :disabled="googleLoading" full-width>
         <template #append-icon>
           <icon name="pixelarticons:login" />
         </template>
@@ -19,7 +28,7 @@
       <pixel-divider :text="$t('signInPage.googleSignIn')" width="32" />
 
       <pixel-border class="sign-in-page__google-signin" full-width>
-        <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignin" :locale="$locale" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" :width="372" text="continue_with" />
+        <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignIn" :locale="locale" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" :width="372" text="continue_with" />
       </pixel-border>
     </pixel-form>
   </div>
@@ -33,29 +42,61 @@ definePageMeta({
   auth: false,
 })
 
-const schema = z.object({
-  email: z.string().min(1, 'Необходимое поле').email('Невалидная почта'),
-  password: z.string().min(1, 'Необходимое поле').max(100, { message: 'Слишком много символов' }),
-})
-
 const route = useRoute()
-const { signIn, googleSignin } = useAuth()
+const { t, locale } = useI18n()
+const { signIn, signUp, googleSignIn } = useAuth()
 
 const rememberMe = ref(true)
 const action = ref<'signIn' | 'signUp'>('signIn')
 const loading = ref(false)
 const googleLoading = ref(false)
 
-async function handleGoogleSignin(response: CredentialResponse) {
+const signInValidationSchema = computed(() =>
+  z.object({
+    email: z.string().min(1, t('validation.required')).email(t('validation.invalidEmail')).default(''),
+    password: z
+      .string()
+      .min(1, t('validation.required'))
+      .max(100, { message: t('validation.tooManyCharacters') })
+      .default(''),
+  }),
+)
+
+const signUpValidationSchema = computed(() =>
+  z.object({
+    email: z.string().min(1, t('validation.required')).email(t('validation.invalidEmail')).default(''),
+    username: z
+      .string()
+      .min(1, t('validation.required'))
+      .max(100, { message: t('validation.tooManyCharacters') })
+      .default(''),
+    password: z
+      .string()
+      .min(1, t('validation.required'))
+      .max(100, { message: t('validation.tooManyCharacters') })
+      .default(''),
+  }),
+)
+
+const validationSchema = computed(() => (action.value === 'signIn' ? signInValidationSchema.value : signUpValidationSchema.value))
+
+async function handleGoogleSignIn(response: CredentialResponse) {
   googleLoading.value = true
-  await googleSignin({ accessToken: response.credential!, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  await googleSignIn({ accessToken: response.credential!, redirectTo: (route.query.redirectTo as string) ?? '/' })
   googleLoading.value = false
 }
-async function handleSubmit(values: z.infer<typeof schema>) {
+async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>) {
   loading.value = true
   await signIn({ email: values.email, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
   loading.value = false
 }
+async function handleSignUp(values: z.infer<typeof signUpValidationSchema.value>) {
+  loading.value = true
+  await signUp({ email: values.email, username: values.username, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  loading.value = false
+}
+
+const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : handleSignUp))
 </script>
 
 <style lang="scss" scoped>
@@ -85,6 +126,7 @@ async function handleSubmit(values: z.infer<typeof schema>) {
       margin-right: auto;
     }
 
+    &__sign-in,
     &__sign-up {
       cursor: pointer;
       color: var(--px-color-blue);

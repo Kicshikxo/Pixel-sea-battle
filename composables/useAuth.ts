@@ -11,7 +11,7 @@ const signUp = async (options: SignUpOptions): Promise<SignUpResult> => {
   const client = useClient()
   const router = useRouter()
 
-  const { data, error } = await client.auth.signup.useQuery({
+  const { data, error } = await client.auth.signUp.useQuery({
     email: options.email,
     username: options.username,
     password: options.password,
@@ -34,7 +34,7 @@ const signIn = async (options: SingInOptions): Promise<SignInResult> => {
   const client = useClient()
   const router = useRouter()
 
-  const { error } = await client.auth.signin.useQuery({
+  const { error } = await client.auth.signIn.useQuery({
     email: options.email,
     password: options.password,
   })
@@ -55,7 +55,7 @@ const signOut = async (options?: SignOutOptions): Promise<SignOutResult> => {
   const client = useClient()
   const router = useRouter()
 
-  const { error } = await client.auth.signout.useQuery()
+  const { error } = await client.auth.signOut.useQuery()
 
   if (options?.redirectTo && !error.value) {
     router.push(options.redirectTo)
@@ -67,11 +67,11 @@ const signOut = async (options?: SignOutOptions): Promise<SignOutResult> => {
   }
 }
 
-const googleSignin = async (options: GoogleSingInOptions): Promise<GoogleSignInResult> => {
+const googleSignIn = async (options: GoogleSingInOptions): Promise<GoogleSignInResult> => {
   const client = useClient()
   const router = useRouter()
 
-  const { error } = await client.auth.googleSignin.useQuery({
+  const { error } = await client.auth.googleSignIn.useQuery({
     accessToken: options.accessToken,
   })
 
@@ -109,7 +109,7 @@ export default () => {
     signUp,
     signIn,
     signOut,
-    googleSignin,
+    googleSignIn,
     getSession,
     state: {
       data,

@@ -8,7 +8,7 @@ import { trpcAuthProcedure } from '~/server/trpc/middleware/auth'
 import type { AuthTokenData, SessionData } from '~/types/auth'
 
 export const authRouter = trpcRouter({
-  signup: trpcPublicProcedure
+  signUp: trpcPublicProcedure
     .input(
       z.object({
         email: z.string().email(),
@@ -36,13 +36,20 @@ export const authRouter = trpcRouter({
         },
       })
 
-      return {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-      } as SessionData
+      const token = jwt.sign(
+        {
+          id: user.id,
+          password: crc32(user.password!).toString(16),
+        } as AuthTokenData,
+        useRuntimeConfig().auth.jwtSecretKey,
+      )
+      setCookie(ctx.event, useRuntimeConfig().auth.cookieName, token, {
+        maxAge: 30 * 24 * 60 * 60,
+        httpOnly: true,
+        sameSite: true,
+      })
     }),
-  signin: trpcPublicProcedure
+  signIn: trpcPublicProcedure
     .input(
       z.object({
         email: z.string().email(),
@@ -74,10 +81,10 @@ export const authRouter = trpcRouter({
         sameSite: true,
       })
     }),
-  signout: trpcPublicProcedure.query(async ({ ctx }) => {
+  signOut: trpcPublicProcedure.query(async ({ ctx }) => {
     deleteCookie(ctx.event, useRuntimeConfig().auth.cookieName)
   }),
-  googleSignin: trpcPublicProcedure
+  googleSignIn: trpcPublicProcedure
     .input(
       z.object({
         accessToken: z.string(),
