@@ -66,16 +66,16 @@ export const authRouter = trpcRouter({
           id: user.id,
           password: crc32(user.password).toString(16),
         } as AuthTokenData,
-        useRuntimeConfig().jwtSecretKey,
+        useRuntimeConfig().auth.jwtSecretKey,
       )
-      setCookie(ctx.event, useRuntimeConfig().authCookieName, token, {
+      setCookie(ctx.event, useRuntimeConfig().auth.cookieName, token, {
         maxAge: 30 * 24 * 60 * 60,
         httpOnly: true,
         sameSite: true,
       })
     }),
   signout: trpcPublicProcedure.query(async ({ ctx }) => {
-    deleteCookie(ctx.event, useRuntimeConfig().authCookieName)
+    deleteCookie(ctx.event, useRuntimeConfig().auth.cookieName)
   }),
   googleSignin: trpcPublicProcedure
     .input(
@@ -84,7 +84,7 @@ export const authRouter = trpcRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const googleUser = (await new OAuth2Client().verifyIdToken({ idToken: input.accessToken, audience: useRuntimeConfig().googleClientId })).getPayload()
+      const googleUser = (await new OAuth2Client().verifyIdToken({ idToken: input.accessToken, audience: useRuntimeConfig().auth.googleClientId })).getPayload()
 
       if (!googleUser || !googleUser.email) {
         throw new TRPCError({
@@ -110,9 +110,9 @@ export const authRouter = trpcRouter({
           id: user.id,
           password: user.password ? crc32(user.password).toString(16) : null,
         } as AuthTokenData,
-        useRuntimeConfig().jwtSecretKey,
+        useRuntimeConfig().auth.jwtSecretKey,
       )
-      setCookie(ctx.event, useRuntimeConfig().authCookieName, token, {
+      setCookie(ctx.event, useRuntimeConfig().auth.cookieName, token, {
         maxAge: 30 * 24 * 60 * 60,
         httpOnly: true,
         sameSite: true,

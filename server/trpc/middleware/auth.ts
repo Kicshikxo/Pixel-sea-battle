@@ -5,7 +5,7 @@ import { AuthTokenData } from '~/types/auth'
 
 export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
   const headerToken = getHeaders(ctx.event).authorization?.substring('Bearer '.length)
-  const cookieToken = getCookie(ctx.event, useRuntimeConfig().authCookieName)
+  const cookieToken = getCookie(ctx.event, useRuntimeConfig().auth.cookieName)
 
   const token = headerToken || cookieToken
   if (!token) {
@@ -17,7 +17,7 @@ export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
 
   let tokenData: AuthTokenData
   try {
-    tokenData = jwt.verify(token, useRuntimeConfig().jwtSecretKey) as AuthTokenData
+    tokenData = jwt.verify(token, useRuntimeConfig().auth.jwtSecretKey) as AuthTokenData
   } catch (e) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
