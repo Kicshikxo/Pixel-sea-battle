@@ -1,4 +1,11 @@
-import type { GetSessionResult, GoogleSignInResult, GoogleSingInOptions, SignInResult, SignOutOptions, SignOutResult, SignUpOptions, SignUpResult, SingInOptions } from '~/types/auth'
+import type { GetSessionResult, GoogleSignInResult, GoogleSingInOptions, SessionData, SignInResult, SignOutOptions, SignOutResult, SignUpOptions, SignUpResult, SingInOptions } from '~/types/auth'
+
+const useAuthState = () => {
+  const data = useState<SessionData | null>('session:data', () => null)
+  const status = computed(() => (data.value ? 'authenticated' : 'unauthenticated'))
+
+  return { data, status }
+}
 
 const signUp = async (options: SignUpOptions): Promise<SignUpResult> => {
   const client = useClient()
