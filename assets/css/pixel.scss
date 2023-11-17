@@ -58,7 +58,9 @@
   --px-color-on-dark: #f8f9fa;
 
   --px-color-white: #fff;
+  --px-color-white-inverted: #000;
   --px-color-black: #000;
+  --px-color-black-inverted: #fff;
 
   --px-color-dark: #ffd9ab;
   --px-color-dark-hover: #ebc89d;
@@ -73,6 +75,9 @@
 }
 
 .dark-mode {
+  --px-color-white-inverted: #fff;
+  --px-color-black-inverted: #000;
+
   --px-color-on-light: #f8f9fa;
   --px-color-on-dark: #343a40;
 

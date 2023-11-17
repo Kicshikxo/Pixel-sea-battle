@@ -18,8 +18,8 @@
 
       <pixel-divider text="или через Google" width="32" />
 
-      <pixel-border class="sign-in-page__google-signin">
-        <GoogleSignInButton @success="handleGoogleSignin" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" text="continue_with" style="color-scheme: auto" />
+      <pixel-border class="sign-in-page__google-signin" full-width>
+        <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignin" :width="372" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" text="continue_with" />
       </pixel-border>
     </pixel-form>
   </div>
@@ -105,6 +105,13 @@ async function handleSubmit(values: z.infer<typeof schema>) {
     justify-content: center;
     align-items: flex-start;
     height: 64px !important;
+
+    &-button {
+      width: 100%;
+      height: 40px;
+      background: var(--px-color-black-inverted);
+      color-scheme: auto;
+    }
   }
 }
 </style>
