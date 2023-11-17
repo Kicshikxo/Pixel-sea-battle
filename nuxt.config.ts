@@ -1,3 +1,5 @@
+import locales from './locales'
+
 export default defineNuxtConfig({
   app: {
     head: {
@@ -35,10 +37,20 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/i18n', '@nuxtjs/color-mode', '@pinia/nuxt', '@vee-validate/nuxt', 'nuxt-icon', 'nuxt-vue3-google-signin'],
 
+  i18n: {
+    locales: Object.keys(locales),
+    strategy: 'no_prefix',
+
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: process.env.LOCALE_COOKIE_NAME ?? 'sea-battle__locale',
+    },
+  },
+
   colorMode: {
     preference: 'system',
     fallback: 'dark',
-    storageKey: 'sea-battle__color-mode',
+    storageKey: process.env.COLOR_MODE_COOKIE_NAME ?? 'sea-battle__color-mode',
   },
 
   runtimeConfig: {

@@ -1,12 +1,7 @@
-export default defineI18nConfig(() => ({
-  availableLocales: ['ru', 'en'],
+import locales from '~/locales'
+
+export default defineI18nConfig<{ messages: { en: typeof locales.ru; ru: typeof locales.en } }>(() => ({
+  legacy: false,
   locale: 'ru',
-  messages: {
-    en: {
-      welcome: 'Welcome',
-    },
-    fr: {
-      welcome: 'Bienvenue',
-    },
-  },
+  messages: locales,
 }))

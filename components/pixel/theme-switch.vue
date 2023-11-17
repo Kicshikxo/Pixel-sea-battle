@@ -2,7 +2,9 @@
   <div class="px-theme-switch">
     <client-only>
       <transition name="px-theme-switch__icon-swipe" mode="out-in">
-        <icon class="px-theme-switch__icon" :key="`${colorMode.value}-${iconName}`" :name="iconName" size="24" @click="handleClick" />
+        <div class="px-theme-switch__icon" :key="`${colorMode.value}-${iconName}`">
+          <icon :name="iconName" size="24" @click="handleClick" />
+        </div>
       </transition>
     </client-only>
   </div>
@@ -37,6 +39,7 @@ function handleClick() {
   height: min-content;
 
   &__icon {
+    cursor: pointer;
     transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     &-swipe-enter-from {

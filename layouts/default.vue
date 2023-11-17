@@ -2,6 +2,7 @@
   <div class="px-layout">
     <pixel-shadow full-width>
       <header class="px-header">
+        <pixel-locale-switch />
         <pixel-theme-switch />
       </header>
     </pixel-shadow>
@@ -31,9 +32,10 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 24px;
   width: 100%;
   height: 64px;
-  padding: 8px;
+  padding: 8px 24px;
   background: var(--px-color-page-header);
   border-bottom: 2px solid var(--px-color-border);
 }
