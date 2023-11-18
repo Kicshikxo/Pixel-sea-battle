@@ -57,6 +57,15 @@ export default defineNuxtConfig({
       jwtSecretKey: process.env.JWT_SECRET_KEY ?? '<jwt_secret_key>',
       cookieName: process.env.AUTH_COOKIE_NAME ?? 'sea-battle__auth-token',
     },
+    email: {
+      host: process.env.EMAIL_HOST ?? 'smtp.gmail.com',
+      port: Number(process.env.EMAIL_PORT) ?? 587,
+      auth: {
+        user: process.env.EMAIL_USER,
+        password: process.env.EMAIL_PASSWORD,
+      },
+      from: process.env.EMAIL_FROM,
+    },
   },
 
   googleSignIn: {

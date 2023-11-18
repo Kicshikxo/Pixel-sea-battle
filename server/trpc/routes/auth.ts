@@ -4,6 +4,7 @@ import crc32 from 'crc/crc32'
 import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
 import { z } from 'zod'
+import { sendVerificationEmail } from '~/server/email/email'
 import { trpcAuthProcedure } from '~/server/trpc/middleware/auth'
 import type { AuthTokenData, SessionData } from '~/types/auth'
 
@@ -48,6 +49,8 @@ export const authRouter = trpcRouter({
         httpOnly: true,
         sameSite: true,
       })
+
+      await sendVerificationEmail(ctx.event, user.email)
     }),
   signIn: trpcPublicProcedure
     .input(
