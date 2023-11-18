@@ -3,9 +3,14 @@
     <pixel-form class="confirm-email-page__form" :validation-schema="z.object({})" @submit="handleSubmit">
       <template v-if="confirmed === false">
         <span v-if="Boolean(userError) === false">
-          {{ $t('confirmEmailPage.confirmYourEmail') }}: <pixel-border full-width>{{ userInfo?.email }}</pixel-border>
+          {{ $t('confirmEmailPage.confirmYourEmail') }}:
+          <pixel-border full-width
+            ><span class="confirm-email-page__email">{{ userInfo?.email }}</span></pixel-border
+          >
         </span>
-        <span v-else> {{ $t('confirmEmailPage.unableToConfirmEmail') }} </span>
+        <span v-else>
+          {{ $t('confirmEmailPage.unableToConfirmEmail') }}
+        </span>
         <br />
         <pixel-button v-if="Boolean(userError) === false" type="submit" :label="$t('confirmEmailPage.confirmEmail')" :loading="loading" :disabled="Boolean(userError)" full-width />
         <pixel-button v-else :label="$t('confirmEmailPage.goBackHome')" @click="router.push('/')" full-width />
@@ -60,6 +65,13 @@ const handleSubmit = computed(() => (confirmed.value ? handleOpenAccount : handl
 
   &__form {
     width: 450px;
+  }
+
+  &__email {
+    width: 100%;
+    padding: 8px;
+    background: var(--px-color-white);
+    color: var(--px-color-black);
   }
 }
 </style>
