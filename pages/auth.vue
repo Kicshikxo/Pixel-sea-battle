@@ -1,32 +1,32 @@
 <template>
   <div class="sign-in-page">
     <pixel-form class="sign-in-page__form" :validation-schema="validationSchema" @submit="handleSubmit">
-      <div class="sign-in-page__form-title">{{ action === 'signIn' ? $t('signInPage.signInTitle') : $t('signInPage.signUpTitle') }}</div>
+      <div class="sign-in-page__form-title">{{ action === 'signIn' ? $t('authPage.signInTitle') : $t('authPage.signUpTitle') }}</div>
 
       <template v-if="action === 'signIn'">
-        <pixel-form-text-input name="email" autocomplete="username" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')">
+        <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
           <template #prepend-icon>
             <icon name="pixelarticons:mail" />
           </template>
         </pixel-form-text-input>
-        <pixel-form-text-input name="password" autocomplete="current-password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')">
+        <pixel-form-text-input name="password" autocomplete="current-password" type="password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
           <template #prepend-icon>
             <icon name="pixelarticons:lock" />
           </template>
         </pixel-form-text-input>
       </template>
       <template v-if="action === 'signUp'">
-        <pixel-form-text-input name="name" :label="$t('signInPage.usernameLabel')" :placeholder="$t('signInPage.usernamePlaceholder')">
+        <pixel-form-text-input name="name" :label="$t('authPage.usernameLabel')" :placeholder="$t('authPage.usernamePlaceholder')">
           <template #prepend-icon>
             <icon name="pixelarticons:user" />
           </template>
         </pixel-form-text-input>
-        <pixel-form-text-input name="email" autocomplete="username" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')">
+        <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
           <template #prepend-icon>
             <icon name="pixelarticons:mail" />
           </template>
         </pixel-form-text-input>
-        <pixel-form-text-input name="password" type="password" autocomplete="new-password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')">
+        <pixel-form-text-input name="password" type="password" autocomplete="new-password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
           <template #prepend-icon>
             <icon name="pixelarticons:lock" />
           </template>
@@ -34,18 +34,18 @@
       </template>
 
       <div class="sign-in-page__options">
-        <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('signInPage.rememberMe')" />
-        <span v-if="action === 'signIn'" class="sign-in-page__options__sign-up" @click="action = 'signUp'">{{ $t('signInPage.noAccount') }}</span>
-        <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('signInPage.alreadyHaveAccount') }}</span>
+        <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />
+        <span v-if="action === 'signIn'" class="sign-in-page__options__sign-up" @click="action = 'signUp'">{{ $t('authPage.noAccount') }}</span>
+        <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('authPage.alreadyHaveAccount') }}</span>
       </div>
 
-      <pixel-button type="submit" :label="action === 'signIn' ? $t('signInPage.signIn') : $t('signInPage.signUp')" :loading="loading" :disabled="googleLoading" full-width>
+      <pixel-button type="submit" :label="action === 'signIn' ? $t('authPage.signIn') : $t('authPage.signUp')" :loading="loading" :disabled="googleLoading" full-width>
         <template #append-icon>
           <icon name="pixelarticons:login" />
         </template>
       </pixel-button>
 
-      <pixel-divider :text="$t('signInPage.googleSignIn')" width="32" />
+      <pixel-divider :text="$t('authPage.googleSignIn')" width="32" />
 
       <pixel-border class="sign-in-page__google-signin" full-width>
         <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignIn" :locale="locale" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" :width="372" text="continue_with" />
@@ -63,13 +63,23 @@ definePageMeta({
 })
 
 const route = useRoute()
+const router = useRouter()
 const { t, locale } = useI18n()
 const { signIn, signUp, googleSignIn } = useAuth()
 
+const action = ref<'signIn' | 'signUp'>(route.query.signIn !== undefined ? 'signIn' : route.query.signUp !== undefined ? 'signUp' : 'signIn')
+
 const rememberMe = ref(true)
-const action = ref<'signIn' | 'signUp'>('signIn')
 const loading = ref(false)
 const googleLoading = ref(false)
+
+watch(
+  action,
+  (value) => {
+    router.push({ query: { [value]: null, redirectTo: route.query.redirectTo } })
+  },
+  { immediate: true },
+)
 
 const signInValidationSchema = computed(() =>
   z.object({

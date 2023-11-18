@@ -47,7 +47,7 @@ function handleHello() {
   client.hello.useQuery({ text: new Date().toJSON() })
 }
 function handleSignout() {
-  signOut({ redirectTo: '/signIn' })
+  signOut({ redirectTo: '/auth' })
 }
 </script>
 
