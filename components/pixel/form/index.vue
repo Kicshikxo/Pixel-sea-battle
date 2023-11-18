@@ -6,14 +6,14 @@
   </pixel-border>
 </template>
 
-<script setup lang="ts" generic="T extends ZodSchema">
+<script setup lang="ts" generic="T extends z.ZodSchema">
 import { toTypedSchema } from '@vee-validate/zod'
 import { Form } from 'vee-validate'
-import type { z, ZodSchema } from 'zod'
+import { z } from 'zod'
 
 const props = withDefaults(
   defineProps<{
-    validationSchema: ZodSchema
+    validationSchema: z.ZodSchema
     fullWidth?: boolean
   }>(),
   {
