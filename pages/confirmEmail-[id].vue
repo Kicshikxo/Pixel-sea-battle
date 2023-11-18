@@ -26,18 +26,18 @@ definePageMeta({
   auth: false,
 })
 
-const route = useRoute()
+const route = useRoute('confirmEmail-id')
 const router = useRouter()
 const client = useClient()
 
 const loading = ref(false)
 const confirmed = ref(false)
 
-const { data: userInfo, error: userError } = await client.email.info.useQuery({ emailConfirmationId: route.query.id as string })
+const { data: userInfo, error: userError } = await client.email.info.useQuery({ emailConfirmationId: route.params.id })
 
 async function handleConfirmEmail() {
   loading.value = true
-  const { error } = await client.email.confirm.useQuery({ emailConfirmationId: route.query.id as string })
+  const { error } = await client.email.confirm.useQuery({ emailConfirmationId: route.params.id })
   if (!error.value) confirmed.value = true
   loading.value = false
 }

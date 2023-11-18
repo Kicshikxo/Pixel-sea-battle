@@ -38,6 +38,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/nodemailer": "^6.4.14",
     "nuxt": "^3.8.1",
+    "nuxt-typed-router": "^3.3.3",
     "prisma": "5.6.0",
     "sass": "^1.69.5",
     "vue": "^3.3.8",

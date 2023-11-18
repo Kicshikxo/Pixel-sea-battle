@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 
   css: ['assets/css/minecraft.fontface.scss', 'assets/css/pixel.scss', 'assets/css/main.scss'],
 
-  modules: ['@nuxtjs/i18n', '@nuxtjs/color-mode', '@pinia/nuxt', '@vee-validate/nuxt', 'nuxt-icon', 'nuxt-vue3-google-signin'],
+  modules: ['@nuxtjs/i18n', '@nuxtjs/color-mode', '@pinia/nuxt', '@vee-validate/nuxt', 'nuxt-icon', 'nuxt-vue3-google-signin', 'nuxt-typed-router'],
 
   i18n: {
     locales: Object.keys(locales),

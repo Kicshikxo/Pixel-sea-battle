@@ -30,7 +30,7 @@ export async function sendVerificationEmail(event: H3Event, email: string) {
     await transporter.sendMail({
       to: user?.email,
       subject: 'Подтвердите адрес электронной почты',
-      html: getConfirmEmailTemplate({ callback: `${getRequestURL(event).origin}/confirmEmail?id=${emailConfirmation.id}` }),
+      html: getConfirmEmailTemplate({ callback: `${getRequestURL(event).origin}/confirmEmail/${emailConfirmation.id}` }),
     })
   } catch (e) {
     console.error(e)
