@@ -12,13 +12,13 @@
           :id="id"
           :name="name"
           :type="computedType"
+          :autocomplete="autocomplete"
           :value="modelValue"
           @input="handleInput"
           @blur="handleBlur"
           :placeholder="placeholder"
           :readonly="readonly"
           :maxlength="maxLength"
-          autocomplete="off"
           spellcheck="false"
         />
         <transition name="px-text-input__icon-swipe" mode="out-in">
@@ -52,6 +52,7 @@ const props = withDefaults(
     name?: string
     modelValue?: string
     type?: 'text' | 'email' | 'password'
+    autocomplete?: string
     label?: string
     placeholder?: string
     error?: string
@@ -64,6 +65,7 @@ const props = withDefaults(
     name: undefined,
     modelValue: '',
     type: 'text',
+    autocomplete: 'off',
     label: '',
     placeholder: '',
     error: '',

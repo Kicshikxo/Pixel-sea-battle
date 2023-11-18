@@ -7,6 +7,7 @@
       @blur="handleBlur"
       @clear="handleReset"
       :type="type"
+      :autocomplete="autocomplete"
       :label="label"
       :placeholder="placeholder"
       :error="errorMessage"
@@ -31,6 +32,7 @@ const props = withDefaults(
   defineProps<{
     name: string
     type?: 'text' | 'email' | 'password'
+    autocomplete?: string
     label?: string
     placeholder?: string
     maxLength?: number | string
@@ -39,6 +41,7 @@ const props = withDefaults(
   }>(),
   {
     type: 'text',
+    autocomplete: 'off',
     label: '',
     placeholder: '',
     maxLength: undefined,

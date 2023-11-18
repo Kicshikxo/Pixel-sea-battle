@@ -4,13 +4,33 @@
       <div class="sign-in-page__form-title">{{ action === 'signIn' ? $t('signInPage.signInTitle') : $t('signInPage.signUpTitle') }}</div>
 
       <template v-if="action === 'signIn'">
-        <pixel-form-text-input name="email" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')" />
-        <pixel-form-text-input name="password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')" />
+        <pixel-form-text-input name="email" autocomplete="username" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')">
+          <template #prepend-icon>
+            <icon name="pixelarticons:mail" />
+          </template>
+        </pixel-form-text-input>
+        <pixel-form-text-input name="password" autocomplete="current-password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')">
+          <template #prepend-icon>
+            <icon name="pixelarticons:lock" />
+          </template>
+        </pixel-form-text-input>
       </template>
       <template v-if="action === 'signUp'">
-        <pixel-form-text-input name="email" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')" />
-        <pixel-form-text-input name="username" :label="$t('signInPage.usernameLabel')" :placeholder="$t('signInPage.usernamePlaceholder')" />
-        <pixel-form-text-input name="password" type="password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')" />
+        <pixel-form-text-input name="name" :label="$t('signInPage.usernameLabel')" :placeholder="$t('signInPage.usernamePlaceholder')">
+          <template #prepend-icon>
+            <icon name="pixelarticons:user" />
+          </template>
+        </pixel-form-text-input>
+        <pixel-form-text-input name="email" autocomplete="username" :label="$t('signInPage.emailLabel')" :placeholder="$t('signInPage.emailPlaceholder')">
+          <template #prepend-icon>
+            <icon name="pixelarticons:mail" />
+          </template>
+        </pixel-form-text-input>
+        <pixel-form-text-input name="password" type="password" autocomplete="new-password" :label="$t('signInPage.passwordLabel')" :placeholder="$t('signInPage.passwordPlaceholder')">
+          <template #prepend-icon>
+            <icon name="pixelarticons:lock" />
+          </template>
+        </pixel-form-text-input>
       </template>
 
       <div class="sign-in-page__options">
@@ -65,7 +85,7 @@ const signInValidationSchema = computed(() =>
 const signUpValidationSchema = computed(() =>
   z.object({
     email: z.string().min(1, t('validation.required')).email(t('validation.invalidEmail')).default(''),
-    username: z
+    name: z
       .string()
       .min(1, t('validation.required'))
       .max(100, { message: t('validation.tooManyCharacters') })
@@ -92,7 +112,7 @@ async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>
 }
 async function handleSignUp(values: z.infer<typeof signUpValidationSchema.value>) {
   loading.value = true
-  await signUp({ email: values.email, username: values.username, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  await signUp({ email: values.email, username: values.name, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
   loading.value = false
 }
 
