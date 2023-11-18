@@ -50,7 +50,7 @@ export const authRouter = trpcRouter({
         sameSite: true,
       })
 
-      await sendVerificationEmail(ctx.event, user.email)
+      sendVerificationEmail(ctx.event, user.email)
     }),
   signIn: trpcPublicProcedure
     .input(

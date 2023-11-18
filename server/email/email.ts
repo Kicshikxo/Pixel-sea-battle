@@ -1,6 +1,6 @@
 import { H3Event } from 'h3'
 import { createTransport } from 'nodemailer'
-import getTemplate from '~/server/email/templates/confirmEmail'
+import { default as getConfirmEmailTemplate } from '~/server/email/templates/confirmEmail'
 
 const transporter = createTransport(
   {
@@ -30,7 +30,7 @@ export async function sendVerificationEmail(event: H3Event, email: string) {
     await transporter.sendMail({
       to: user?.email,
       subject: 'Подтвердите адрес электронной почты',
-      html: getTemplate({ callback: `${getRequestURL(event).origin}/confirmEmail?id=${emailConfirmation.id}` }),
+      html: getConfirmEmailTemplate({ callback: `${getRequestURL(event).origin}/confirmEmail?id=${emailConfirmation.id}` }),
     })
   } catch (e) {
     console.error(e)
