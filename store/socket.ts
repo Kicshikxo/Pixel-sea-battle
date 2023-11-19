@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { socket } from '~/server/socket.io/client'
+import { socket } from '~/socket.io/client'
 
 export default defineStore('socket', () => {
   const messages = ref<string[]>([])
