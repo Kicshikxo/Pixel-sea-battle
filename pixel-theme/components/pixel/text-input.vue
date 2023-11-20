@@ -130,6 +130,7 @@ function handleClear() {
     width: 100%;
     font-size: 16px;
     color: var(--px-color-black);
+    caret-color: var(--px-color-black);
     background: transparent;
 
     &:-webkit-autofill,
