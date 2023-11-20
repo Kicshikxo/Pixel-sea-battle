@@ -2,6 +2,7 @@
   <div class="px-layout">
     <pixel-shadow full-width>
       <header class="px-header">
+        <nuxt-loading-indicator :height="2" :throttle="0" />
         <pixel-locale-switch />
         <pixel-theme-switch />
       </header>
