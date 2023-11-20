@@ -4,6 +4,9 @@ const { resolve } = createResolver(import.meta.url)
 export default defineNuxtConfig({
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'ru',
+      },
       title: 'Морской бой',
       meta: [
         {
