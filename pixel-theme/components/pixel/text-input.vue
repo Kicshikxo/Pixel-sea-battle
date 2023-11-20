@@ -21,16 +21,16 @@
           :maxlength="maxLength"
           spellcheck="false"
         />
-        <transition name="px-text-input__icon-swipe" mode="out-in">
+        <pixel-transition-swipe-y>
           <div v-if="clearable" class="px-text-input__icon">
             <icon name="pixelarticons:close" class="px-text-input__icon-clear" @click="handleClear" />
           </div>
-        </transition>
-        <transition name="px-text-input__icon-swipe" mode="out-in">
+        </pixel-transition-swipe-y>
+        <pixel-transition-swipe-y>
           <div v-if="type === 'password'" :key="passwordIcon" class="px-text-input__icon">
             <icon :name="passwordIcon" class="px-text-input__icon-show-password" @click="handleShowPassword" />
           </div>
-        </transition>
+        </pixel-transition-swipe-y>
         <div class="px-text-input__icon">
           <slot name="append-icon" />
         </div>
@@ -38,9 +38,9 @@
     </pixel-border>
 
     <div class="px-text-input__info">
-      <transition name="px-text-input__info__error-swipe" mode="out-in">
+      <pixel-transition-swipe-y>
         <span v-if="error" class="px-text-input__info__error">{{ error }}</span>
-      </transition>
+      </pixel-transition-swipe-y>
       <span v-if="maxLength" class="px-text-input__info__max-length-counter"> {{ modelValue.length ?? 0 }} / {{ maxLength }} </span>
     </div>
   </div>
@@ -153,20 +153,10 @@ function handleClear() {
   &__icon {
     display: flex;
     color: var(--px-color-black);
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     &-clear,
     &-show-password {
       cursor: pointer;
-    }
-
-    &-swipe-enter-from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    &-swipe-leave-to {
-      opacity: 0;
-      transform: translateY(-100%);
     }
   }
 
@@ -180,16 +170,6 @@ function handleClear() {
       margin-right: auto;
       font-size: 12px;
       color: var(--px-color-red);
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-      &-swipe-enter-from {
-        opacity: 0;
-        transform: translateY(100%);
-      }
-      &-swipe-leave-to {
-        opacity: 0;
-        transform: translateY(-100%);
-      }
     }
 
     &__max-length-counter {

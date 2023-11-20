@@ -6,7 +6,7 @@
       :type="type"
       :disabled="loading || disabled"
     >
-      <transition name="px-button__loading-swipe" mode="out-in">
+      <pixel-transition-swipe-y speed="fast">
         <span v-if="loading" class="px-button__content">
           <pixel-loader class="px-button__icon" />
         </span>
@@ -23,7 +23,7 @@
             <slot name="append-icon" />
           </span>
         </span>
-      </transition>
+      </pixel-transition-swipe-y>
     </button>
   </pixel-border>
 </template>
@@ -68,16 +68,6 @@ const props = withDefaults(
     justify-content: center;
     align-items: center;
     gap: 4px;
-    transition: transform 0.125s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.125s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-
-  &__loading-swipe-enter-from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  &__loading-swipe-leave-to {
-    opacity: 0;
-    transform: translateY(-100%);
   }
 
   &--loading {

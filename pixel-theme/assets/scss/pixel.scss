@@ -51,6 +51,13 @@
   --px-color-shadow-blue: #2196f345;
   --px-color-shadow-black: #0004;
   --px-color-shadow-white: #fff4;
+
+  --px-transition-time-fast: 0.125s;
+  --px-transition-time-normal: 0.25s;
+  --px-transition-time-slow: 0.5s;
+
+  --px-transition-time-swipe-y: var(--px-transition-time-normal);
+  --px-transition-time-swipe-x: var(--px-transition-time-normal);
 }
 :root,
 .light-mode {

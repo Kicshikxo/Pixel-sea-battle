@@ -1,11 +1,11 @@
 <template>
   <div class="sign-in-page">
     <pixel-form class="sign-in-page__form" :validation-schema="validationSchema" @submit="handleSubmit">
-      <transition name="sign-in-page__form-title-swipe" mode="out-in">
+      <pixel-transition-swipe-y>
         <div class="sign-in-page__form-title" :key="action">{{ action === 'signIn' ? $t('authPage.signInTitle') : $t('authPage.signUpTitle') }}</div>
-      </transition>
+      </pixel-transition-swipe-y>
 
-      <transition name="sign-in-page__form-content-swipe" mode="out-in">
+      <pixel-transition-swipe-x>
         <div class="sign-in-page__form-content" :key="action">
           <template v-if="action === 'signIn'">
             <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
@@ -37,7 +37,7 @@
             </pixel-form-text-input>
           </template>
         </div>
-      </transition>
+      </pixel-transition-swipe-x>
 
       <div class="sign-in-page__options">
         <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />
@@ -149,30 +149,10 @@ const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : 
     &-title {
       font-size: 20px;
       margin: 16px;
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-      &-swipe-enter-from {
-        opacity: 0;
-        transform: translateY(100%);
-      }
-      &-swipe-leave-to {
-        opacity: 0;
-        transform: translateY(-100%);
-      }
     }
 
     &-content {
       width: 100%;
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-      &-swipe-enter-from {
-        opacity: 0;
-        transform: translateX(100%);
-      }
-      &-swipe-leave-to {
-        opacity: 0;
-        transform: translateX(-100%);
-      }
     }
   }
 

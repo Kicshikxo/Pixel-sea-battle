@@ -1,11 +1,11 @@
 <template>
   <div class="px-theme-switch">
     <client-only>
-      <transition name="px-theme-switch__icon-swipe" mode="out-in">
+      <pixel-transition-swipe-y>
         <div class="px-theme-switch__icon" :key="`${colorMode.value}-${iconName}`">
           <icon :name="iconName" size="24" @click="handleClick" />
         </div>
-      </transition>
+      </pixel-transition-swipe-y>
     </client-only>
   </div>
 </template>
@@ -40,16 +40,6 @@ function handleClick() {
 
   &__icon {
     cursor: pointer;
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-    &-swipe-enter-from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    &-swipe-leave-to {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
   }
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div class="px-language-switch">
     <client-only>
-      <transition name="px-language-switch__value-swipe" mode="out-in">
+      <pixel-transition-swipe-y>
         <div class="px-language-switch__value" :key="locale" @click="handleClick">
           {{ locale }}
         </div>
-      </transition>
+      </pixel-transition-swipe-y>
     </client-only>
   </div>
 </template>
@@ -31,16 +31,6 @@ function handleClick() {
   &__value {
     cursor: pointer;
     text-transform: uppercase;
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-    &-swipe-enter-from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    &-swipe-leave-to {
-      opacity: 0;
-      transform: translateY(-100%);
-    }
   }
 }
 </style>

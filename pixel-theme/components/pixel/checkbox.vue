@@ -3,9 +3,9 @@
     <label :for="id" class="px-checkbox__label">
       <pixel-border level="2">
         <div class="px-checkbox__icon__wrapper">
-          <transition name="px-checkbox__icon-swipe" mode="out-in">
+          <pixel-transition-swipe-y>
             <icon class="px-checkbox__icon" :key="iconName" :name="iconName" size="20" />
-          </transition>
+          </pixel-transition-swipe-y>
         </div>
       </pixel-border>
     </label>
@@ -54,22 +54,12 @@ function handleInput(event: Event) {
 
   &__icon {
     color: var(--px-color-black);
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     &__wrapper {
       display: flex;
       background: var(--px-color-white);
       width: 20px;
       height: 20px;
-    }
-
-    &-swipe-enter-from {
-      opacity: 0;
-      transform: translateY(100%);
-    }
-    &-swipe-leave-to {
-      opacity: 0;
-      transform: translateY(-100%);
     }
   }
 
