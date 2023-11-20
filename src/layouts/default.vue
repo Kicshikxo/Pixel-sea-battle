@@ -2,12 +2,12 @@
   <div class="px-layout">
     <pixel-shadow full-width>
       <header class="px-header">
-        <nuxt-loading-indicator :height="2" :throttle="0" />
         <pixel-locale-switch />
         <pixel-theme-switch />
       </header>
     </pixel-shadow>
     <main class="px-main">
+      <nuxt-loading-indicator class="px-loading-indicator" color="var(--px-color-blue)" :height="2" :throttle="0" />
       <div class="px-page">
         <slot />
       </div>
@@ -47,6 +47,9 @@
   overflow-y: auto;
   overflow-x: hidden;
   background: var(--px-color-page-background);
+}
+.px-loading-indicator {
+  position: absolute !important;
 }
 .px-page {
   display: flex;
