@@ -1,6 +1,6 @@
 <template>
   <pixel-border :full-width="fullWidth">
-    <Form :class="['px-form', { 'px-form--full-width': fullWidth }]" :validation-schema="toTypedSchema(validationSchema)" @submit="handleSubmit">
+    <Form :class="['px-form', { 'px-form--full-width': fullWidth }]" :validation-schema="toTypedSchema(validationSchema ?? z.object({}))" @submit="handleSubmit">
       <slot />
     </Form>
   </pixel-border>
@@ -13,7 +13,7 @@ import { z } from 'zod'
 
 const props = withDefaults(
   defineProps<{
-    validationSchema: z.ZodSchema
+    validationSchema?: z.ZodSchema
     fullWidth?: boolean
   }>(),
   {

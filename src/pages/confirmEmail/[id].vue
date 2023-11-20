@@ -1,6 +1,6 @@
 <template>
   <div class="confirm-email-page">
-    <pixel-form class="confirm-email-page__form" :validation-schema="z.object({})" @submit="handleSubmit">
+    <pixel-form class="confirm-email-page__form" @submit="handleSubmit">
       <template v-if="confirmed === false">
         <span v-if="Boolean(userError) === false">
           {{ $t('confirmEmailPage.confirmYourEmail') }}:
@@ -25,8 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import { z } from 'zod'
-
 definePageMeta({
   auth: false,
 })
@@ -64,7 +62,7 @@ const handleSubmit = computed(() => (confirmed.value ? handleOpenAccount : handl
   align-items: center;
 
   &__form {
-    width: 450px;
+    width: 450px !important;
   }
 
   &__email {
