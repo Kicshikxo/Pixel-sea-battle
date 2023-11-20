@@ -1,37 +1,43 @@
 <template>
   <div class="sign-in-page">
     <pixel-form class="sign-in-page__form" :validation-schema="validationSchema" @submit="handleSubmit">
-      <div class="sign-in-page__form-title">{{ action === 'signIn' ? $t('authPage.signInTitle') : $t('authPage.signUpTitle') }}</div>
+      <transition name="sign-in-page__form-title-swipe" mode="out-in">
+        <div class="sign-in-page__form-title" :key="action">{{ action === 'signIn' ? $t('authPage.signInTitle') : $t('authPage.signUpTitle') }}</div>
+      </transition>
 
-      <template v-if="action === 'signIn'">
-        <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
-          <template #prepend-icon>
-            <icon name="pixelarticons:mail" />
+      <transition name="sign-in-page__form-content-swipe" mode="out-in">
+        <div class="sign-in-page__form-content" :key="action">
+          <template v-if="action === 'signIn'">
+            <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
+              <template #prepend-icon>
+                <icon name="pixelarticons:mail" />
+              </template>
+            </pixel-form-text-input>
+            <pixel-form-text-input name="password" autocomplete="current-password" type="password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
+              <template #prepend-icon>
+                <icon name="pixelarticons:lock" />
+              </template>
+            </pixel-form-text-input>
           </template>
-        </pixel-form-text-input>
-        <pixel-form-text-input name="password" autocomplete="current-password" type="password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
-          <template #prepend-icon>
-            <icon name="pixelarticons:lock" />
+          <template v-if="action === 'signUp'">
+            <pixel-form-text-input name="name" :label="$t('authPage.usernameLabel')" :placeholder="$t('authPage.usernamePlaceholder')">
+              <template #prepend-icon>
+                <icon name="pixelarticons:user" />
+              </template>
+            </pixel-form-text-input>
+            <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
+              <template #prepend-icon>
+                <icon name="pixelarticons:mail" />
+              </template>
+            </pixel-form-text-input>
+            <pixel-form-text-input name="password" type="password" autocomplete="new-password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
+              <template #prepend-icon>
+                <icon name="pixelarticons:lock" />
+              </template>
+            </pixel-form-text-input>
           </template>
-        </pixel-form-text-input>
-      </template>
-      <template v-if="action === 'signUp'">
-        <pixel-form-text-input name="name" :label="$t('authPage.usernameLabel')" :placeholder="$t('authPage.usernamePlaceholder')">
-          <template #prepend-icon>
-            <icon name="pixelarticons:user" />
-          </template>
-        </pixel-form-text-input>
-        <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
-          <template #prepend-icon>
-            <icon name="pixelarticons:mail" />
-          </template>
-        </pixel-form-text-input>
-        <pixel-form-text-input name="password" type="password" autocomplete="new-password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
-          <template #prepend-icon>
-            <icon name="pixelarticons:lock" />
-          </template>
-        </pixel-form-text-input>
-      </template>
+        </div>
+      </transition>
 
       <div class="sign-in-page__options">
         <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />
@@ -139,11 +145,35 @@ const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : 
 
   &__form {
     width: 400px !important;
-  }
 
-  &__form-title {
-    font-size: 20px;
-    margin: 16px;
+    &-title {
+      font-size: 20px;
+      margin: 16px;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+      &-swipe-enter-from {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      &-swipe-leave-to {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+    }
+
+    &-content {
+      width: 100%;
+      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+      &-swipe-enter-from {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+      &-swipe-leave-to {
+        opacity: 0;
+        transform: translateX(-100%);
+      }
+    }
   }
 
   &__options {
