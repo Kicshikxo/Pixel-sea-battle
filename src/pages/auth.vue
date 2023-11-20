@@ -5,7 +5,7 @@
         <div class="sign-in-page__form-title" :key="action">{{ action === 'signIn' ? $t('authPage.signInTitle') : $t('authPage.signUpTitle') }}</div>
       </pixel-transition-swipe-y>
 
-      <pixel-transition-swipe-x>
+      <pixel-transition-expand>
         <div class="sign-in-page__form-content" :key="action">
           <template v-if="action === 'signIn'">
             <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
@@ -37,7 +37,7 @@
             </pixel-form-text-input>
           </template>
         </div>
-      </pixel-transition-swipe-x>
+      </pixel-transition-expand>
 
       <div class="sign-in-page__options">
         <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />

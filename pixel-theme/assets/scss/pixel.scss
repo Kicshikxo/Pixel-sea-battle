@@ -58,6 +58,9 @@
 
   --px-transition-time-swipe-y: var(--px-transition-time-normal);
   --px-transition-time-swipe-x: var(--px-transition-time-normal);
+  --px-transition-time-expand: var(--px-transition-time-normal);
+  --px-transition-time-expand-swipe-y: var(--px-transition-time-normal);
+  --px-transition-time-expand-swipe-x: var(--px-transition-time-normal);
 }
 :root,
 .light-mode {
