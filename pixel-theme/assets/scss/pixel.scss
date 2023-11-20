@@ -5,14 +5,14 @@
   outline: none;
   border: none;
   text-decoration: none;
-  text-shadow: 0.125em 0.125em 0 var(--px-color-text-shadow);
+  text-shadow: 0.125rem 0.125rem 0 var(--px-color-text-shadow);
   -webkit-tap-highlight-color: transparent;
 }
 
 .px-icon {
   display: inline-block;
   vertical-align: middle;
-  filter: drop-shadow(0.125em 0.125em 0 var(--px-color-icon-shadow));
+  filter: drop-shadow(0.125rem 0.125rem 0 var(--px-color-icon-shadow));
 }
 
 :root {
