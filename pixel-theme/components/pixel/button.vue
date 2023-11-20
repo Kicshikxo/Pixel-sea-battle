@@ -6,11 +6,11 @@
       :type="type"
       :disabled="loading || disabled"
     >
-      <pixel-transition-swipe-y speed="fast">
+      <pixel-transition-swipe-y :speed="loading ? 'fast' : 'normal'">
         <span v-if="loading" class="px-button__content">
           <pixel-loader class="px-button__icon" />
         </span>
-        <span v-else class="px-button__content">
+        <span v-else class="px-button__content" :key="label">
           <span class="px-button__icon">
             <slot name="prepend-icon" />
           </span>
