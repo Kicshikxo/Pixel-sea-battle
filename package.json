@@ -41,7 +41,6 @@
     "nuxt-typed-router": "^3.3.3",
     "prisma": "5.6.0",
     "sass": "^1.69.5",
-    "vite-plugin-node-polyfills": "^0.16.0",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   }

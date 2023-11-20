@@ -1,8 +1,8 @@
 import { z } from 'zod'
 import { io } from '~/socket.io'
-import { trpcAuthProcedure } from '~/trpc/middleware/auth'
-import { authRouter } from '~/trpc/routes/auth'
-import { emailRouter } from '~/trpc/routes/email'
+import { trpcAuthProcedure } from '~/trpc/server/trpc/middleware/auth'
+import { authRouter } from '~/trpc/server/trpc/routes/auth'
+import { emailRouter } from '~/trpc/server/trpc/routes/email'
 
 export const mainRouter = trpcRouter({
   auth: authRouter,

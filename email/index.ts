@@ -1,6 +1,6 @@
 import { H3Event } from 'h3'
 import { createTransport } from 'nodemailer'
-import { default as getConfirmEmailTemplate } from '~/email/templates/confirmEmail'
+import renderConfirmEmailTemplate from '~/email/templates/confirmEmail'
 import { prisma } from '~/prisma/client'
 
 const transporter = createTransport(
@@ -31,7 +31,7 @@ export async function sendVerificationEmail(event: H3Event, email: string) {
     await transporter.sendMail({
       to: user?.email,
       subject: 'Подтвердите адрес электронной почты',
-      html: getConfirmEmailTemplate({ callback: `${getRequestURL(event).origin}/confirmEmail/${emailConfirmation.id}` }),
+      html: renderConfirmEmailTemplate({ callback: `${getRequestURL(event).origin}/confirmEmail/${emailConfirmation.id}` }),
     })
   } catch (e) {
     console.error(e)

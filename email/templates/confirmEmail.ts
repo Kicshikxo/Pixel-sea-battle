@@ -1,4 +1,4 @@
-export default function getTemplate(values: { callback: string }) {
+export default (values: { callback: string }) => {
   return Object.entries(values).reduce((template, [key, value]) => template.replace(new RegExp(`{{\\s*${key}\\s*}}`, 'g'), value), template)
 }
 

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import { z } from 'zod'
 import { sendVerificationEmail } from '~/email'
 import { prisma } from '~/prisma/client'
-import { trpcAuthProcedure } from '~/trpc/middleware/auth'
+import { trpcAuthProcedure } from '~/trpc/server/trpc/middleware/auth'
 import type { AuthTokenData, SessionData } from '~/types/auth'
 
 export const authRouter = trpcRouter({

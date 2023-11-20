@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io'
 import { prisma } from '~/prisma/client'
-import * as handlers from '~/socket.io/handlers'
+import * as handlers from '~/socket.io/server/socket.io/handlers'
 
 export default {
   event: 'connection',
