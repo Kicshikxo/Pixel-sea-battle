@@ -2,12 +2,12 @@
   <div class="px-layout">
     <pixel-shadow full-width>
       <header class="px-header">
+        <nuxt-loading-indicator class="px-loading-indicator" color="var(--px-color-page-loading-indicator)" :height="2" :throttle="0" />
         <pixel-locale-switch />
         <pixel-theme-switch />
       </header>
     </pixel-shadow>
     <main class="px-main">
-      <nuxt-loading-indicator class="px-loading-indicator" color="var(--px-color-blue)" :height="2" :throttle="0" />
       <div class="px-page">
         <slot />
       </div>
@@ -33,6 +33,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  position: relative;
   gap: 24px;
   width: 100%;
   height: 64px;
@@ -50,6 +51,8 @@
 }
 .px-loading-indicator {
   position: absolute !important;
+  top: auto !important;
+  bottom: 0 !important;
 }
 .px-page {
   display: flex;
