@@ -66,7 +66,7 @@ const props = withDefaults(
   &__content {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     gap: 4px;
     transition: transform 0.125s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.125s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
