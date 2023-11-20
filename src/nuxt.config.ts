@@ -17,5 +17,7 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page-fade', mode: 'out-in' },
   },
 
+  modules: ['@vee-validate/nuxt'],
+
   css: [resolve('./assets/scss/main.scss')],
 })

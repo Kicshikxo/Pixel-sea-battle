@@ -1,10 +1,10 @@
 export default defineNuxtConfig({
-  extends: ['src', 'i18n', 'icons', 'color-mode', 'prisma', 'trpc', 'email', 'pixel-theme', 'auth', 'socket.io/'],
+  extends: ['auth', 'color-mode', 'email', 'i18n', 'icons', 'pixel-theme', 'prisma', 'socket.io/', 'src', 'store', 'trpc'],
 
   devtools: { enabled: true },
   typescript: {
     strict: true,
   },
 
-  modules: ['@vee-validate/nuxt', 'nuxt-typed-router'],
+  modules: ['nuxt-typed-router'],
 })
