@@ -180,7 +180,7 @@ const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : 
     &-button {
       width: 100%;
       height: 40px;
-      background: var(--px-color-black-inverted);
+      background: var(--px-color-white-on-light-black-on-dark);
       color-scheme: auto;
     }
   }
