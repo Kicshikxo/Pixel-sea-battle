@@ -11,7 +11,7 @@ html {
 
 .page-fade-enter-active,
 .page-fade-leave-active {
-  transition: all 0.15s;
+  transition: opacity 0.15s;
 }
 .page-fade-enter-from,
 .page-fade-leave-to {
