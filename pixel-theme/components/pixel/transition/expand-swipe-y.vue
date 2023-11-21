@@ -1,6 +1,6 @@
 <template>
-  <transition :class="[`px-transition-expand-swipe-y--${speed}`]" name="px-transition-expand-swipe-y" :mode="mode" @beforeEnter="beforeEnter" @enter="enter" @beforeLeave="beforeLeave" @leave="leave">
-    <slot />
+  <transition :class="[`px-transition-expand-swipe-y--${speed}`]" name="px-transition-expand-swipe-y" :mode="mode" @beforeEnter="beforeEnter" @enter="enter" @afterEnter="afterEnter" @beforeLeave="beforeLeave" @leave="leave">
+    <slot><!----></slot>
   </transition>
 </template>
 
@@ -17,8 +17,9 @@ const props = withDefaults(
 )
 
 const beforeEnter = (element: HTMLElement) => (element.style.height = '0')
-const beforeLeave = (element: HTMLElement) => (element.style.height = `${element.scrollHeight}px`)
-const enter = beforeLeave
+const enter = (element: HTMLElement) => (element.style.height = `${element.scrollHeight}px`)
+const afterEnter = (element: HTMLElement) => (element.style.height = '')
+const beforeLeave = enter
 const leave = beforeEnter
 </script>
 
@@ -46,7 +47,7 @@ const leave = beforeEnter
   }
   &-leave-to {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateY(-100%);
   }
 }
 </style>

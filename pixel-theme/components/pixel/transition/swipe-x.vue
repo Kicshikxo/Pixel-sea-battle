@@ -1,6 +1,6 @@
 <template>
   <transition :class="[`px-transition-swipe-x--${speed}`]" name="px-transition-swipe-x" :mode="mode">
-    <slot />
+    <slot><!----></slot>
   </transition>
 </template>
 

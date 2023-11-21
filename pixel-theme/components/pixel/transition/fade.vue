@@ -1,6 +1,6 @@
 <template>
   <transition :class="[`px-transition-fade--${speed}`]" name="px-transition-fade" :mode="mode">
-    <slot />
+    <slot><!----></slot>
   </transition>
 </template>
 
