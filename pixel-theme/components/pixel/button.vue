@@ -10,21 +10,23 @@
         <span v-if="loading" class="px-button__content">
           <pixel-loader class="px-button__icon" />
         </span>
-        <pixel-transition-swipe-y v-else>
-          <span class="px-button__content" :key="label">
-            <span class="px-button__icon">
-              <slot name="prepend-icon" />
+        <span v-else class="px-button__content">
+          <pixel-transition-swipe-y>
+            <span :key="label">
+              <span class="px-button__icon">
+                <slot name="prepend-icon" />
+              </span>
+              <span>
+                <slot>
+                  {{ label }}
+                </slot>
+              </span>
+              <span class="px-button__icon">
+                <slot name="append-icon" />
+              </span>
             </span>
-            <span>
-              <slot>
-                {{ label }}
-              </slot>
-            </span>
-            <span class="px-button__icon">
-              <slot name="append-icon" />
-            </span>
-          </span>
-        </pixel-transition-swipe-y>
+          </pixel-transition-swipe-y>
+        </span>
       </pixel-transition-swipe-y>
     </button>
   </pixel-border>
