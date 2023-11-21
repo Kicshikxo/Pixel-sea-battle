@@ -7,20 +7,23 @@
         <div class="px-text-input__icon">
           <slot name="prepend-icon" />
         </div>
-        <input
-          class="px-text-input__field"
-          :id="id"
-          :name="name"
-          :type="computedType"
-          :autocomplete="autocomplete"
-          :value="modelValue"
-          @input="handleInput"
-          @blur="handleBlur"
-          :placeholder="placeholder"
-          :readonly="readonly"
-          :maxlength="maxLength"
-          spellcheck="false"
-        />
+        <pixel-transition-fade>
+          <input
+            class="px-text-input__field"
+            :key="computedType"
+            :id="id"
+            :name="name"
+            :type="computedType"
+            :autocomplete="autocomplete"
+            :value="modelValue"
+            @input="handleInput"
+            @blur="handleBlur"
+            :placeholder="placeholder"
+            :readonly="readonly"
+            :maxlength="maxLength"
+            spellcheck="false"
+          />
+        </pixel-transition-fade>
         <pixel-transition-swipe-y>
           <div v-if="clearable" class="px-text-input__icon">
             <icon name="pixelarticons:close" class="px-text-input__icon-clear" @click="handleClear" />
