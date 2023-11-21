@@ -1,5 +1,5 @@
 .Vue-Toastification__container {
-  filter: drop-shadow(2px 0 0 var(--px-color-black)) drop-shadow(-2px 0 0 var(--px-color-black)) drop-shadow(0 2px 0 var(--px-color-black)) drop-shadow(0 -2px 0 var(--px-color-black));
+  filter: drop-shadow(2px 0 0 var(--px-color-black)) drop-shadow(-2px 0 0 var(--px-color-black)) drop-shadow(0 2px 0 var(--px-color-black)) drop-shadow(0 -2px 0 var(--px-color-black)) drop-shadow(0.125em 0.125em 0 var(--px-color-shadow));
 }
 
 .Vue-Toastification__toast {
