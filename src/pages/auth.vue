@@ -39,11 +39,13 @@
         </div>
       </pixel-transition-expand>
 
-      <div class="sign-in-page__options">
-        <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />
-        <span v-if="action === 'signIn'" class="sign-in-page__options__sign-up" @click="action = 'signUp'">{{ $t('authPage.noAccount') }}</span>
-        <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('authPage.alreadyHaveAccount') }}</span>
-      </div>
+      <pixel-transition-swipe-y>
+        <div class="sign-in-page__options" :key="action">
+          <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />
+          <span v-if="action === 'signIn'" class="sign-in-page__options__sign-up" @click="action = 'signUp'">{{ $t('authPage.noAccount') }}</span>
+          <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('authPage.alreadyHaveAccount') }}</span>
+        </div>
+      </pixel-transition-swipe-y>
 
       <pixel-button type="submit" :label="action === 'signIn' ? $t('authPage.signIn') : $t('authPage.signUp')" :loading="loading" :disabled="googleLoading" full-width>
         <template #append-icon>
