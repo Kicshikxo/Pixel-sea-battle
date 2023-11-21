@@ -30,6 +30,7 @@
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "trpc-nuxt": "^0.10.12",
+    "vue-toastification": "2.0.0-rc.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -37,7 +38,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/nodemailer": "^6.4.14",
-    "nuxt": "^3.8.1",
+    "nuxt": "^3.8.2",
     "nuxt-typed-router": "^3.3.3",
     "prisma": "5.6.0",
     "sass": "^1.69.5",

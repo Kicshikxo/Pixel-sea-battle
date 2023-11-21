@@ -37,6 +37,21 @@
   --px-color-blue-active: #1976d2;
 
   --px-chamfer-level: 4px;
+  --px-chamfer-clip-path: polygon(
+    var(--px-chamfer-level) 0%,
+    calc(100% - var(--px-chamfer-level)) 0%,
+    calc(100% - var(--px-chamfer-level)) var(--px-chamfer-level),
+    100% var(--px-chamfer-level),
+    100% calc(100% - var(--px-chamfer-level)),
+    calc(100% - var(--px-chamfer-level)) calc(100% - var(--px-chamfer-level)),
+    calc(100% - var(--px-chamfer-level)) 100%,
+    var(--px-chamfer-level) 100%,
+    var(--px-chamfer-level) calc(100% - var(--px-chamfer-level)),
+    0% calc(100% - var(--px-chamfer-level)),
+    0% var(--px-chamfer-level),
+    var(--px-chamfer-level) var(--px-chamfer-level)
+  );
+
   --px-border-width: 2px;
   --px-color-border: var(--px-color-black);
 

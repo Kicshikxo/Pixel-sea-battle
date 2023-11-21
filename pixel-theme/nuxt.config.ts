@@ -18,5 +18,5 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page-fade', mode: 'out-in' },
   },
 
-  css: [resolve('assets/scss/minecraft.fontface.scss'), resolve('assets/scss/pixel.scss')],
+  css: [resolve('assets/scss/minecraft.fontface.scss'), resolve('assets/scss/pixel.scss'), resolve('assets/scss/toast.scss')],
 })

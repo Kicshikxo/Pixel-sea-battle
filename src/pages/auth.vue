@@ -70,6 +70,7 @@ definePageMeta({
   auth: false,
 })
 
+const toast = useToast()
 const route = useRoute()
 const router = useRouter()
 const { t, locale } = useI18n()
@@ -120,17 +121,20 @@ const validationSchema = computed(() => (action.value === 'signIn' ? signInValid
 
 async function handleGoogleSignIn(response: CredentialResponse) {
   googleLoading.value = true
-  await googleSignIn({ accessToken: response.credential!, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  const { error } = await googleSignIn({ accessToken: response.credential!, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  if (error) toast.error(error)
   googleLoading.value = false
 }
 async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>) {
   loading.value = true
-  await signIn({ email: values.email, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  const { error } = await signIn({ email: values.email, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  if (error) toast.error(error)
   loading.value = false
 }
 async function handleSignUp(values: z.infer<typeof signUpValidationSchema.value>) {
   loading.value = true
-  await signUp({ email: values.email, username: values.name, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  const { error } = await signUp({ email: values.email, username: values.name, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
+  if (error) toast.error(error)
   loading.value = false
 }
 
