@@ -1,3 +1,5 @@
+import error from './error'
+
 import validation from './validation'
 
 import authPage from './pages/authPage'
@@ -6,6 +8,8 @@ import errorPage from './pages/errorPage'
 import indexPage from './pages/indexPage'
 
 export default {
+  error,
+
   validation,
 
   authPage,

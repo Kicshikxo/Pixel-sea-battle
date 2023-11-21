@@ -26,7 +26,7 @@ export const authRouter = trpcRouter({
       if (existingUser) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'User already exists',
+          message: 'error.BAD_REQUEST.userAlreadyExists',
         })
       }
 
@@ -68,7 +68,7 @@ export const authRouter = trpcRouter({
       if (!user || !user.password || !bcrypt.compareSync(input.password, user.password)) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
-          message: 'Incorrect login credentials',
+          message: 'error.UNAUTHORIZED.incorrectLoginCredentials',
         })
       }
 
@@ -100,7 +100,7 @@ export const authRouter = trpcRouter({
       if (!googleUser || !googleUser.email) {
         throw new TRPCError({
           code: 'UNAUTHORIZED',
-          message: 'Google user not found',
+          message: 'error.UNAUTHORIZED.googleUserNotFound',
         })
       }
 

@@ -29,6 +29,8 @@ definePageMeta({
   auth: false,
 })
 
+const { t } = useI18n()
+const toast = useToast()
 const route = useRoute('confirmEmail-id')
 const router = useRouter()
 const client = useClient()
@@ -38,9 +40,12 @@ const confirmed = ref(false)
 
 const { data: userInfo, error: userError } = await client.email.info.useQuery({ emailConfirmationId: route.params.id })
 
+if (userError.value) toast.error(t(userError.value.message))
+
 async function handleConfirmEmail() {
   loading.value = true
   const { error } = await client.email.confirm.useQuery({ emailConfirmationId: route.params.id })
+  if (error.value) toast.error(t(error.value.message))
   if (!error.value) confirmed.value = true
   loading.value = false
 }

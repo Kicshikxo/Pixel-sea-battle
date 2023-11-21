@@ -12,7 +12,7 @@ export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
   if (!token) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: 'Unable to read token',
+      message: 'error.UNAUTHORIZED.unableToReadToken',
     })
   }
 
@@ -22,7 +22,7 @@ export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
   } catch (e) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: 'Unable to read token data',
+      message: 'error.UNAUTHORIZED.unableToReadTokenData',
     })
   }
 
@@ -33,14 +33,14 @@ export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
   if (!user) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: 'User not found',
+      message: 'error.UNAUTHORIZED.userNotFound',
     })
   }
 
   if (tokenData.password !== (user.password ? crc32(user.password).toString(16) : null)) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
-      message: 'Invalid token credentials',
+      message: 'error.UNAUTHORIZED.invalidTokenCredentials',
     })
   }
 

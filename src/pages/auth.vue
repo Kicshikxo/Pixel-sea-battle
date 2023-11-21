@@ -122,19 +122,19 @@ const validationSchema = computed(() => (action.value === 'signIn' ? signInValid
 async function handleGoogleSignIn(response: CredentialResponse) {
   googleLoading.value = true
   const { error } = await googleSignIn({ accessToken: response.credential!, redirectTo: (route.query.redirectTo as string) ?? '/' })
-  if (error) toast.error(error)
+  if (error) toast.error(t(error))
   googleLoading.value = false
 }
 async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>) {
   loading.value = true
   const { error } = await signIn({ email: values.email, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
-  if (error) toast.error(error)
+  if (error) toast.error(t(error))
   loading.value = false
 }
 async function handleSignUp(values: z.infer<typeof signUpValidationSchema.value>) {
   loading.value = true
   const { error } = await signUp({ email: values.email, username: values.name, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
-  if (error) toast.error(error)
+  if (error) toast.error(t(error))
   loading.value = false
 }
 
