@@ -1,5 +1,5 @@
-export default (values: { callback: string }) => {
-  return Object.entries(values).reduce((template, [key, value]) => template.replace(new RegExp(`{{\\s*${key}\\s*}}`, 'g'), value), template)
+export default (values: { callback: string }, html: string = template) => {
+  return Object.entries(values).reduce((html, [key, value]) => html.replace(new RegExp(`{{\\s*${key}\\s*}}`, 'g'), value), html)
 }
 
 export const template = /*html*/ `
