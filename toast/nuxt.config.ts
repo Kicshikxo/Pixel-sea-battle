@@ -1,1 +1,5 @@
-export default defineNuxtConfig({})
+export default defineNuxtConfig({
+  build: {
+    transpile: ['vue-toastification'],
+  },
+})
