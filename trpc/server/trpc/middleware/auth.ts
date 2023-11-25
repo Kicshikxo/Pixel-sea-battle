@@ -1,8 +1,8 @@
 import { TRPCError } from '@trpc/server'
 import crc32 from 'crc/crc32'
 import jwt from 'jsonwebtoken'
+import type { AuthTokenData } from '~/auth/types'
 import { prisma } from '~/prisma/client'
-import type { AuthTokenData } from '~/types/auth'
 
 export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
   const headerToken = getHeaders(ctx.event).authorization?.substring('Bearer '.length)

@@ -4,10 +4,10 @@ import crc32 from 'crc/crc32'
 import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
 import { z } from 'zod'
+import type { AuthTokenData, SessionData } from '~/auth/types'
 import { sendVerificationEmail } from '~/email'
 import { prisma } from '~/prisma/client'
 import { trpcAuthProcedure } from '~/trpc/server/trpc/middleware/auth'
-import type { AuthTokenData, SessionData } from '~/types/auth'
 
 export const authRouter = trpcRouter({
   signUp: trpcPublicProcedure

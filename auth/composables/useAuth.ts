@@ -1,4 +1,4 @@
-import type { GetSessionResult, GoogleSignInResult, GoogleSingInOptions, SessionData, SignInResult, SignOutOptions, SignOutResult, SignUpOptions, SignUpResult, SingInOptions } from '~/types/auth'
+import type { GetSessionResult, GoogleSignInResult, GoogleSingInOptions, SessionData, SignInResult, SignOutOptions, SignOutResult, SignUpOptions, SignUpResult, SingInOptions } from '~/auth/types'
 
 const useAuthState = () => {
   const data = useState<SessionData | null>('session:data', () => null)
