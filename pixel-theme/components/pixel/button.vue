@@ -11,21 +11,17 @@
           <pixel-loader class="px-button__icon" />
         </span>
         <span v-else class="px-button__content">
-          <pixel-transition-swipe-y>
-            <span :key="label">
-              <span class="px-button__icon">
-                <slot name="prepend-icon" />
-              </span>
-              <span>
-                <slot>
-                  {{ label }}
-                </slot>
-              </span>
-              <span class="px-button__icon">
-                <slot name="append-icon" />
-              </span>
-            </span>
-          </pixel-transition-swipe-y>
+          <span class="px-button__icon">
+            <slot name="prepend-icon" />
+          </span>
+          <span>
+            <slot>
+              {{ label }}
+            </slot>
+          </span>
+          <span class="px-button__icon">
+            <slot name="append-icon" />
+          </span>
         </span>
       </pixel-transition-swipe-y>
     </button>
