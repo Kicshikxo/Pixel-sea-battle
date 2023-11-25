@@ -13,5 +13,7 @@ export default {
     emailConfirmationIdNotFound: 'Идентификатор подтверждения электронной почты не найден',
     emailConfirmationUserNotFound: 'Пользователь с этой электронной почтой не найден',
     emailAlreadyConfirmed: 'Электронная почта уже подтверждена',
+
+    roomNotFound: 'Комната не найдена',
   },
 }

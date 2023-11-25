@@ -52,7 +52,7 @@ export const roomRouter = trpcRouter({
       if (!room) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'no room', // TODO: add translation
+          message: 'error.BAD_REQUEST.roomNotFound',
         })
       }
 

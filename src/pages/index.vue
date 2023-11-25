@@ -1,7 +1,7 @@
 <template>
   <div class="index-page">
     <pixel-button @click="handleCreateRoom">
-      {{ $t('Создать комнату') }}
+      {{ $t('indexPage.createRoom') }}
       <template #append-icon>
         <icon name="pixelarticons:plus" />
       </template>
@@ -17,7 +17,7 @@
     <pixel-container v-for="room in rooms?.response" full-width>
       <pre>{{ JSON.stringify(room, null, 2) }}</pre>
       <pixel-button @click="handleConnectRoom(room.id)">
-        {{ $t('Подключиться') }}
+        {{ $t('indexPage.connect') }}
         <template #append-icon>
           <icon name="pixelarticons:cloud-upload" />
         </template>
@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
 const toast = useToast()
 const client = useClient()
 const router = useRouter()
@@ -36,13 +37,13 @@ const { data: rooms, refresh: refreshRooms } = client.room.list.useQuery()
 
 async function handleCreateRoom() {
   const { error } = await client.room.create.useQuery()
-  if (error.value) toast.error(error.value.message)
+  if (error.value) toast.error(t(error.value.message))
   await refreshRooms()
 }
 
 async function handleConnectRoom(id: string) {
   const { data, error } = await client.room.connect.useQuery({ id: id })
-  if (error.value) toast.error(error.value.message)
+  if (error.value) toast.error(t(error.value.message))
   if (data.value) router.push({ name: 'room-id', params: { id: data.value.id } })
   await refreshRooms()
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="room-page">
     <pixel-container full-width>
-      <pixel-text-input v-model="messageText" label="Сообщение" />
-      <pixel-button label="Отправить сообщение" @click="handleSendMessage" />
+      <pixel-text-input v-model="messageText" :label="$t('roomPage.message')" />
+      <pixel-button :label="$t('roomPage.sendMessage')" @click="handleSendMessage" />
     </pixel-container>
     <pixel-container v-for="message in socketRoomStore.messages" full-width>({{ new Date(message.createdAt).toLocaleString() }}) {{ message.userId }}: {{ message.text }} </pixel-container>
   </div>

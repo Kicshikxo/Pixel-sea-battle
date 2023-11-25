@@ -6,6 +6,7 @@ import authPage from './pages/authPage'
 import confirmEmailPage from './pages/confirmEmailPage'
 import errorPage from './pages/errorPage'
 import indexPage from './pages/indexPage'
+import roomPage from './pages/roomPage'
 
 export default {
   error,
@@ -16,4 +17,5 @@ export default {
   confirmEmailPage,
   errorPage,
   indexPage,
+  roomPage,
 }

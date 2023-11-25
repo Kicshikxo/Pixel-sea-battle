@@ -13,5 +13,7 @@ export default {
     emailConfirmationIdNotFound: 'Email confirmation id not found',
     emailConfirmationUserNotFound: 'Email confirmation user not found',
     emailAlreadyConfirmed: 'Email already confirmed',
+
+    roomNotFound: 'Room not found',
   },
 }
