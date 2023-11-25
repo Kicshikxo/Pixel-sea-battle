@@ -1,9 +1,9 @@
 <template>
-  <pixel-border :full-width="fullWidth">
+  <pixel-container :full-width="fullWidth">
     <Form :class="['px-form', { 'px-form--full-width': fullWidth }]" :validation-schema="toTypedSchema(validationSchema ?? z.object({}))" @submit="handleSubmit">
       <slot />
     </Form>
-  </pixel-border>
+  </pixel-container>
 </template>
 
 <script setup lang="ts" generic="T extends z.ZodSchema">
@@ -35,8 +35,6 @@ function handleSubmit(values: z.infer<T>) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: var(--px-color-dark);
-  padding: 12px;
 
   &--full-width {
     width: 100%;

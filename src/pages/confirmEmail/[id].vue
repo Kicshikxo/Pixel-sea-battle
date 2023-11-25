@@ -4,9 +4,9 @@
       <template v-if="confirmed === false">
         <span v-if="Boolean(userError) === false">
           {{ $t('confirmEmailPage.confirmYourEmail') }}:
-          <pixel-border full-width
-            ><span class="confirm-email-page__email">{{ userInfo?.email }}</span></pixel-border
-          >
+          <pixel-border full-width>
+            <span class="confirm-email-page__email">{{ userInfo?.email }}</span>
+          </pixel-border>
         </span>
         <span v-else>
           {{ $t('confirmEmailPage.unableToConfirmEmail') }}
