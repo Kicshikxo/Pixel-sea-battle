@@ -8,11 +8,15 @@ datasource db {
 }
 
 model User {
-  id String @id() @default(dbgenerated("gen_random_uuid()")) @map("user_id") @db.Uuid
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("user_id") @db.Uuid
 
   email    String  @unique @map("email")
   username String  @map("username")
   password String? @map("password") @db.Char(60)
+
+  ownedRooms Room[]
+  room       RoomUser?
+  messages   RoomMessage[]
 
   emailConfirmation EmailConfirmation?
   emailVerifiedAt   DateTime?          @map("email_verified_at")
@@ -24,7 +28,7 @@ model User {
 }
 
 model EmailConfirmation {
-  id String @id() @default(dbgenerated("gen_random_uuid()")) @map("confirmation_id") @db.Uuid
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("confirmation_id") @db.Uuid
 
   user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId String @unique @map("user_id") @db.Uuid
@@ -36,7 +40,52 @@ model EmailConfirmation {
 }
 
 model Room {
-  id String @id() @default(dbgenerated("gen_random_uuid()")) @map("room_id") @db.Uuid
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("room_id") @db.Uuid
+
+  type     RoomType      @default(PUBLIC) @map("room_type")
+  users    RoomUser[]
+  messages RoomMessage[]
+
+  creator   User   @relation(fields: [creatorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  creatorId String @map("creator_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("rooms")
+}
+
+enum RoomType {
+  PUBLIC
+  PRIVATE
+}
+
+model RoomMessage {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("message_id") @db.Uuid
+
+  room   Room   @relation(fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  roomId String @map("room_id") @db.Uuid
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String @map("user_id") @db.Uuid
+
+  text String @map("text")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("room_messages")
+}
+
+model RoomUser {
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String @id @map("user_id") @db.Uuid
+
+  room   Room   @relation(fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  roomId String @map("room_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("room_users")
 }

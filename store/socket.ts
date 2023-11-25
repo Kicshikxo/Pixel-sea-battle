@@ -2,8 +2,6 @@ import { defineStore } from 'pinia'
 import { socket } from '~/socket.io/client'
 
 export default defineStore('socket', () => {
-  const messages = ref<string[]>([])
-
   function connectSocket() {
     socket.connect()
   }
@@ -18,21 +16,10 @@ export default defineStore('socket', () => {
   }
 
   function initSocket() {
-    socket.emit('initSocket', {}, (data: Object) => {
-      messages.value = [`initSocket: ${JSON.stringify(data)}`, ...messages.value]
+    socket.emit('initSocket', {}, (data) => {
+      console.log(data)
     })
   }
 
-  socket.on('connect', () => {
-    messages.value = ['connected', ...messages.value]
-  })
-  socket.on('disconnect', () => {
-    messages.value = ['disconnect', ...messages.value]
-  })
-  socket.on('message', (data) => {
-    messages.value = [`message: ${JSON.stringify(data)}`, ...messages.value]
-    messages.value.push()
-  })
-
-  return { socket, messages, connectSocket, disconnectSocket, reconnectSocket, initSocket }
+  return { connectSocket, disconnectSocket, reconnectSocket, initSocket }
 })

@@ -1,15 +1,9 @@
 <template>
   <div class="index-page">
-    <pixel-button @click="socketStore.initSocket()" style="margin-right: 8px">
-      Инициализация сокетов
+    <pixel-button @click="handleCreateRoom">
+      {{ $t('Создать комнату') }}
       <template #append-icon>
-        <icon name="pixelarticons:cloud" />
-      </template>
-    </pixel-button>
-    <pixel-button @click="handleHello" style="margin-right: 8px">
-      Поздороваться со всеми
-      <template #append-icon>
-        <icon name="pixelarticons:human-handsup" />
+        <icon name="pixelarticons:plus" />
       </template>
     </pixel-button>
     <pixel-button @click="handleSignout">
@@ -20,34 +14,42 @@
     </pixel-button>
     <br />
     <br />
-    <div>Статус входа: {{ state.status }}</div>
-    <div>Данные аккаунта: {{ state.data.value }}</div>
-    <div>Статус соединения сокета: {{ socketStore.socket.connected }}</div>
-    <div>ID сокета: {{ socketStore.socket.id }}</div>
-    <br />
-    <div>
-      Сообщения сокетов:
-      <pixel-border v-for="message in socketStore.messages" style="margin: 8px 0">
-        <div style="display: flex; flex-wrap: wrap; padding: 8px; background: var(--px-color-dark)">
-          {{ message }}
-        </div>
-      </pixel-border>
-    </div>
+    <pixel-container v-for="room in rooms?.response" full-width>
+      <pre>{{ JSON.stringify(room, null, 2) }}</pre>
+      <pixel-button @click="handleConnectRoom(room.id)">
+        {{ $t('Подключиться') }}
+        <template #append-icon>
+          <icon name="pixelarticons:cloud-upload" />
+        </template>
+      </pixel-button>
+    </pixel-container>
   </div>
 </template>
 
 <script setup lang="ts">
-import useSocketStore from '~/store/socket'
-
+const toast = useToast()
 const client = useClient()
-const { state, signOut } = useAuth()
-const socketStore = useSocketStore()
+const router = useRouter()
+const { signOut } = useAuth()
 
-function handleHello() {
-  client.hello.useQuery({ text: new Date().toJSON() })
+const { data: rooms, refresh: refreshRooms } = client.room.list.useQuery()
+
+async function handleCreateRoom() {
+  const { error } = await client.room.create.useQuery()
+  if (error.value) toast.error(error.value.message)
+  await refreshRooms()
 }
-function handleSignout() {
-  signOut({ redirectTo: '/auth' })
+
+async function handleConnectRoom(id: string) {
+  const { data, error } = await client.room.connect.useQuery({ id: id })
+  if (error.value) toast.error(error.value.message)
+  if (data.value) router.push({ name: 'room-id', params: { id: data.value.id } })
+  await refreshRooms()
+}
+
+async function handleSignout() {
+  const { error } = await signOut({ redirectTo: '/auth' })
+  if (error) toast.error(error)
 }
 </script>
 
