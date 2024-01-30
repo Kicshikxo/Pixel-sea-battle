@@ -31,7 +31,7 @@ const emits = defineEmits<{
   'update:modelValue': [value: boolean]
 }>()
 
-const id = ref(`px-checkbox-${getCurrentInstance()?.uid}`)
+const id = ref(`px-checkbox-${useId()}`)
 
 const iconName = computed(() => (props.modelValue ? 'pixelarticons:check' : 'pixelarticons:close'))
 

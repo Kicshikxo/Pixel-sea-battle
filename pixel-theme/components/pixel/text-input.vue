@@ -68,7 +68,7 @@ const props = withDefaults(
     name: undefined,
     modelValue: '',
     type: 'text',
-    autocomplete: 'off',
+    autocomplete: 'one-time-code',
     label: '',
     placeholder: '',
     error: '',
@@ -84,7 +84,7 @@ const emits = defineEmits<{
   clear: []
 }>()
 
-const id = ref(`px-text-input-${getCurrentInstance()?.uid}`)
+const id = ref(`px-text-input-${useId()}`)
 const showPassword = ref(false)
 
 const computedType = computed(() => (props.type === 'password' ? (showPassword.value ? 'text' : 'password') : props.type))

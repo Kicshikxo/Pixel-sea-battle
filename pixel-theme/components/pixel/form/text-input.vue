@@ -41,7 +41,7 @@ const props = withDefaults(
   }>(),
   {
     type: 'text',
-    autocomplete: 'off',
+    autocomplete: 'one-time-code',
     label: '',
     placeholder: '',
     maxLength: undefined,
