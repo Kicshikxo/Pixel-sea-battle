@@ -42,7 +42,9 @@ model EmailConfirmation {
 model Room {
   id String @id @default(dbgenerated("gen_random_uuid()")) @map("room_id") @db.Uuid
 
-  type     RoomType      @default(PUBLIC) @map("room_type")
+  type   RoomType   @default(PUBLIC) @map("room_type")
+  status RoomStatus @default(PENDING) @map("room_status")
+
   users    RoomUser[]
   messages RoomMessage[]
 
@@ -58,6 +60,13 @@ model Room {
 enum RoomType {
   PUBLIC
   PRIVATE
+}
+
+enum RoomStatus {
+  PENDING
+  STARTED
+  PAUSED
+  FINISHED
 }
 
 model RoomMessage {

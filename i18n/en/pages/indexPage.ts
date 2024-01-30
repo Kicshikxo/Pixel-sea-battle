@@ -1,5 +1,5 @@
 export default {
   createRoom: 'Create room',
-  connect: 'Connect',
+  join: 'Join',
   signOut: 'Sign out',
 }

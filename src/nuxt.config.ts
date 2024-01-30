@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'ru',
       },
-      title: 'Морской бой',
+      title: 'Пиксельный морской бой',
       meta: [
         {
           hid: 'description',

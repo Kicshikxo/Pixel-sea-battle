@@ -42,7 +42,7 @@
       <pixel-transition-swipe-y>
         <div class="sign-in-page__options" :key="action">
           <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />
-          <span v-if="action === 'signIn'" class="sign-in-page__options__sign-up" @click="action = 'signUp'">{{ $t('authPage.noAccount') }}</span>
+          <span v-if="action === 'signIn'" class="sign-in-page__options__sign-in" @click="action = 'signUp'">{{ $t('authPage.noAccount') }}</span>
           <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('authPage.alreadyHaveAccount') }}</span>
         </div>
       </pixel-transition-swipe-y>
@@ -127,6 +127,7 @@ async function handleGoogleSignIn(response: CredentialResponse) {
 }
 async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>) {
   loading.value = true
+  await new Promise((resolve) => setTimeout(resolve, 3000))
   const { error } = await signIn({ email: values.email, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
   if (error) toast.error(t(error))
   loading.value = false
@@ -175,9 +176,11 @@ const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : 
     &__sign-in,
     &__sign-up {
       cursor: pointer;
-      color: var(--px-color-blue);
-      --px-color-text-shadow: var(--px-color-shadow-blue);
       margin-left: auto;
+      color: var(--px-color-blue);
+
+      --px-color-text-shadow: var(--px-color-shadow-blue);
+
       &:hover {
         color: var(--px-color-blue-hover);
       }

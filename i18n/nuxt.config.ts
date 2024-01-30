@@ -1,7 +1,7 @@
 import locales from '.'
 
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/i18n', '@pinia/nuxt'],
+  modules: ['@nuxtjs/i18n'],
 
   i18n: {
     locales: Object.keys(locales),

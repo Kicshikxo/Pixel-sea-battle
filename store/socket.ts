@@ -15,11 +15,5 @@ export default defineStore('socket', () => {
     connectSocket()
   }
 
-  function initSocket() {
-    socket.emit('initSocket', {}, (data) => {
-      console.log(data)
-    })
-  }
-
-  return { connectSocket, disconnectSocket, reconnectSocket, initSocket }
+  return { connectSocket, disconnectSocket, reconnectSocket }
 })

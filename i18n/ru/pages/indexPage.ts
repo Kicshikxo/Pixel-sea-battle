@@ -1,5 +1,5 @@
 export default {
   createRoom: 'Создать комнату',
-  connect: 'Подключиться',
+  join: 'Подключиться',
   signOut: 'Выйти',
 }

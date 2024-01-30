@@ -12,7 +12,7 @@ export const roomRouter = trpcRouter({
       }),
     )
     .query(async ({ input }) => {
-      return await prisma.room.findUnique({ where: { id: input.id } })
+      return await prisma.room.findUnique({ where: { id: input.id }, include: { messages: true } })
     }),
   list: trpcAuthProcedure.query(async () => {
     return {
@@ -38,7 +38,7 @@ export const roomRouter = trpcRouter({
         },
       })
     }),
-  connect: trpcAuthProcedure
+  join: trpcAuthProcedure
     .input(
       z.object({
         id: z.string().uuid(),
@@ -47,12 +47,24 @@ export const roomRouter = trpcRouter({
     .query(async ({ ctx, input }) => {
       const room = await prisma.room.findUnique({
         where: { id: input.id },
+        include: { users: true },
       })
 
       if (!room) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.BAD_REQUEST.roomNotFound',
+          message: 'error.room.roomNotFound',
+        })
+      }
+
+      if (room.users.some(({ userId }) => userId === ctx.user.id)) {
+        return room
+      }
+
+      if (room.users.length >= 2) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'error.room.roomIsFull',
         })
       }
 

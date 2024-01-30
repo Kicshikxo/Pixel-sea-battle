@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  extends: ['auth', 'color-mode', 'email', 'i18n', 'icons', 'pixel-theme', 'prisma', 'socket.io/', 'src', 'store', 'toast', 'trpc'],
+  extends: ['auth', 'avatar', 'color-mode', 'email', 'i18n', 'icons', 'pixel-theme', 'prisma', 'socket.io/', 'src', 'store', 'toast', 'trpc'],
 
   devtools: { enabled: true },
   typescript: {

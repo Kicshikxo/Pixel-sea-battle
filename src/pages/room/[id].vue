@@ -4,7 +4,7 @@
       <pixel-text-input v-model="messageText" :label="$t('roomPage.message')" />
       <pixel-button :label="$t('roomPage.sendMessage')" @click="handleSendMessage" />
     </pixel-container>
-    <pixel-container v-for="message in socketRoomStore.messages" full-width>({{ new Date(message.createdAt).toLocaleString() }}) {{ message.userId }}: {{ message.text }} </pixel-container>
+    <pixel-container v-for="message in socketRoomStore.messages" full-width> ({{ new Date(message.createdAt).toLocaleString() }}) <pixel-avatar :seed="message.userId" size="small" /> {{ message.text }} </pixel-container>
   </div>
 </template>
 
@@ -17,10 +17,16 @@ const client = useClient()
 const socketRoomStore = useSocketRoomStore()
 
 const messageText = ref('')
-socketRoomStore.connectRoom(route.params.id)
+
+await socketRoomStore.joinRoom(route.params.id)
+
+onBeforeRouteLeave(async () => {
+  await socketRoomStore.leaveRoom(route.params.id)
+})
 
 async function handleSendMessage() {
-  socketRoomStore.sendMessage(messageText.value)
+  await socketRoomStore.sendMessage(messageText.value)
+  messageText.value = ''
 }
 
 const { data: room } = await client.room.info.useQuery({ id: route.params.id })

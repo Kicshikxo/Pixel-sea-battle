@@ -57,6 +57,8 @@ const signOut = async (options?: SignOutOptions): Promise<SignOutResult> => {
 
   const { error } = await client.auth.signOut.useQuery()
 
+  await getSession()
+
   if (options?.redirectTo && !error.value) {
     router.push(options.redirectTo)
   }

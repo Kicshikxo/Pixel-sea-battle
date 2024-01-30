@@ -15,14 +15,14 @@ export const emailRouter = trpcRouter({
       if (!emailConfirmation) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.BAD_REQUEST.emailConfirmationIdNotFound',
+          message: 'error.email.emailConfirmationIdNotFound',
         })
       }
 
       if (!emailConfirmation.user) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.BAD_REQUEST.emailConfirmationUserNotFound',
+          message: 'error.email.emailConfirmationUserNotFound',
         })
       }
 
@@ -30,7 +30,7 @@ export const emailRouter = trpcRouter({
         await prisma.emailConfirmation.delete({ where: { id: emailConfirmation.id } })
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.BAD_REQUEST.emailAlreadyConfirmed',
+          message: 'error.email.emailAlreadyConfirmed',
         })
       }
 
@@ -48,7 +48,7 @@ export const emailRouter = trpcRouter({
       if (!emailConfirmation) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.BAD_REQUEST.emailConfirmationIdNotFound',
+          message: 'error.email.emailConfirmationIdNotFound',
         })
       }
 
@@ -56,7 +56,7 @@ export const emailRouter = trpcRouter({
         await prisma.emailConfirmation.delete({ where: { id: emailConfirmation.id } })
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.BAD_REQUEST.emailAlreadyConfirmed',
+          message: 'error.email.emailAlreadyConfirmed',
         })
       }
 

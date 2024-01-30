@@ -1,7 +1,7 @@
 <template>
   <pixel-border :full-width="fullWidth">
     <button
-      :class="['px-button', 'px-text', `px-button--${color}`, { 'px-button--loading': loading, 'px-button--disabled': disabled, 'px-button--full-width': fullWidth, 'px-button--small': small, 'px-button--large': large }]"
+      :class="['px-button', `px-button--${color}`, { 'px-button--loading': loading, 'px-button--disabled': disabled, 'px-button--full-width': fullWidth, 'px-button--small': small, 'px-button--large': large }]"
       :name="name"
       :type="type"
       :disabled="loading || disabled"

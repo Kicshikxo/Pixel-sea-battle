@@ -15,9 +15,13 @@
     <br />
     <br />
     <pixel-container v-for="room in rooms?.response" full-width>
-      <pre>{{ JSON.stringify(room, null, 2) }}</pre>
-      <pixel-button @click="handleConnectRoom(room.id)">
-        {{ $t('indexPage.connect') }}
+      {{ room.id }}
+      <div>
+        <pixel-avatar v-for="{ userId } in room.users" :seed="userId" />
+      </div>
+      <br />
+      <pixel-button @click="handleJoinRoom(room.id)">
+        {{ $t('indexPage.join') }}
         <template #append-icon>
           <icon name="pixelarticons:cloud-upload" />
         </template>
@@ -41,8 +45,8 @@ async function handleCreateRoom() {
   await refreshRooms()
 }
 
-async function handleConnectRoom(id: string) {
-  const { data, error } = await client.room.connect.useQuery({ id: id })
+async function handleJoinRoom(id: string) {
+  const { data, error } = await client.room.join.useQuery({ id: id })
   if (error.value) toast.error(t(error.value.message))
   if (data.value) router.push({ name: 'room-id', params: { id: data.value.id } })
   await refreshRooms()
