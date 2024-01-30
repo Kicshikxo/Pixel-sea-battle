@@ -127,7 +127,6 @@ async function handleGoogleSignIn(response: CredentialResponse) {
 }
 async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>) {
   loading.value = true
-  await new Promise((resolve) => setTimeout(resolve, 3000))
   const { error } = await signIn({ email: values.email, password: values.password, redirectTo: (route.query.redirectTo as string) ?? '/' })
   if (error) toast.error(t(error))
   loading.value = false
