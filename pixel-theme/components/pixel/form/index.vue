@@ -1,9 +1,7 @@
 <template>
-  <pixel-container :full-width="fullWidth">
-    <Form :class="['px-form', { 'px-form--full-width': fullWidth }]" :validation-schema="toTypedSchema(validationSchema ?? z.object({}))" @submit="handleSubmit">
-      <slot />
-    </Form>
-  </pixel-container>
+  <Form :class="['px-form', { 'px-form--full-width': fullWidth }]" :validation-schema="toTypedSchema(validationSchema ?? z.object({}))" @submit="handleSubmit">
+    <slot />
+  </Form>
 </template>
 
 <script setup lang="ts" generic="T extends z.ZodSchema">
