@@ -25,7 +25,7 @@
           />
         </pixel-transition-fade>
         <pixel-transition-swipe-y>
-          <div v-if="clearable" class="px-text-input__icon">
+          <div v-if="clearable && !readonly" class="px-text-input__icon">
             <icon name="pixelarticons:close" class="px-text-input__icon-clear" @click="handleClear" />
           </div>
         </pixel-transition-swipe-y>
