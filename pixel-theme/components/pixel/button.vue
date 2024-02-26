@@ -1,5 +1,5 @@
 <template>
-  <pixel-border :full-width="fullWidth">
+  <pixel-border :rainbow="rainbow" :full-width="fullWidth">
     <button
       :class="['px-button', `px-button--${color}`, { 'px-button--loading': loading, 'px-button--disabled': disabled, 'px-button--full-width': fullWidth, 'px-button--small': small, 'px-button--large': large }]"
       :name="name"
@@ -37,6 +37,7 @@ const props = withDefaults(
     label?: string
     small?: boolean
     large?: boolean
+    rainbow?: boolean
     loading?: boolean
     disabled?: boolean
     fullWidth?: boolean
@@ -47,6 +48,7 @@ const props = withDefaults(
     color: 'blue',
     small: false,
     large: false,
+    rainbow: false,
     loading: false,
     disabled: false,
     fullWidth: false,
@@ -94,8 +96,10 @@ const props = withDefaults(
     background: var(--px-color-dark);
     color: var(--px-color-white);
     &:not(:disabled) {
-      &:hover {
-        background: var(--px-color-dark-hover);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--px-color-dark-hover);
+        }
       }
       &:active {
         background: var(--px-color-dark-active);
@@ -107,9 +111,12 @@ const props = withDefaults(
     background: var(--px-color-light);
     color: var(--px-color-dark);
     :not(:disabled) {
-      &:hover {
-        background: var(--px-color-light-hover);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--px-color-light-hover);
+        }
       }
+
       &:active {
         background: var(--px-color-light-active);
       }
@@ -120,9 +127,12 @@ const props = withDefaults(
     background: var(--px-color-red);
     color: var(--px-color-white);
     &:not(:disabled) {
-      &:hover {
-        background: var(--px-color-red-hover);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--px-color-red-hover);
+        }
       }
+
       &:active {
         background: var(--px-color-red-active);
       }
@@ -133,9 +143,12 @@ const props = withDefaults(
     background: var(--px-color-yellow);
     color: var(--px-color-white);
     &:not(:disabled) {
-      &:hover {
-        background: var(--px-color-yellow-hover);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--px-color-yellow-hover);
+        }
       }
+
       &:active {
         background: var(--px-color-yellow-active);
       }
@@ -146,8 +159,10 @@ const props = withDefaults(
     background: var(--px-color-green);
     color: var(--px-color-white);
     &:not(:disabled) {
-      &:hover {
-        background: var(--px-color-green-hover);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--px-color-green-hover);
+        }
       }
       &:active {
         background: var(--px-color-green-active);
@@ -159,9 +174,12 @@ const props = withDefaults(
     background: var(--px-color-blue);
     color: var(--px-color-white);
     &:not(:disabled) {
-      &:hover {
-        background: var(--px-color-blue-hover);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--px-color-blue-hover);
+        }
       }
+
       &:active {
         background: var(--px-color-blue-active);
       }
@@ -172,9 +190,12 @@ const props = withDefaults(
     background: var(--px-color-yellow);
     color: var(--px-color-white);
     &:not(:disabled) {
-      &:hover {
-        background: var(--px-color-yellow-hover);
+      @media (hover: hover) {
+        &:hover {
+          background: var(--px-color-yellow-hover);
+        }
       }
+
       &:active {
         background: var(--px-color-yellow-active);
       }

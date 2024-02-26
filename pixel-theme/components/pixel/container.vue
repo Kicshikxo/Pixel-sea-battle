@@ -1,5 +1,5 @@
 <template>
-  <pixel-border :full-width="fullWidth">
+  <pixel-border :rainbow="rainbow" :full-width="fullWidth">
     <div :class="['px-container', { 'px-container--full-width': fullWidth }]">
       <slot />
     </div>
@@ -9,9 +9,11 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
+    rainbow?: boolean
     fullWidth?: boolean
   }>(),
   {
+    rainbow: false,
     fullWidth: false,
   },
 )
