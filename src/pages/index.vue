@@ -6,12 +6,6 @@
         <icon name="pixelarticons:plus" />
       </template>
     </pixel-button>
-    <pixel-button @click="handleSignout">
-      {{ $t('indexPage.signOut') }}
-      <template #append-icon>
-        <icon name="pixelarticons:logout" />
-      </template>
-    </pixel-button>
     <br />
     <br />
     <pixel-container v-for="room in rooms?.response" full-width>
@@ -35,7 +29,6 @@ const { t } = useI18n()
 const toast = useToast()
 const client = useClient()
 const router = useRouter()
-const { signOut } = useAuth()
 
 const { data: rooms, refresh: refreshRooms } = client.room.list.useQuery()
 
@@ -51,16 +44,11 @@ async function handleJoinRoom(id: string) {
   if (data.value) router.push({ name: 'room-id', params: { id: data.value.id } })
   await refreshRooms()
 }
-
-async function handleSignout() {
-  const { error } = await signOut({ redirectTo: '/auth' })
-  if (error) toast.error(error)
-}
 </script>
 
 <style lang="scss" scoped>
 .index-page {
+  flex: 1;
   padding: 32px;
-  width: 100%;
 }
 </style>

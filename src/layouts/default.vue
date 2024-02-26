@@ -14,7 +14,7 @@
         <nuxt-loading-indicator class="px-loading-indicator" color="var(--px-color-page-loading-indicator)" :height="2" :throttle="0" />
         <pixel-locale-switch />
         <pixel-theme-switch />
-        <pixel-avatar v-if="state.data.value?.id" :seed="state.data.value?.id" size="small" />
+        <pixel-avatar v-if="state.data.value?.id" :seed="state.data.value?.id" size="small" @click="openProfile" />
       </header>
     </pixel-shadow>
     <main class="px-main">
@@ -26,7 +26,19 @@
 </template>
 
 <script setup lang="ts">
+const { locale } = useI18n()
 const { state } = useAuth()
+const router = useRouter()
+
+useHead({
+  htmlAttrs: {
+    lang: locale.value,
+  },
+})
+
+function openProfile() {
+  router.push({ name: 'profile' })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -36,9 +48,9 @@ const { state } = useAuth()
   width: 100vw;
   min-width: 100vw;
   max-width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-  max-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
   overflow: hidden;
 }
 .px-header {
