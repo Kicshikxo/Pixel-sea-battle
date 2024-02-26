@@ -16,9 +16,9 @@ const props = withDefaults(
   },
 )
 
-const beforeEnter = (element: HTMLElement) => (element.style.height = '0')
-const enter = (element: HTMLElement) => (element.style.height = `${element.scrollHeight}px`)
-const afterEnter = (element: HTMLElement) => (element.style.height = '')
+const beforeEnter = (element: Element) => ((element as HTMLElement).style.height = '0')
+const enter = (element: Element) => ((element as HTMLElement).style.height = `${element.scrollHeight}px`)
+const afterEnter = (element: Element) => ((element as HTMLElement).style.height = '')
 const beforeLeave = enter
 const leave = beforeEnter
 </script>
@@ -38,7 +38,9 @@ const leave = beforeEnter
   &-enter-active,
   &-leave-active {
     overflow: hidden;
-    transition: height var(--px-transition-time-expand), opacity var(--px-transition-time-expand);
+    transition:
+      height var(--px-transition-time-expand),
+      opacity var(--px-transition-time-expand);
   }
 
   &-enter-from {
