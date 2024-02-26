@@ -7,7 +7,7 @@ export default {
   usernamePlaceholder: 'Enter username',
   passwordLabel: 'Password',
   passwordPlaceholder: 'Enter password',
-  rememberMe: 'Remember me',
+  forgotPassword: 'Forgot password?',
   noAccount: 'No account?',
   alreadyHaveAccount: 'Already have an account?',
   signIn: 'Sign in',

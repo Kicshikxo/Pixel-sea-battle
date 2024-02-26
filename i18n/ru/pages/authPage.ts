@@ -7,7 +7,7 @@ export default {
   usernamePlaceholder: 'Имя пользователя',
   passwordLabel: 'Пароль',
   passwordPlaceholder: 'Введите пароль',
-  rememberMe: 'Запомнить меня',
+  forgotPassword: 'Забыли пароль?',
   noAccount: 'Нет аккаунта?',
   alreadyHaveAccount: 'Уже есть аккаунт?',
   signIn: 'Войти',

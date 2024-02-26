@@ -1,64 +1,66 @@
 <template>
   <div class="sign-in-page">
-    <pixel-form class="sign-in-page__form" :validation-schema="validationSchema" @submit="handleSubmit">
-      <pixel-transition-swipe-y>
-        <div class="sign-in-page__form-title" :key="action">{{ action === 'signIn' ? $t('authPage.signInTitle') : $t('authPage.signUpTitle') }}</div>
-      </pixel-transition-swipe-y>
+    <pixel-container>
+      <pixel-form class="sign-in-page__form" :validation-schema="validationSchema" @submit="handleSubmit">
+        <pixel-transition-swipe-y>
+          <div class="sign-in-page__form-title" :key="action">{{ action === 'signIn' ? $t('authPage.signInTitle') : $t('authPage.signUpTitle') }}</div>
+        </pixel-transition-swipe-y>
 
-      <pixel-transition-expand>
-        <div class="sign-in-page__form-content" :key="action">
-          <template v-if="action === 'signIn'">
-            <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
-              <template #prepend-icon>
-                <icon name="pixelarticons:mail" />
-              </template>
-            </pixel-form-text-input>
-            <pixel-form-text-input name="password" autocomplete="current-password" type="password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
-              <template #prepend-icon>
-                <icon name="pixelarticons:lock" />
-              </template>
-            </pixel-form-text-input>
+        <pixel-transition-expand-y>
+          <div class="sign-in-page__form-content" :key="action">
+            <template v-if="action === 'signIn'">
+              <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
+                <template #prepend-icon>
+                  <icon name="pixelarticons:mail" />
+                </template>
+              </pixel-form-text-input>
+              <pixel-form-text-input name="password" autocomplete="current-password" type="password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
+                <template #prepend-icon>
+                  <icon name="pixelarticons:lock" />
+                </template>
+              </pixel-form-text-input>
+            </template>
+            <template v-if="action === 'signUp'">
+              <pixel-form-text-input name="name" :label="$t('authPage.usernameLabel')" :placeholder="$t('authPage.usernamePlaceholder')">
+                <template #prepend-icon>
+                  <icon name="pixelarticons:user" />
+                </template>
+              </pixel-form-text-input>
+              <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
+                <template #prepend-icon>
+                  <icon name="pixelarticons:mail" />
+                </template>
+              </pixel-form-text-input>
+              <pixel-form-text-input name="password" type="password" autocomplete="new-password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
+                <template #prepend-icon>
+                  <icon name="pixelarticons:lock" />
+                </template>
+              </pixel-form-text-input>
+            </template>
+          </div>
+        </pixel-transition-expand-y>
+
+        <pixel-transition-swipe-y>
+          <div class="sign-in-page__options" :key="action">
+            <span v-if="action === 'signIn'" class="sign-in-page__options__forgot-password">{{ $t('authPage.forgotPassword') }}</span>
+            <span v-if="action === 'signIn'" class="sign-in-page__options__sign-in" @click="action = 'signUp'">{{ $t('authPage.noAccount') }}</span>
+            <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('authPage.alreadyHaveAccount') }}</span>
+          </div>
+        </pixel-transition-swipe-y>
+
+        <pixel-button type="submit" :label="action === 'signIn' ? $t('authPage.signIn') : $t('authPage.signUp')" :loading="loading" :disabled="googleLoading" full-width>
+          <template #append-icon>
+            <icon name="pixelarticons:login" />
           </template>
-          <template v-if="action === 'signUp'">
-            <pixel-form-text-input name="name" :label="$t('authPage.usernameLabel')" :placeholder="$t('authPage.usernamePlaceholder')">
-              <template #prepend-icon>
-                <icon name="pixelarticons:user" />
-              </template>
-            </pixel-form-text-input>
-            <pixel-form-text-input name="email" autocomplete="username" :label="$t('authPage.emailLabel')" :placeholder="$t('authPage.emailPlaceholder')">
-              <template #prepend-icon>
-                <icon name="pixelarticons:mail" />
-              </template>
-            </pixel-form-text-input>
-            <pixel-form-text-input name="password" type="password" autocomplete="new-password" :label="$t('authPage.passwordLabel')" :placeholder="$t('authPage.passwordPlaceholder')">
-              <template #prepend-icon>
-                <icon name="pixelarticons:lock" />
-              </template>
-            </pixel-form-text-input>
-          </template>
-        </div>
-      </pixel-transition-expand>
+        </pixel-button>
 
-      <pixel-transition-swipe-y>
-        <div class="sign-in-page__options" :key="action">
-          <pixel-checkbox v-if="action === 'signIn'" class="sign-in-page__options__remeber-me" v-model="rememberMe" :label="$t('authPage.rememberMe')" />
-          <span v-if="action === 'signIn'" class="sign-in-page__options__sign-in" @click="action = 'signUp'">{{ $t('authPage.noAccount') }}</span>
-          <span v-if="action === 'signUp'" class="sign-in-page__options__sign-up" @click="action = 'signIn'">{{ $t('authPage.alreadyHaveAccount') }}</span>
-        </div>
-      </pixel-transition-swipe-y>
+        <pixel-divider :text="$t('authPage.googleSignIn')" width="32" />
 
-      <pixel-button type="submit" :label="action === 'signIn' ? $t('authPage.signIn') : $t('authPage.signUp')" :loading="loading" :disabled="googleLoading" full-width>
-        <template #append-icon>
-          <icon name="pixelarticons:login" />
-        </template>
-      </pixel-button>
-
-      <pixel-divider :text="$t('authPage.googleSignIn')" width="32" />
-
-      <pixel-border class="sign-in-page__google-signin" full-width>
-        <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignIn" :locale="locale" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" :width="372" text="continue_with" />
-      </pixel-border>
-    </pixel-form>
+        <pixel-border class="sign-in-page__google-signin" full-width>
+          <GoogleSignInButton class="sign-in-page__google-signin-button" @success="handleGoogleSignIn" :locale="locale" :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'" :width="400" text="continue_with" />
+        </pixel-border>
+      </pixel-form>
+    </pixel-container>
   </div>
 </template>
 
@@ -78,7 +80,6 @@ const { signIn, signUp, googleSignIn } = useAuth()
 
 const action = ref<'signIn' | 'signUp'>(route.query.signIn !== undefined ? 'signIn' : route.query.signUp !== undefined ? 'signUp' : 'signIn')
 
-const rememberMe = ref(true)
 const loading = ref(false)
 const googleLoading = ref(false)
 
@@ -143,11 +144,11 @@ const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : 
 
 <style lang="scss" scoped>
 .sign-in-page {
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 1;
 
   &__form {
     width: 400px !important;
@@ -168,24 +169,28 @@ const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : 
     margin-bottom: 24px;
     width: 100%;
 
-    &__remember-me {
-      margin-right: auto;
-    }
-
+    &__forgot-password,
     &__sign-in,
     &__sign-up {
       cursor: pointer;
-      margin-left: auto;
       color: var(--px-color-blue);
-
       --px-color-text-shadow: var(--px-color-shadow-blue);
 
-      &:hover {
-        color: var(--px-color-blue-hover);
+      @media (hover: hover) {
+        &:hover {
+          color: var(--px-color-blue-hover);
+        }
       }
       &:active {
         color: var(--px-color-blue-active);
       }
+    }
+    &__forgot-password {
+      margin-right: auto;
+    }
+    &__sign-in,
+    &__sign-up {
+      margin-left: auto;
     }
   }
 
