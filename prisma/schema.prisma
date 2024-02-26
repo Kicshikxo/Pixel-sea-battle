@@ -8,9 +8,10 @@ datasource db {
 }
 
 model User {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @map("user_id") @db.Uuid
+  id   String   @id @default(dbgenerated("gen_random_uuid()")) @map("user_id") @db.Uuid
+  type UserType @default(DEFAULT)
 
-  email    String  @unique @map("email")
+  email    String? @unique @map("email")
   username String  @map("username")
   password String? @map("password") @db.Char(60)
 
@@ -25,6 +26,12 @@ model User {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("users")
+}
+
+enum UserType {
+  DEFAULT
+  GOOGLE
+  GUEST
 }
 
 model EmailConfirmation {
