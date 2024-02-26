@@ -20,7 +20,7 @@ const transporter = createTransport(
 export async function sendVerificationEmail(event: H3Event, email: string) {
   const user = await prisma.user.findUnique({ where: { email: email }, include: { emailConfirmation: true } })
 
-  if (!user) return
+  if (!user || !user.email) return
 
   try {
     if (user.emailConfirmation) {
@@ -29,7 +29,7 @@ export async function sendVerificationEmail(event: H3Event, email: string) {
     const emailConfirmation = await prisma.emailConfirmation.create({ data: { userId: user.id } })
 
     await transporter.sendMail({
-      to: user?.email,
+      to: user.email,
       subject: 'Подтвердите адрес электронной почты',
       html: renderConfirmEmailTemplate({ callback: `${getRequestURL(event).origin}/confirmEmail/${emailConfirmation.id}` }),
     })

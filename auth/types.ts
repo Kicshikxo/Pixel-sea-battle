@@ -29,6 +29,14 @@ export interface GoogleSignInResult {
   error: string | null
 }
 
+export interface GuestSingInOptions {
+  redirectTo?: string
+}
+export interface GuestSignInResult {
+  status: number
+  error: string | null
+}
+
 export interface SignOutOptions {
   redirectTo?: string
 }

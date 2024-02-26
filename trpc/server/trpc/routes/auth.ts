@@ -1,3 +1,4 @@
+import { UserType } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import bcrypt from 'bcryptjs'
 import crc32 from 'crc/crc32'
@@ -32,6 +33,7 @@ export const authRouter = trpcRouter({
 
       const user = await prisma.user.create({
         data: {
+          type: UserType.DEFAULT,
           email: input.email,
           password: bcrypt.hashSync(input.password, 8),
           username: input.username,
@@ -51,7 +53,7 @@ export const authRouter = trpcRouter({
         sameSite: true,
       })
 
-      sendVerificationEmail(ctx.event, user.email)
+      sendVerificationEmail(ctx.event, input.email)
     }),
   signIn: trpcPublicProcedure
     .input(
@@ -109,6 +111,7 @@ export const authRouter = trpcRouter({
           email: googleUser.email,
         },
         create: {
+          type: UserType.GOOGLE,
           email: googleUser.email,
           username: googleUser.name ?? googleUser.email,
           emailVerifiedAt: googleUser.email_verified ? new Date() : undefined,
@@ -129,6 +132,27 @@ export const authRouter = trpcRouter({
         sameSite: true,
       })
     }),
+  guestSignIn: trpcPublicProcedure.query(async ({ ctx }) => {
+    const user = await prisma.user.create({
+      data: {
+        type: UserType.GUEST,
+        username: `guest-${new Date().getTime()}`,
+      },
+    })
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        password: null,
+      } as AuthTokenData,
+      useRuntimeConfig().auth.jwtSecretKey,
+    )
+    setCookie(ctx.event, useRuntimeConfig().auth.cookieName, token, {
+      maxAge: 30 * 24 * 60 * 60,
+      httpOnly: true,
+      sameSite: true,
+    })
+  }),
   session: trpcAuthProcedure.query(async ({ ctx }) => {
     return {
       id: ctx.user.id,

@@ -1,4 +1,4 @@
-import type { GetSessionResult, GoogleSignInResult, GoogleSingInOptions, SessionData, SignInResult, SignOutOptions, SignOutResult, SignUpOptions, SignUpResult, SingInOptions } from '~/auth/types'
+import type { GetSessionResult, GoogleSignInResult, GoogleSingInOptions, GuestSignInResult, GuestSingInOptions, SessionData, SignInResult, SignOutOptions, SignOutResult, SignUpOptions, SignUpResult, SingInOptions } from '~/auth/types'
 
 const useAuthState = () => {
   const data = useState<SessionData | null>('session:data', () => null)
@@ -89,6 +89,24 @@ const googleSignIn = async (options: GoogleSingInOptions): Promise<GoogleSignInR
   }
 }
 
+const guestSignIn = async (options: GuestSingInOptions): Promise<GuestSignInResult> => {
+  const client = useClient()
+  const router = useRouter()
+
+  const { error } = await client.auth.guestSignIn.useQuery()
+
+  await getSession()
+
+  if (options.redirectTo && !error.value) {
+    router.push(options.redirectTo)
+  }
+
+  return {
+    status: error.value?.data?.httpStatus ?? 200,
+    error: error.value?.message ?? null,
+  }
+}
+
 const getSession = async (): Promise<GetSessionResult> => {
   const client = useClient()
   const { data: sessionData } = useAuthState()
@@ -112,6 +130,7 @@ export default () => {
     signIn,
     signOut,
     googleSignIn,
+    guestSignIn,
     getSession,
     state: {
       data,
