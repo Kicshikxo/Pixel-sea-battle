@@ -11,6 +11,14 @@
 <script setup lang="ts">
 import useSocketRoomStore from '~/store/socketRoom'
 
+function beforeUnloadHandler(event: BeforeUnloadEvent) {
+  event.preventDefault()
+
+  return true
+}
+onMounted(() => window.addEventListener('beforeunload', beforeUnloadHandler))
+onUnmounted(() => window.removeEventListener('beforeunload', beforeUnloadHandler))
+
 const route = useRoute('room-id')
 const router = useRouter()
 const client = useClient()
