@@ -3,5 +3,5 @@
   "trailingComma": "all",
   "semi": false,
   "tabWidth": 2,
-  "printWidth": 256
+  "printWidth": 100
 }
