@@ -75,6 +75,7 @@ export default defineNuxtConfig({
     ],
     '@pinia/nuxt',
     '@vee-validate/nuxt',
+    'nuxt-typed-router',
   ],
 
   build: {
