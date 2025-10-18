@@ -80,34 +80,34 @@
 }
 :root,
 .light-mode {
-  --px-color-white: #fff;
-  --px-color-black: #000;
+  --px-color-white: #ffffff;
+  --px-color-black: #0d1117;
 
-  --px-color-white-on-light-black-on-dark: #fff;
-  --px-color-black-on-light-white-on-dark: #000;
+  --px-color-white-on-light-black-on-dark: #ffffff;
+  --px-color-black-on-light-white-on-dark: #0d1117;
 
-  --px-color-dark: #ffd9ab;
-  --px-color-dark-hover: #ebc89d;
-  --px-color-dark-active: #e3bc98;
+  --px-color-dark: #e4e9f2;
+  --px-color-dark-hover: #d7deea;
+  --px-color-dark-active: #cbd5e1;
 
-  --px-color-light: #f8f9fa;
-  --px-color-light-hover: #e2e6ea;
-  --px-color-light-active: #dae0e5;
+  --px-color-light: #f5f8fc;
+  --px-color-light-hover: #ebf1f9;
+  --px-color-light-active: #e0e8f2;
 
-  --px-color-page-header: #ffd9ab;
-  --px-color-page-background: bisque;
-  --px-color-page-loading-indicator: var(--px-color-black);
+  --px-color-page-header: #e4ecf7;
+  --px-color-page-background: #f2f6fc;
+  --px-color-page-loading-indicator: var(--px-color-blue);
 }
 
 .dark-mode {
   --px-color-white-on-light-black-on-dark: #000;
   --px-color-black-on-light-white-on-dark: #fff;
 
-  --px-color-dark: #343a40;
-  --px-color-dark-hover: #23272b;
-  --px-color-dark-active: #1d2124;
+  --px-color-dark: #1e2630;
+  --px-color-dark-hover: #252f3a;
+  --px-color-dark-active: #2b3642;
 
-  --px-color-page-header: #343a40;
-  --px-color-page-background: #121212;
+  --px-color-page-header: #1b222a;
+  --px-color-page-background: #0f141a;
   --px-color-page-loading-indicator: var(--px-color-blue);
 }
