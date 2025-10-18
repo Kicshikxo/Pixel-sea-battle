@@ -2,7 +2,7 @@
   <transition
     name="px-transition-expand-swipe-y"
     :mode="mode"
-    :appear="appear"
+    v-bind="{ appear }"
     @beforeEnter="beforeEnter"
     @enter="enter"
     @afterEnter="afterEnter"

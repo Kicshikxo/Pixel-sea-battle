@@ -1,5 +1,5 @@
 <template>
-  <transition name="px-transition-fade" :mode="mode" :appear="appear">
+  <transition name="px-transition-fade" :mode="mode" v-bind="{ appear }">
     <slot :class="`px-transition-fade--${speed}`"><!----></slot>
   </transition>
 </template>

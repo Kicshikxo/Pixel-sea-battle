@@ -1,5 +1,5 @@
 <template>
-  <transition name="px-transition-swipe-y" :mode="mode" :appear="appear">
+  <transition name="px-transition-swipe-y" :mode="mode" v-bind="{ appear }">
     <slot :class="`px-transition-swipe-y--${speed}`"><!----></slot>
   </transition>
 </template>
