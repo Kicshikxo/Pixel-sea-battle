@@ -15,6 +15,18 @@ export default {
     en: 'Create room',
     ru: 'Создать комнату',
   },
+  creatingRoom: {
+    en: 'Creating room',
+    ru: 'Создание комнаты',
+  },
+  roomName: {
+    en: 'Room name',
+    ru: 'Название комнаты',
+  },
+  privateRoom: {
+    en: 'Private room',
+    ru: 'Приватная комната',
+  },
   join: {
     en: 'Join',
     ru: 'Подключиться',

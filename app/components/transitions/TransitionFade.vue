@@ -1,5 +1,5 @@
 <template>
-  <transition name="px-transition-fade" :mode="mode">
+  <transition name="px-transition-fade" :mode="mode" :appear="appear">
     <slot :class="`px-transition-fade--${speed}`"><!----></slot>
   </transition>
 </template>
@@ -9,10 +9,12 @@ const props = withDefaults(
   defineProps<{
     mode?: 'out-in' | 'in-out'
     speed?: 'fast' | 'normal' | 'slow'
+    appear?: boolean
   }>(),
   {
     mode: 'out-in',
     speed: 'normal',
+    appear: false,
   },
 )
 </script>

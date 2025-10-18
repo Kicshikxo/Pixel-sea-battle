@@ -8,5 +8,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (session.status.value === 'unauthenticated') await getSession()
   if (session.status.value === 'authenticated') return
 
-  return navigateTo(`/auth?redirectTo=${to.fullPath}`)
+  return navigateTo({
+    name: 'auth',
+    query: {
+      redirectTo: to.fullPath,
+    },
+  })
 })

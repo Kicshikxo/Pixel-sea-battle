@@ -1,5 +1,5 @@
 <template>
-  <transition name="px-transition-swipe-x" :mode="mode">
+  <transition name="px-transition-swipe-x" :mode="mode" :appear="appear">
     <slot :class="`px-transition-swipe-x--${speed}`"><!----></slot>
   </transition>
 </template>
@@ -9,10 +9,12 @@ const props = withDefaults(
   defineProps<{
     mode?: 'out-in' | 'in-out'
     speed?: 'fast' | 'normal' | 'slow'
+    appear?: boolean
   }>(),
   {
     mode: 'out-in',
     speed: 'normal',
+    appear: false,
   },
 )
 </script>
@@ -31,7 +33,8 @@ const props = withDefaults(
 
   &-enter-active,
   &-leave-active {
-    transition: transform var(--px-transition-time-swipe-x) cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    transition:
+      transform var(--px-transition-time-swipe-x) cubic-bezier(0.175, 0.885, 0.32, 1.275),
       opacity var(--px-transition-time-swipe-x) cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 

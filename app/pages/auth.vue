@@ -150,8 +150,8 @@ const action = ref<'signIn' | 'signUp'>(
   route.query.signIn !== undefined
     ? 'signIn'
     : route.query.signUp !== undefined
-    ? 'signUp'
-    : 'signIn',
+      ? 'signUp'
+      : 'signIn',
 )
 
 const loading = ref(false)
@@ -235,7 +235,13 @@ async function handleSignUp(values: z.infer<typeof signUpValidationSchema.value>
   loading.value = false
 }
 
-const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : handleSignUp))
+async function handleSubmit(values: Record<string, any>) {
+  if (action.value === 'signIn') {
+    await handleSignIn(values as z.infer<typeof signInValidationSchema.value>)
+  } else {
+    await handleSignUp(values as z.infer<typeof signUpValidationSchema.value>)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -247,7 +253,7 @@ const handleSubmit = computed(() => (action.value === 'signIn' ? handleSignIn : 
   align-items: center;
 
   &__form {
-    width: 400px !important;
+    width: 400px;
 
     &-title {
       font-size: 20px;

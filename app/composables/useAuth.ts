@@ -1,6 +1,5 @@
 import type { TRPCClientError } from '@trpc/client'
 import { useState } from 'nuxt/app'
-import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import useTRPC from '~/composables/useTRPC'
 import type { AuthRouter } from '~~/server/trpc/routers/auth'

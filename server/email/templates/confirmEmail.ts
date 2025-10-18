@@ -61,7 +61,7 @@ export const template = /*html*/ `
 
                     <tr>
                       <td align="center" style="padding: 10px 25px; padding-bottom: 20px; word-break: break-word">
-                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 22px; text-align: center; color: #555">Пожалуйста, подтвердите свой адрес электронной почты, чтобы начать пользоваться аккаунтом</div>
+                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 22px; text-align: center; color: #555">Пожалуйста, подтвердите свой адрес электронной почты, чтобы продолжить пользоваться аккаунтом</div>
                       </td>
                     </tr>
 

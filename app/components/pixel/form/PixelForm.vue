@@ -15,7 +15,7 @@ import { z } from 'zod'
 
 const props = withDefaults(
   defineProps<{
-    validationSchema?: z.ZodSchema
+    validationSchema?: T
     fullWidth?: boolean
   }>(),
   {
@@ -36,7 +36,7 @@ function handleSubmit(values: z.infer<T>) {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 
   &--full-width {
     width: 100%;

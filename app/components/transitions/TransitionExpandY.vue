@@ -2,6 +2,7 @@
   <transition
     name="px-transition-expand"
     :mode="mode"
+    :appear="appear"
     @beforeEnter="beforeEnter"
     @enter="enter"
     @afterEnter="afterEnter"
@@ -17,10 +18,12 @@ const props = withDefaults(
   defineProps<{
     mode?: 'out-in' | 'in-out'
     speed?: 'fast' | 'normal' | 'slow'
+    appear?: boolean
   }>(),
   {
     mode: 'out-in',
     speed: 'normal',
+    appear: false,
   },
 )
 
@@ -47,7 +50,9 @@ const leave = beforeEnter
   &-enter-active,
   &-leave-active {
     overflow: hidden;
-    transition: height var(--px-transition-time-expand), opacity var(--px-transition-time-expand);
+    transition:
+      height var(--px-transition-time-expand),
+      opacity var(--px-transition-time-expand);
   }
 
   &-enter-from {

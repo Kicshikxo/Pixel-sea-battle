@@ -1,4 +1,3 @@
-// locales/validation.ts
 import type { Locales } from '~~/types/i18n'
 
 export default {

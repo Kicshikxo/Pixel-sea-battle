@@ -45,6 +45,7 @@ const props = withDefaults(
   inherits: false;
   initial-value: 0deg;
 }
+
 .px-border {
   display: inline-flex;
   background: var(--px-color-border);

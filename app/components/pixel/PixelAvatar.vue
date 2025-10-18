@@ -11,16 +11,18 @@ import { styles } from '~/utils/getAvatar'
 const props = withDefaults(
   defineProps<{
     seed: string
-    type?: keyof typeof styles
+    style?: keyof typeof styles
     size?: 'small' | 'medium' | 'large'
+    scale?: number
   }>(),
   {
-    type: 'pixelArt',
+    style: 'identicon',
     size: 'medium',
+    scale: 50,
   },
 )
 
-const svg = computed(() => getAvatar(props.seed, props.type).svg)
+const svg = computed(() => getAvatar(props.seed, props.style, props.scale).svg)
 </script>
 
 <style lang="scss" scoped>

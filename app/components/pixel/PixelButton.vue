@@ -14,6 +14,7 @@
         {
           'px-button--loading': loading,
           'px-button--disabled': disabled,
+          'px-button--icon-only': iconOnly,
           'px-button--full-width': fullWidth,
           'px-button--small': small,
           'px-button--large': large,
@@ -28,17 +29,24 @@
           <PixelLoader class="px-button__icon" />
         </span>
         <span v-else class="px-button__content">
-          <span class="px-button__icon">
-            <slot name="prepend-icon" />
-          </span>
-          <span>
-            <slot>
-              {{ label }}
-            </slot>
-          </span>
-          <span class="px-button__icon">
-            <slot name="append-icon" />
-          </span>
+          <template v-if="iconOnly">
+            <span class="px-button__icon">
+              <slot name="icon" />
+            </span>
+          </template>
+          <template v-else>
+            <span class="px-button__icon">
+              <slot name="prepend-icon" />
+            </span>
+            <span>
+              <slot>
+                {{ label }}
+              </slot>
+            </span>
+            <span class="px-button__icon">
+              <slot name="append-icon" />
+            </span>
+          </template>
         </span>
       </TransitionSwipeY>
     </component>
@@ -64,6 +72,7 @@ const props = withDefaults(
     rainbow?: boolean
     loading?: boolean
     disabled?: boolean
+    iconOnly?: boolean
     fullWidth?: boolean
   }>(),
   {
@@ -77,6 +86,7 @@ const props = withDefaults(
     rainbow: false,
     loading: false,
     disabled: false,
+    iconOnly: false,
     fullWidth: false,
   },
 )
@@ -90,21 +100,6 @@ const props = withDefaults(
   background: #3b3b3b;
   text-transform: uppercase;
   transition: filter 0.125s;
-
-  &--link {
-    cursor: pointer;
-    color: var(--px-color-blue);
-    --px-color-text-shadow: var(--px-color-shadow-blue);
-
-    @media (hover: hover) {
-      &:hover {
-        color: var(--px-color-blue-hover);
-      }
-    }
-    &:active {
-      color: var(--px-color-blue-active);
-    }
-  }
 
   &__content {
     display: flex;
@@ -121,6 +116,11 @@ const props = withDefaults(
     filter: contrast(50%);
   }
 
+  &--icon-only {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+  }
+
   &--full-width {
     width: 100%;
   }
@@ -133,9 +133,25 @@ const props = withDefaults(
     font-size: 20px;
   }
 
+  &--link {
+    cursor: pointer;
+    color: var(--px-color-blue);
+    --px-color-text-shadow: var(--px-color-shadow-blue);
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--px-color-blue-hover);
+      }
+    }
+    &:active {
+      color: var(--px-color-blue-active);
+    }
+  }
+
   &--dark {
     background: var(--px-color-dark);
-    color: var(--px-color-white);
+    color: var(--px-color-white-on-dark-black-on-light);
+
     &:not(:disabled) {
       @media (hover: hover) {
         &:hover {

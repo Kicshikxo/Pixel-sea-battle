@@ -72,12 +72,17 @@ onMounted(() => {
 
 async function handleConfirmEmail() {
   loading.value = true
-  const { error } = await trpc.email.confirm.useQuery({
-    emailConfirmationId: route.params.id as string,
-  })
-  if (error.value) toast.error(t(error.value.message))
-  if (!error.value) confirmed.value = true
-  loading.value = false
+  try {
+    await trpc.email.confirm.query({
+      emailConfirmationId: route.params.id as string,
+    })
+
+    confirmed.value = true
+  } catch (error: any) {
+    toast.error(t(error.message))
+  } finally {
+    loading.value = false
+  }
 }
 
 async function handleOpenAccount() {
