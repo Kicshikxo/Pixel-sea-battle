@@ -1,6 +1,6 @@
 <template>
-  <teleport to="body">
-    <ClientOnly>
+  <ClientOnly>
+    <teleport to="body">
       <TransitionFade>
         <div v-if="show" class="px-modal__overlay" @click.self="handleClose">
           <TransitionSwipeY appear>
@@ -22,8 +22,8 @@
           </TransitionSwipeY>
         </div>
       </TransitionFade>
-    </ClientOnly>
-  </teleport>
+    </teleport>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>

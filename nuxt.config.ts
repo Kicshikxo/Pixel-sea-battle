@@ -63,6 +63,7 @@ export default defineNuxtConfig({
     [
       '@nuxt/icon',
       {
+        mode: 'svg',
         size: '24px',
         class: 'px-icon',
       },

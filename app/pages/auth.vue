@@ -257,7 +257,7 @@ async function handleSubmit(values: Record<string, any>) {
 
     &-title {
       font-size: 20px;
-      margin: 16px;
+      margin-bottom: 16px;
     }
 
     &-content {
