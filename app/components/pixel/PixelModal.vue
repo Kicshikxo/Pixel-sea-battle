@@ -8,7 +8,7 @@
               <PixelContainer full-width>
                 <div class="px-modal__header">
                   <span class="px-modal__header__title">{{ title }}</span>
-                  <PixelButton color="dark" icon-only @click="handleClose">
+                  <PixelButton color="dark" small icon-only @click="handleClose">
                     <template #icon>
                       <icon name="pixelarticons:close" />
                     </template>
@@ -46,19 +46,20 @@ function handleClose() {
 </script>
 
 <style lang="scss">
-.px-modal__overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
 .px-modal {
   min-width: 300px;
   max-width: 90vw;
   max-height: 90vh;
+
+  &__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
 
   &__header {
     display: flex;

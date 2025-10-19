@@ -6,6 +6,7 @@
 
 <script setup lang="ts">
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
+
 import { styles } from '~/utils/getAvatar'
 
 const props = withDefaults(

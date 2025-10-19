@@ -22,7 +22,11 @@
       </PixelButton>
     </PixelContainer>
     <PixelModal v-model:show="showCreateRoom" :title="$t('page.index.creatingRoom')">
-      <PixelForm :validation-schema="createRoomValidationSchema" @submit="handleCreateRoom">
+      <PixelForm
+        ref="createRoomForm"
+        :validation-schema="createRoomValidationSchema"
+        @submit="handleCreateRoom"
+      >
         <PixelFormTextInput
           name="name"
           :label="$t('page.index.roomName')"
@@ -32,7 +36,8 @@
             <icon name="pixelarticons:card-text" />
           </template>
         </PixelFormTextInput>
-        <PixelCheckbox name="private" :label="$t('page.index.privateRoom')" />
+
+        <PixelFormCheckbox name="private" :label="$t('page.index.privateRoom')" />
 
         <PixelButton
           type="submit"
@@ -51,13 +56,15 @@
 
 <script setup lang="ts">
 import PixelForm from '~/components/pixel/form/PixelForm.vue'
+import PixelFormCheckbox from '~/components/pixel/form/PixelFormCheckbox.vue'
 import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelAvatar from '~/components/pixel/PixelAvatar.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
-import PixelCheckbox from '~/components/pixel/PixelCheckbox.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
 
+import { RoomType } from '@prisma/client'
+import type { FormContext } from 'vee-validate'
 import { z } from 'zod'
 
 const { t } = useI18n()
@@ -65,10 +72,11 @@ const toast = useToast()
 const trpc = useTRPC()
 const router = useRouter()
 
+const createRoomForm = ref<FormContext>()
 const showCreateRoom = ref(false)
 const createRoomLoading = ref(false)
 
-const { data: rooms, refresh: refreshRooms } = trpc.room.list.useQuery()
+const { data: rooms, refresh: refreshRooms } = trpc.room.listPublic.useQuery()
 
 const createRoomValidationSchema = computed(() =>
   z.object({
@@ -80,12 +88,11 @@ const createRoomValidationSchema = computed(() =>
 async function handleCreateRoom(values: z.infer<typeof createRoomValidationSchema.value>) {
   createRoomLoading.value = true
   try {
-    console.log(values)
-    const room = await trpc.room.create.query()
+    const room = await trpc.room.create.query({
+      type: values.private ? RoomType.PRIVATE : RoomType.PUBLIC,
+    })
     await trpc.room.join.query({ id: room.id })
     router.push({ name: 'room-id', params: { id: room.id } })
-
-    // await refreshRooms()
   } catch (error: any) {
     toast.error(t(error.message))
   } finally {

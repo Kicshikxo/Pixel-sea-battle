@@ -16,7 +16,7 @@ export const roomRouter = trpcRouter({
       return await prisma.room.findUnique({ where: { id: input.id }, include: { messages: true } })
     }),
 
-  list: trpcAuthProcedure.query(async () => {
+  listPublic: trpcAuthProcedure.query(async () => {
     return {
       response: await prisma.room.findMany({
         where: { type: RoomType.PUBLIC },

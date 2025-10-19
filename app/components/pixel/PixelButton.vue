@@ -55,6 +55,7 @@
 
 <script setup lang="ts">
 import { NuxtLink } from '#components'
+
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
 import PixelLoader from '~/components/pixel/PixelLoader.vue'
 import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
@@ -127,10 +128,12 @@ const props = withDefaults(
 
   &--small {
     font-size: 12px;
+    height: 32px;
   }
 
   &--large {
     font-size: 20px;
+    height: 48px;
   }
 
   &--link {

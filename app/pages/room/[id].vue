@@ -4,10 +4,12 @@
       <PixelTextInput v-model="messageText" :label="$t('page.room.message')" />
       <PixelButton :label="$t('page.room.sendMessage')" @click="handleSendMessage" />
     </PixelContainer>
-    <PixelContainer v-for="message in socketRoomStore.messages" full-width>
-      ({{ new Date(message.createdAt).toLocaleString() }})
-      <PixelAvatar :seed="message.userId" size="small" /> {{ message.text }}
-    </PixelContainer>
+    <ClientOnly>
+      <PixelContainer v-for="message in socketRoomStore.messages" full-width>
+        ({{ new Date(message.createdAt).toLocaleString() }})
+        <PixelAvatar :seed="message.userId" size="small" /> {{ message.text }}
+      </PixelContainer>
+    </ClientOnly>
   </div>
 </template>
 

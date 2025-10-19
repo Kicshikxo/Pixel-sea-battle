@@ -10,28 +10,40 @@
       </PixelBorder>
     </label>
     <input
+      :name="name"
       class="px-checkbox__input"
       :id="id"
       type="checkbox"
-      v-model="checked"
       :disabled="disabled"
+      :value="modelValue"
+      @input="handleInput"
     />
     <label v-if="label" :for="id" class="px-checkbox__label">{{ label }}</label>
+  </div>
+  <div class="px-checkbox__info">
+    <TransitionSwipeY>
+      <span v-if="error" class="px-checkbox__info__error">{{ error }}</span>
+    </TransitionSwipeY>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useId } from 'vue'
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
 import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
 
 const props = withDefaults(
   defineProps<{
+    name?: string
+    modelValue?: boolean
     label?: string
+    error?: string
     disabled?: boolean
   }>(),
   {
+    name: undefined,
+    modelValue: false,
     label: '',
+    error: '',
     disabled: false,
   },
 )
@@ -39,11 +51,13 @@ const emits = defineEmits<{
   'update:modelValue': [value: boolean]
 }>()
 
-const checked = defineModel<boolean>()
-
 const id = ref(`px-checkbox-${useId()}`)
 
-const iconName = computed(() => (checked.value ? 'pixelarticons:check' : 'pixelarticons:close'))
+const iconName = computed(() => (props.modelValue ? 'pixelarticons:check' : 'pixelarticons:close'))
+
+function handleInput(event: Event) {
+  emits('update:modelValue', ((event as InputEvent).target as HTMLInputElement).checked ?? false)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -70,6 +84,19 @@ const iconName = computed(() => (checked.value ? 'pixelarticons:check' : 'pixela
 
   &__label {
     display: inline-flex;
+  }
+
+  &__info {
+    display: flex;
+    align-items: flex-start;
+    height: 24px;
+    overflow: hidden;
+
+    &__error {
+      margin-right: auto;
+      font-size: 12px;
+      color: var(--px-color-red);
+    }
   }
 }
 </style>

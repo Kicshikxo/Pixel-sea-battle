@@ -2,9 +2,10 @@
   <Form
     :class="['px-form', { 'px-form--full-width': fullWidth }]"
     :validation-schema="toTypedSchema(validationSchema ?? z.object({}))"
+    v-slot="formContext"
     @submit="handleSubmit"
   >
-    <slot />
+    <slot :form-context="formContext" />
   </Form>
 </template>
 
