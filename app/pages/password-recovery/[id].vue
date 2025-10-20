@@ -2,56 +2,60 @@
   <div class="password-recovery-page">
     <PixelContainer>
       <div class="password-recovery-page__container">
-        <PixelForm
-          v-if="changed === false"
-          :validation-schema="passwordRecoverySchema"
-          @submit="handleChangePassword"
-        >
-          <template v-if="Boolean(userError) === false">
-            <input type="text" name="username" autocomplete="username" style="display: none" />
+        <TransitionExpandY>
+          <PixelForm
+            v-if="changed === false"
+            :validation-schema="passwordRecoverySchema"
+            @submit="handleChangePassword"
+          >
+            <template v-if="Boolean(userError) === false">
+              <input type="text" name="username" autocomplete="username" style="display: none" />
 
-            <PixelFormTextInput
-              name="password"
-              type="password"
-              autocomplete="new-password"
-              :label="$t('page.passwordRecovery.newPasswordForAccount', { email: userInfo?.email })"
-              :placeholder="$t('page.passwordRecovery.newPassword')"
-              full-width
-            >
-              <template #prepend-icon>
-                <icon name="pixelarticons:lock" />
-              </template>
-            </PixelFormTextInput>
-            <PixelButton
-              type="submit"
-              :label="$t('page.passwordRecovery.changePassword')"
-              :loading="loading"
-              full-width
-            />
-          </template>
+              <PixelFormTextInput
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                :label="
+                  $t('page.passwordRecovery.newPasswordForAccount', { email: userInfo?.email })
+                "
+                :placeholder="$t('page.passwordRecovery.newPassword')"
+                full-width
+              >
+                <template #prepend-icon>
+                  <icon name="pixelarticons:lock" />
+                </template>
+              </PixelFormTextInput>
+              <PixelButton
+                type="submit"
+                :label="$t('page.passwordRecovery.changePassword')"
+                :loading="loading"
+                full-width
+              />
+            </template>
 
+            <div v-else class="password-recovery-page__column">
+              <span>
+                {{ $t('page.passwordRecovery.unableToChangePassword') }}
+              </span>
+
+              <PixelButton
+                :label="$t('page.passwordRecovery.openAuthPage')"
+                @click="router.push({ name: 'auth' })"
+                full-width
+              />
+            </div>
+          </PixelForm>
           <div v-else class="password-recovery-page__column">
-            <span>
-              {{ $t('page.passwordRecovery.unableToChangePassword') }}
-            </span>
+            <span> {{ $t('page.passwordRecovery.passwordSuccessfullyChanged') }} </span>
 
             <PixelButton
               :label="$t('page.passwordRecovery.openAuthPage')"
-              @click="router.push({ name: 'auth' })"
+              :loading="loading"
               full-width
+              @click="handleOpenAuthPage"
             />
           </div>
-        </PixelForm>
-        <div v-else class="password-recovery-page__column">
-          <span> {{ $t('page.passwordRecovery.passwordSuccessfullyChanged') }} </span>
-
-          <PixelButton
-            :label="$t('page.passwordRecovery.openAuthPage')"
-            :loading="loading"
-            full-width
-            @click="handleOpenAuthPage"
-          />
-        </div>
+        </TransitionExpandY>
       </div>
     </PixelContainer>
   </div>
@@ -62,6 +66,7 @@ import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
+import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
 
 import { z } from 'zod'
 

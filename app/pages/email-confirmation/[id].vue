@@ -2,47 +2,49 @@
   <div class="email-confirmation-page">
     <PixelContainer>
       <div class="email-confirmation-page__container">
-        <PixelForm v-if="confirmed === false" @submit="handleConfirmEmail">
-          <div v-if="Boolean(userError) === false" class="email-confirmation-page__column">
-            <span style="width: 100%">
-              {{ $t('page.emailConfirmation.emailForConfirmation') }}:
-              <PixelBorder full-width>
-                <span class="email-confirmation-page__email">{{ userInfo?.email }}</span>
-              </PixelBorder>
-            </span>
+        <TransitionExpandY>
+          <PixelForm v-if="confirmed === false" @submit="handleConfirmEmail">
+            <div v-if="Boolean(userError) === false" class="email-confirmation-page__column">
+              <span style="width: 100%">
+                {{ $t('page.emailConfirmation.emailForConfirmation') }}:
+                <PixelBorder full-width>
+                  <span class="email-confirmation-page__email">{{ userInfo?.email }}</span>
+                </PixelBorder>
+              </span>
 
-            <PixelButton
-              type="submit"
-              :label="$t('page.emailConfirmation.confirmEmail')"
-              :loading="loading"
-              :disabled="Boolean(userError)"
-              full-width
-            />
-          </div>
+              <PixelButton
+                type="submit"
+                :label="$t('page.emailConfirmation.confirmEmail')"
+                :loading="loading"
+                :disabled="Boolean(userError)"
+                full-width
+              />
+            </div>
 
+            <div v-else class="email-confirmation-page__column">
+              <span>
+                {{ $t('page.emailConfirmation.unableToConfirmEmail') }}
+              </span>
+
+              <PixelButton
+                :label="$t('page.emailConfirmation.openIndexPage')"
+                :loading="loading"
+                @click="handleOpenIndexPage"
+                full-width
+              />
+            </div>
+          </PixelForm>
           <div v-else class="email-confirmation-page__column">
-            <span>
-              {{ $t('page.emailConfirmation.unableToConfirmEmail') }}
-            </span>
+            <span> {{ $t('page.emailConfirmation.emailConfirmed') }} </span>
 
             <PixelButton
               :label="$t('page.emailConfirmation.openIndexPage')"
               :loading="loading"
-              @click="handleOpenIndexPage"
               full-width
+              @click="handleOpenIndexPage"
             />
           </div>
-        </PixelForm>
-        <div v-else class="email-confirmation-page__column">
-          <span> {{ $t('page.emailConfirmation.emailConfirmed') }} </span>
-
-          <PixelButton
-            :label="$t('page.emailConfirmation.openIndexPage')"
-            :loading="loading"
-            full-width
-            @click="handleOpenIndexPage"
-          />
-        </div>
+        </TransitionExpandY>
       </div>
     </PixelContainer>
   </div>
@@ -53,6 +55,7 @@ import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
+import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
 
 definePageMeta({
   auth: false,

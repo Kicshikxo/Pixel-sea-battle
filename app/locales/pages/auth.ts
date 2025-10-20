@@ -57,4 +57,8 @@ export default {
     en: 'or via Google',
     ru: 'или через Google',
   },
+  guestSignIn: {
+    en: 'Sign in as guest',
+    ru: 'Войти как гость',
+  },
 } satisfies Locales

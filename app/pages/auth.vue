@@ -17,6 +17,7 @@
             <template v-if="action === 'signIn'">
               <PixelFormTextInput
                 name="email"
+                type="email"
                 autocomplete="username"
                 :label="$t('page.auth.emailLabel')"
                 :placeholder="$t('page.auth.emailPlaceholder')"
@@ -49,6 +50,7 @@
               </PixelFormTextInput>
               <PixelFormTextInput
                 name="email"
+                type="email"
                 autocomplete="username"
                 :label="$t('page.auth.emailLabel')"
                 :placeholder="$t('page.auth.emailPlaceholder')"
@@ -80,6 +82,13 @@
               @click="handlePasswordRecovery"
             >
               {{ $t('page.auth.forgotPassword') }}
+            </span>
+            <span
+              v-if="action === 'signUp'"
+              class="sign-in-page__options__guest-sign-in"
+              @click="handleGuestSignIn"
+            >
+              {{ $t('page.auth.guestSignIn') }}
             </span>
             <span
               v-if="action === 'signIn'"
@@ -148,7 +157,7 @@ const toast = useToast()
 const route = useRoute('auth')
 const router = useRouter()
 const { t, locale } = useI18n()
-const { signIn, signUp, googleSignIn } = useAuth()
+const { signIn, signUp, googleSignIn, guestSignIn } = useAuth()
 
 const action = ref<'signIn' | 'signUp'>(
   route.query.signIn !== undefined
@@ -217,6 +226,14 @@ async function handleGoogleSignIn(response: CredentialResponse) {
   if (error) toast.error(t(error))
   googleLoading.value = false
 }
+async function handleGuestSignIn() {
+  loading.value = true
+  const { error } = await guestSignIn({
+    redirectTo: (route.query.redirectTo as string) ?? '/',
+  })
+  if (error) toast.error(t(error))
+  loading.value = false
+}
 async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>) {
   loading.value = true
   const { error } = await signIn({
@@ -238,6 +255,9 @@ async function handleSignUp(values: z.infer<typeof signUpValidationSchema.value>
   if (error) toast.error(t(error))
   loading.value = false
 }
+function handlePasswordRecovery() {
+  router.push({ name: 'password-recovery' })
+}
 
 async function handleSubmit(values: Record<string, any>) {
   if (action.value === 'signIn') {
@@ -245,10 +265,6 @@ async function handleSubmit(values: Record<string, any>) {
   } else {
     await handleSignUp(values as z.infer<typeof signUpValidationSchema.value>)
   }
-}
-
-function handlePasswordRecovery() {
-  router.push({ name: 'password-recovery' })
 }
 </script>
 
@@ -280,6 +296,7 @@ function handlePasswordRecovery() {
     width: 100%;
 
     &__forgot-password,
+    &__guest-sign-in,
     &__sign-in,
     &__sign-up {
       cursor: pointer;
@@ -295,7 +312,8 @@ function handlePasswordRecovery() {
         color: var(--px-color-blue-active);
       }
     }
-    &__forgot-password {
+    &__forgot-password,
+    &__guest-sign-in {
       margin-right: auto;
     }
     &__sign-in,

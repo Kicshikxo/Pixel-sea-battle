@@ -2,39 +2,42 @@
   <div class="password-recovery-page">
     <PixelContainer>
       <div class="password-recovery-page__container">
-        <PixelForm
-          v-if="sended === false"
-          :validation-schema="passwordRecoverySchema"
-          @submit="handleChangePassword"
-        >
-          <PixelFormTextInput
-            name="email"
-            autocomplete="username"
-            :label="$t('page.passwordRecovery.accountEmail')"
-            :placeholder="$t('page.passwordRecovery.accountEmail')"
-            full-width
+        <TransitionExpandY>
+          <PixelForm
+            v-if="sended === false"
+            :validation-schema="passwordRecoverySchema"
+            @submit="handleChangePassword"
           >
-            <template #prepend-icon>
-              <icon name="pixelarticons:mail" />
-            </template>
-          </PixelFormTextInput>
-          <PixelButton
-            type="submit"
-            :label="$t('page.passwordRecovery.sendPasswordRecovery')"
-            :loading="loading"
-            full-width
-          />
-        </PixelForm>
-        <div v-else class="password-recovery-page__column">
-          <span> {{ $t('page.passwordRecovery.passwordRecoverySucessfullySended') }} </span>
+            <PixelFormTextInput
+              name="email"
+              type="email"
+              autocomplete="username"
+              :label="$t('page.passwordRecovery.accountEmail')"
+              :placeholder="$t('page.passwordRecovery.accountEmail')"
+              full-width
+            >
+              <template #prepend-icon>
+                <icon name="pixelarticons:mail" />
+              </template>
+            </PixelFormTextInput>
+            <PixelButton
+              type="submit"
+              :label="$t('page.passwordRecovery.sendPasswordRecovery')"
+              :loading="loading"
+              full-width
+            />
+          </PixelForm>
+          <div v-else class="password-recovery-page__column">
+            <span> {{ $t('page.passwordRecovery.passwordRecoverySucessfullySended') }} </span>
 
-          <PixelButton
-            :label="$t('page.passwordRecovery.openAuthPage')"
-            :loading="loading"
-            full-width
-            @click="handleOpenAuthPage"
-          />
-        </div>
+            <PixelButton
+              :label="$t('page.passwordRecovery.openAuthPage')"
+              :loading="loading"
+              full-width
+              @click="handleOpenAuthPage"
+            />
+          </div>
+        </TransitionExpandY>
       </div>
     </PixelContainer>
   </div>
@@ -45,6 +48,7 @@ import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
+import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
 
 import { z } from 'zod'
 
@@ -54,7 +58,6 @@ definePageMeta({
 
 const { t } = useI18n()
 const toast = useToast()
-const route = useRoute('password-recovery-id')
 const router = useRouter()
 const trpc = useTRPC()
 

@@ -167,7 +167,7 @@ function handleClear() {
     &:-webkit-autofill:focus::first-line,
     &:-webkit-autofill:active::first-line {
       font-family: 'Minecraft' !important;
-      font-size: 20px !important;
+      font-size: 16px !important;
     }
   }
 
