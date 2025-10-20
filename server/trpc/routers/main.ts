@@ -1,11 +1,14 @@
 import { trpcRouter } from '~~/server/trpc'
 import { authRouter } from '~~/server/trpc/routers/auth'
-import { emailRouter } from '~~/server/trpc/routers/email'
+import { emailConfirmationRouter } from '~~/server/trpc/routers/emailConfirmation'
+import { passwordRecoveryRouter } from '~~/server/trpc/routers/passwordRecovery'
+
 import { roomRouter } from '~~/server/trpc/routers/room'
 
 export const mainRouter = trpcRouter({
   auth: authRouter,
-  email: emailRouter,
+  emailConfirmation: emailConfirmationRouter,
+  passwordRecovery: passwordRecoveryRouter,
   room: roomRouter,
 })
 

@@ -1,5 +1,11 @@
 <template>
-  <div :class="['px-shadow', `px-shadow--${color}`, { 'px-shadow--full-width': fullWidth }]">
+  <div
+    :class="[
+      'px-shadow',
+      `px-shadow--${color}`,
+      { 'px-shadow--full-width': fullWidth, 'px-shadow--full-height': fullHeight },
+    ]"
+  >
     <slot />
   </div>
 </template>
@@ -9,10 +15,12 @@ const props = withDefaults(
   defineProps<{
     color?: 'dark' | 'light' | 'red' | 'yellow' | 'green' | 'blue'
     fullWidth?: boolean
+    fullHeight?: boolean
   }>(),
   {
     color: 'dark',
     fullWidth: false,
+    fullHeight: false,
   },
 )
 </script>
@@ -26,6 +34,9 @@ const props = withDefaults(
 
   &--full-width {
     width: 100%;
+  }
+  &--full-height {
+    height: 100%;
   }
 
   &--dark {

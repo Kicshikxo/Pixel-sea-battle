@@ -6,8 +6,8 @@
           <NuxtLink v-if="session.status.value === 'authenticated'" to="/" class="px-header__logo">
             <img class="px-header__logo-img px-icon" src="/logo.svg" />
             <div class="px-header__logo-text">
-              <span>{{ $t('page.index.title.top') }}</span>
-              <span>{{ $t('page.index.title.bottom') }}</span>
+              <span>{{ $t('page.index.title.topPart') }}</span>
+              <span>{{ $t('page.index.title.bottomPart') }}</span>
             </div>
           </NuxtLink>
         </TransitionFade>
@@ -42,15 +42,22 @@ import PixelShadow from '~/components/pixel/PixelShadow.vue'
 import PixelThemeSwitch from '~/components/pixel/PixelThemeSwitch.vue'
 import TransitionFade from '~/components/transitions/TransitionFade.vue'
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 const { session } = useAuth()
 const router = useRouter()
 
-useHead({
-  htmlAttrs: {
-    lang: locale.value,
+watch(
+  () => locale.value,
+  () => {
+    useHead({
+      htmlAttrs: {
+        lang: locale.value,
+      },
+      title: t('page.index.title.full'),
+    })
   },
-})
+  { immediate: true },
+)
 
 function openProfile() {
   router.push({ name: 'profile' })

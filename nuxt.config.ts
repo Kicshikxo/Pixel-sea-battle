@@ -7,7 +7,6 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Пиксельный морской бой',
       meta: [
         {
           name: 'description',

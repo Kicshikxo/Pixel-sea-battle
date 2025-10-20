@@ -1,7 +1,10 @@
 <template>
   <div
-    :class="['px-chamfer', { 'px-chamfer--full-width': fullWidth }]"
-    :style="{ '--px-chamfer-level': `${level}px` }"
+    :class="[
+      'px-chamfer',
+      { 'px-chamfer--full-width': fullWidth, 'px-chamfer--full-height': fullHeight },
+    ]"
+    :style="{ '--px-chamfer-depth': `${depth}px` }"
   >
     <slot />
   </div>
@@ -10,12 +13,14 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    level?: string | number
+    depth?: string | number
     fullWidth?: boolean
+    fullHeight?: boolean
   }>(),
   {
-    level: 4,
+    depth: 4,
     fullWidth: false,
+    fullHeight: false,
   },
 )
 </script>
@@ -25,22 +30,25 @@ const props = withDefaults(
   display: inline-flex;
   height: min-content;
   clip-path: polygon(
-    var(--px-chamfer-level) 0%,
-    calc(100% - var(--px-chamfer-level)) 0%,
-    calc(100% - var(--px-chamfer-level)) var(--px-chamfer-level),
-    100% var(--px-chamfer-level),
-    100% calc(100% - var(--px-chamfer-level)),
-    calc(100% - var(--px-chamfer-level)) calc(100% - var(--px-chamfer-level)),
-    calc(100% - var(--px-chamfer-level)) 100%,
-    var(--px-chamfer-level) 100%,
-    var(--px-chamfer-level) calc(100% - var(--px-chamfer-level)),
-    0% calc(100% - var(--px-chamfer-level)),
-    0% var(--px-chamfer-level),
-    var(--px-chamfer-level) var(--px-chamfer-level)
+    var(--px-chamfer-depth) 0%,
+    calc(100% - var(--px-chamfer-depth)) 0%,
+    calc(100% - var(--px-chamfer-depth)) var(--px-chamfer-depth),
+    100% var(--px-chamfer-depth),
+    100% calc(100% - var(--px-chamfer-depth)),
+    calc(100% - var(--px-chamfer-depth)) calc(100% - var(--px-chamfer-depth)),
+    calc(100% - var(--px-chamfer-depth)) 100%,
+    var(--px-chamfer-depth) 100%,
+    var(--px-chamfer-depth) calc(100% - var(--px-chamfer-depth)),
+    0% calc(100% - var(--px-chamfer-depth)),
+    0% var(--px-chamfer-depth),
+    var(--px-chamfer-depth) var(--px-chamfer-depth)
   );
 
   &--full-width {
     width: 100%;
+  }
+  &--full-height {
+    height: 100%;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="px-checkbox">
     <label :for="id" class="px-checkbox__label">
-      <PixelBorder level="2">
+      <PixelBorder depth="2">
         <div class="px-checkbox__icon-wrapper">
           <TransitionSwipeY>
             <icon class="px-checkbox__icon" :key="iconName" :name="iconName" size="20" />

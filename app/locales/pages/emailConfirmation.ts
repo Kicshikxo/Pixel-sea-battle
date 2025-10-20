@@ -5,13 +5,13 @@ export default {
     en: 'Unable to confirm email',
     ru: 'Невозможно подтвердить почту',
   },
-  goBackHome: {
-    en: 'Go back home',
-    ru: 'На главную',
+  openIndexPage: {
+    en: 'Open index page',
+    ru: 'На главную страницу',
   },
-  confirmYourEmail: {
-    en: 'Confirm your email',
-    ru: 'Подтвердите почту',
+  emailForConfirmation: {
+    en: 'Email for confirmation',
+    ru: 'Почта для подтверждения',
   },
   confirmEmail: {
     en: 'Confirm email',
@@ -20,9 +20,5 @@ export default {
   emailConfirmed: {
     en: 'Email confirmed',
     ru: 'Почта подтверждена',
-  },
-  openAccount: {
-    en: 'Open account',
-    ru: 'Открыть аккаунт',
   },
 } satisfies Locales

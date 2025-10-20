@@ -56,7 +56,7 @@ const handleSubmit = () => {
   }
 
   &__message {
-    font-size: 16;
+    font-size: 16px;
     margin: 16px 0;
   }
 }

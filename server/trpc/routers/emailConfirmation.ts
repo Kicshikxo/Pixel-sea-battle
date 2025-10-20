@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { prisma } from '~~/prisma/client'
 import { trpcPublicProcedure, trpcRouter } from '~~/server/trpc'
 
-export const emailRouter = trpcRouter({
+export const emailConfirmationRouter = trpcRouter({
   info: trpcPublicProcedure
     .input(
       z.object({
@@ -19,14 +19,7 @@ export const emailRouter = trpcRouter({
       if (!emailConfirmation) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.email.emailConfirmationIdNotFound',
-        })
-      }
-
-      if (!emailConfirmation.user) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'error.email.emailConfirmationUserNotFound',
+          message: 'error.emailConfirmation.notFound',
         })
       }
 
@@ -34,7 +27,7 @@ export const emailRouter = trpcRouter({
         await prisma.emailConfirmation.delete({ where: { id: emailConfirmation.id } })
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.email.emailAlreadyConfirmed',
+          message: 'error.emailConfirmation.alreadyConfirmed',
         })
       }
 
@@ -56,7 +49,7 @@ export const emailRouter = trpcRouter({
       if (!emailConfirmation) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.email.emailConfirmationIdNotFound',
+          message: 'error.emailConfirmation.notFound',
         })
       }
 
@@ -64,7 +57,7 @@ export const emailRouter = trpcRouter({
         await prisma.emailConfirmation.delete({ where: { id: emailConfirmation.id } })
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.email.emailAlreadyConfirmed',
+          message: 'error.emailConfirmation.alreadyConfirmed',
         })
       }
 
@@ -76,4 +69,4 @@ export const emailRouter = trpcRouter({
     }),
 })
 
-export type EmailRouter = typeof emailRouter
+export type EmailConfirmationRouter = typeof emailConfirmationRouter

@@ -1,4 +1,4 @@
-import { RoomType } from '@prisma/client'
+import { RoomStatus, RoomType } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { prisma } from '~~/prisma/client'
@@ -20,6 +20,19 @@ export const roomRouter = trpcRouter({
     return {
       response: await prisma.room.findMany({
         where: { type: RoomType.PUBLIC },
+        include: { users: true },
+      }),
+      total: await prisma.room.count(),
+    }
+  }),
+
+  listActive: trpcAuthProcedure.query(async ({ ctx }) => {
+    return {
+      response: await prisma.room.findMany({
+        where: {
+          users: { some: { userId: ctx.user.id } },
+          status: { not: RoomStatus.FINISHED },
+        },
         include: { users: true },
       }),
       total: await prisma.room.count(),
@@ -53,14 +66,14 @@ export const roomRouter = trpcRouter({
     )
     .query(async ({ ctx, input }) => {
       const room = await prisma.room.findUnique({
-        where: { id: input.id },
+        where: { id: input.id, status: { not: RoomStatus.FINISHED } },
         include: { users: true },
       })
 
       if (!room) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'error.room.roomNotFound',
+          message: 'error.room.notFound',
         })
       }
 
@@ -71,7 +84,7 @@ export const roomRouter = trpcRouter({
       if (room.users.length >= 2) {
         throw new TRPCError({
           code: 'FORBIDDEN',
-          message: 'error.room.roomIsFull',
+          message: 'error.room.isFull',
         })
       }
 
@@ -79,9 +92,8 @@ export const roomRouter = trpcRouter({
         where: { id: input.id },
         data: {
           users: {
-            connectOrCreate: {
-              where: { userId: ctx.user.id },
-              create: { userId: ctx.user.id },
+            create: {
+              userId: ctx.user.id,
             },
           },
         },

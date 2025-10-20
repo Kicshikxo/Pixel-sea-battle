@@ -1,26 +1,38 @@
 import type { Locale, Locales } from '~~/types/i18n'
 import { locales } from '~~/types/i18n'
 
-import error from './error'
-import validation from './validation'
+import authErrors from './errors/auth'
+import emailConfirmationErrors from './errors/emailConfirmation'
+import passwordRecoveryErrors from './errors/passwordRecovery'
+import roomErrors from './errors/room'
 
 import authPage from './pages/auth'
-import confirmEmailPage from './pages/confirmEmail'
+import emailConfirmationPage from './pages/emailConfirmation'
 import errorPage from './pages/error'
 import indexPage from './pages/index'
+import passwordRecoveryPage from './pages/passwordRecovery'
 import roomPage from './pages/room'
 
+import validation from './validation'
+
 export const translationFiles: Record<string, Locales> = {
-  error,
-  validation,
+  error: {
+    auth: authErrors,
+    emailConfirmation: emailConfirmationErrors,
+    passwordRecovery: passwordRecoveryErrors,
+    room: roomErrors,
+  },
 
   page: {
     auth: authPage,
-    confirmEmail: confirmEmailPage,
+    emailConfirmation: emailConfirmationPage,
     error: errorPage,
     index: indexPage,
+    passwordRecovery: passwordRecoveryPage,
     room: roomPage,
   },
+
+  validation,
 }
 
 export function transformTranslationFiles(files: Record<string, Locales>): Record<Locale, any> {

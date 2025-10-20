@@ -1,15 +1,19 @@
 <template>
-  <PixelShadow :color="color" :full-width="fullWidth">
-    <PixelChamfer :level="level" :full-width="fullWidth">
+  <PixelShadow :color="color" :full-width="fullWidth" :full-height="fullHeight">
+    <PixelChamfer :depth="depth" :full-width="fullWidth" :full-height="fullHeight">
       <div
         :class="[
           'px-border',
           `px-border--${color}`,
-          { 'px-border--full-width': fullWidth, 'px-border--rainbow': rainbow },
+          {
+            'px-border--full-width': fullWidth,
+            'px-border--full-height': fullHeight,
+            'px-border--rainbow': rainbow,
+          },
         ]"
         :style="{ '--px-border-width': `${width}px` }"
       >
-        <PixelChamfer :level="level" :full-width="fullWidth">
+        <PixelChamfer :depth="depth" :full-width="fullWidth" :full-height="fullHeight">
           <slot />
         </PixelChamfer>
       </div>
@@ -24,17 +28,19 @@ import PixelShadow from '~/components/pixel/PixelShadow.vue'
 const props = withDefaults(
   defineProps<{
     width?: string | number
-    level?: string | number
+    depth?: string | number
     color?: 'dark' | 'light' | 'red' | 'yellow' | 'green' | 'blue'
     rainbow?: boolean
     fullWidth?: boolean
+    fullHeight?: boolean
   }>(),
   {
     width: 2,
-    level: 4,
+    depth: 4,
     color: 'dark',
     rainbow: false,
     fullWidth: false,
+    fullHeight: false,
   },
 )
 </script>
@@ -54,6 +60,9 @@ const props = withDefaults(
 
   &--full-width {
     width: 100%;
+  }
+  &--full-height {
+    height: 100%;
   }
 
   &--dark {

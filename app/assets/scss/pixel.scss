@@ -36,20 +36,20 @@
   --px-color-blue-hover: #1e88e5;
   --px-color-blue-active: #1976d2;
 
-  --px-chamfer-level: 4px;
+  --px-chamfer-depth: 4px;
   --px-chamfer-clip-path: polygon(
-    var(--px-chamfer-level) 0%,
-    calc(100% - var(--px-chamfer-level)) 0%,
-    calc(100% - var(--px-chamfer-level)) var(--px-chamfer-level),
-    100% var(--px-chamfer-level),
-    100% calc(100% - var(--px-chamfer-level)),
-    calc(100% - var(--px-chamfer-level)) calc(100% - var(--px-chamfer-level)),
-    calc(100% - var(--px-chamfer-level)) 100%,
-    var(--px-chamfer-level) 100%,
-    var(--px-chamfer-level) calc(100% - var(--px-chamfer-level)),
-    0% calc(100% - var(--px-chamfer-level)),
-    0% var(--px-chamfer-level),
-    var(--px-chamfer-level) var(--px-chamfer-level)
+    var(--px-chamfer-depth) 0%,
+    calc(100% - var(--px-chamfer-depth)) 0%,
+    calc(100% - var(--px-chamfer-depth)) var(--px-chamfer-depth),
+    100% var(--px-chamfer-depth),
+    100% calc(100% - var(--px-chamfer-depth)),
+    calc(100% - var(--px-chamfer-depth)) calc(100% - var(--px-chamfer-depth)),
+    calc(100% - var(--px-chamfer-depth)) 100%,
+    var(--px-chamfer-depth) 100%,
+    var(--px-chamfer-depth) calc(100% - var(--px-chamfer-depth)),
+    0% calc(100% - var(--px-chamfer-depth)),
+    0% var(--px-chamfer-depth),
+    var(--px-chamfer-depth) var(--px-chamfer-depth)
   );
 
   --px-border-width: 2px;

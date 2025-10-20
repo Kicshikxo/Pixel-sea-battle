@@ -158,6 +158,8 @@ export default function useAuth() {
         data,
       }
     } catch (error) {
+      sessionData.value = null
+
       const trpcError = error as TRPCClientError<AuthRouter>
       return {
         status: trpcError.shape?.data?.httpStatus ?? 200,

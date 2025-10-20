@@ -6,7 +6,7 @@ import { OAuth2Client } from 'google-auth-library'
 import jwt from 'jsonwebtoken'
 import { z } from 'zod'
 import { prisma } from '~~/prisma/client'
-import { sendVerificationEmail } from '~~/server/email'
+import { sendEmailConfirmation } from '~~/server/email'
 import { trpcPublicProcedure, trpcRouter } from '~~/server/trpc'
 import { trpcAuthProcedure } from '~~/server/trpc/middleware/auth'
 import type { AuthTokenData, SessionData } from '~~/types/auth'
@@ -54,7 +54,7 @@ export const authRouter = trpcRouter({
         sameSite: true,
       })
 
-      sendVerificationEmail(ctx.event, input.email)
+      sendEmailConfirmation(ctx.event, input.email)
     }),
 
   signIn: trpcPublicProcedure

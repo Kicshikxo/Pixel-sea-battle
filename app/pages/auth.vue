@@ -74,7 +74,11 @@
 
         <TransitionSwipeY>
           <div class="sign-in-page__options" :key="action">
-            <span v-if="action === 'signIn'" class="sign-in-page__options__forgot-password">
+            <span
+              v-if="action === 'signIn'"
+              class="sign-in-page__options__forgot-password"
+              @click="handlePasswordRecovery"
+            >
               {{ $t('page.auth.forgotPassword') }}
             </span>
             <span
@@ -141,7 +145,7 @@ definePageMeta({
 })
 
 const toast = useToast()
-const route = useRoute()
+const route = useRoute('auth')
 const router = useRouter()
 const { t, locale } = useI18n()
 const { signIn, signUp, googleSignIn } = useAuth()
@@ -241,6 +245,10 @@ async function handleSubmit(values: Record<string, any>) {
   } else {
     await handleSignUp(values as z.infer<typeof signUpValidationSchema.value>)
   }
+}
+
+function handlePasswordRecovery() {
+  router.push({ name: 'password-recovery' })
 }
 </script>
 

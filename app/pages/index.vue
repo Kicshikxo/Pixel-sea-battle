@@ -1,11 +1,23 @@
 <template>
   <div class="index-page">
-    <PixelButton @click="showCreateRoom = true">
-      {{ $t('page.index.createRoom') }}
-      <template #append-icon>
-        <icon name="pixelarticons:plus" />
-      </template>
-    </PixelButton>
+    <PixelContainer>
+      <div class="index-page__actions">
+        <PixelButton @click="showCreateRoom = true">
+          {{ $t('page.index.room.create') }}
+          <template #append-icon>
+            <icon name="pixelarticons:plus" />
+          </template>
+        </PixelButton>
+        <PixelDivider mode="vertical" :text="$t('page.index.room.or')" />
+        <PixelButton @click="showCreateRoom = true">
+          {{ $t('page.index.room.create') }}
+          <template #append-icon>
+            <icon name="pixelarticons:plus" />
+          </template>
+        </PixelButton>
+      </div>
+    </PixelContainer>
+
     <br />
     <br />
     <PixelContainer v-for="room in rooms?.response" full-width>
@@ -15,33 +27,24 @@
       </div>
       <br />
       <PixelButton @click="handleJoinRoom(room.id)">
-        {{ $t('page.index.join') }}
+        {{ $t('page.index.room.join') }}
         <template #append-icon>
           <icon name="pixelarticons:cloud-upload" />
         </template>
       </PixelButton>
     </PixelContainer>
-    <PixelModal v-model:show="showCreateRoom" :title="$t('page.index.creatingRoom')">
+
+    <PixelModal v-model:show="showCreateRoom" :title="$t('page.index.room.creating')">
       <PixelForm
         ref="createRoomForm"
         :validation-schema="createRoomValidationSchema"
         @submit="handleCreateRoom"
       >
-        <PixelFormTextInput
-          name="name"
-          :label="$t('page.index.roomName')"
-          :placeholder="$t('page.index.roomName')"
-        >
-          <template #prepend-icon>
-            <icon name="pixelarticons:card-text" />
-          </template>
-        </PixelFormTextInput>
-
-        <PixelFormCheckbox name="private" :label="$t('page.index.privateRoom')" />
+        <PixelFormCheckbox name="private" :label="$t('page.index.room.private')" />
 
         <PixelButton
           type="submit"
-          :label="$t('page.index.createRoom')"
+          :label="$t('page.index.room.create')"
           :loading="createRoomLoading"
           full-width
         >
@@ -57,10 +60,10 @@
 <script setup lang="ts">
 import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelFormCheckbox from '~/components/pixel/form/PixelFormCheckbox.vue'
-import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelAvatar from '~/components/pixel/PixelAvatar.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
+import PixelDivider from '~/components/pixel/PixelDivider.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
 
 import { RoomType } from '@prisma/client'
@@ -76,11 +79,10 @@ const createRoomForm = ref<FormContext>()
 const showCreateRoom = ref(false)
 const createRoomLoading = ref(false)
 
-const { data: rooms, refresh: refreshRooms } = trpc.room.listPublic.useQuery()
+const { data: rooms, refresh: refreshRooms } = trpc.room.listActive.useQuery()
 
 const createRoomValidationSchema = computed(() =>
   z.object({
-    name: z.string().min(1, t('validation.required')).default(''),
     private: z.boolean().default(false),
   }),
 )
@@ -116,5 +118,17 @@ async function handleJoinRoom(id: string) {
 .index-page {
   flex: 1;
   padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // width: 100%;
+    gap: 16px;
+    height: 128px;
+  }
 }
 </style>

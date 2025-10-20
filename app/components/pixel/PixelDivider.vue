@@ -1,12 +1,12 @@
 <template>
-  <div class="px-divider__wrapper">
-    <PixelShadow full-width>
+  <div :class="['px-divider__wrapper', `px-divider__wrapper--${mode}`]">
+    <PixelShadow full-width full-height>
       <div
         :class="['px-divider', `px-divider--${mode}`]"
         :style="{ '--px-divider-width': `${width}px` }"
       ></div>
     </PixelShadow>
-    <span class="px-divider__text">
+    <span v-if="text" class="px-divider__text">
       {{ text }}
     </span>
   </div>
@@ -52,7 +52,13 @@ const props = withDefaults(
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+
+    &--horizontal {
+      width: 100%;
+    }
+    &--vertical {
+      height: 100%;
+    }
   }
 
   &__text {
