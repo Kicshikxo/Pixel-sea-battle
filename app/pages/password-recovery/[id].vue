@@ -3,58 +3,60 @@
     <PixelContainer>
       <div class="password-recovery-page__container">
         <TransitionExpandY>
-          <PixelForm
-            v-if="changed === false"
-            :validation-schema="passwordRecoverySchema"
-            @submit="handleChangePassword"
-          >
-            <template v-if="Boolean(userError) === false">
-              <input type="text" name="username" autocomplete="username" style="display: none" />
+          <PixelForm :validation-schema="passwordRecoverySchema" @submit="handleChangePassword">
+            <div class="password-recovery-page__form-title">
+              {{ userInfo?.email ?? $t('page.passwordRecovery.passwordRecovery') }}
+            </div>
+            <template v-if="changed === false">
+              <template v-if="Boolean(userError) === false">
+                <input type="text" name="username" autocomplete="username" style="display: none" />
 
-              <PixelFormTextInput
-                name="password"
-                type="password"
-                autocomplete="new-password"
-                :label="
-                  $t('page.passwordRecovery.newPasswordForAccount', { email: userInfo?.email })
-                "
-                :placeholder="$t('page.passwordRecovery.newPassword')"
-                full-width
-              >
-                <template #prepend-icon>
-                  <icon name="pixelarticons:lock" />
-                </template>
-              </PixelFormTextInput>
-              <PixelButton
-                type="submit"
-                :label="$t('page.passwordRecovery.changePassword')"
-                :loading="loading"
-                full-width
-              />
+                <PixelFormTextInput
+                  name="password"
+                  type="password"
+                  autocomplete="new-password"
+                  :label="$t('page.passwordRecovery.newPassword')"
+                  :placeholder="$t('page.passwordRecovery.newPassword')"
+                  full-width
+                >
+                  <template #prepend-icon>
+                    <icon name="pixelarticons:lock" />
+                  </template>
+                </PixelFormTextInput>
+                <PixelButton
+                  type="submit"
+                  :label="$t('page.passwordRecovery.changePassword')"
+                  :loading="loading"
+                  full-width
+                />
+              </template>
+
+              <div v-else class="password-recovery-page__column">
+                <span v-if="userError">
+                  {{ $t(userError?.message) }}
+                </span>
+                <span v-else>
+                  {{ $t('page.passwordRecovery.unableToChangePassword') }}
+                </span>
+
+                <PixelButton
+                  :label="$t('page.passwordRecovery.openAuthPage')"
+                  @click="router.push({ name: 'auth' })"
+                  full-width
+                />
+              </div>
             </template>
-
             <div v-else class="password-recovery-page__column">
-              <span>
-                {{ $t('page.passwordRecovery.unableToChangePassword') }}
-              </span>
+              <span> {{ $t('page.passwordRecovery.passwordSuccessfullyChanged') }} </span>
 
               <PixelButton
                 :label="$t('page.passwordRecovery.openAuthPage')"
-                @click="router.push({ name: 'auth' })"
+                :loading="loading"
                 full-width
+                @click="handleOpenAuthPage"
               />
             </div>
           </PixelForm>
-          <div v-else class="password-recovery-page__column">
-            <span> {{ $t('page.passwordRecovery.passwordSuccessfullyChanged') }} </span>
-
-            <PixelButton
-              :label="$t('page.passwordRecovery.openAuthPage')"
-              :loading="loading"
-              full-width
-              @click="handleOpenAuthPage"
-            />
-          </div>
         </TransitionExpandY>
       </div>
     </PixelContainer>
@@ -133,6 +135,12 @@ async function handleOpenAuthPage() {
 
   &__container {
     width: 450px !important;
+  }
+
+  &__form-title {
+    font-size: 20px;
+    margin-bottom: 16px;
+    word-break: break-all;
   }
 
   &__column {

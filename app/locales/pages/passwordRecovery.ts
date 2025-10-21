@@ -1,6 +1,10 @@
 import type { Locales } from '~~/types/i18n'
 
 export default {
+  passwordRecovery: {
+    en: 'Password recovery',
+    ru: 'Восстановление пароля',
+  },
   accountEmail: {
     en: 'Account email',
     ru: 'Электронная почта аккаунта',
@@ -25,10 +29,6 @@ export default {
   newPassword: {
     en: 'New password',
     ru: 'Новый пароль',
-  },
-  newPasswordForAccount: {
-    en: 'New password for account {email}',
-    ru: 'Новый пароль для аккаунта {email}',
   },
   changePassword: {
     en: 'Change password',
