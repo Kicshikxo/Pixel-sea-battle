@@ -1,96 +1,124 @@
 export default /*html*/ `
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
-    <title>Confirm your email</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Подтверждение почты</title>
+    <style>
       body {
-        background-color: #f9f9f9;
         margin: 0;
         padding: 0;
+        background-color: #f2f6fc;
+        font-family: sans-serif;
+        color: #0d1117;
+        -webkit-text-size-adjust: none;
       }
-
-      table,
-      td {
-        border-collapse: collapse;
-      }
-
-      img {
-        border: 0;
-        height: auto;
-        outline: none;
+      a {
+        color: #2196f3;
         text-decoration: none;
-        -ms-interpolation-mode: bicubic;
       }
-
-      p {
-        margin: 13px 0;
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px #0001;
+        overflow: hidden;
       }
-
-      @media only screen and (min-width: 480px) {
-        .mj-column-per-100 {
-          width: 100% !important;
+      .header {
+        background-color: #e4ecf7;
+        padding: 32px 20px;
+        text-align: center;
+      }
+      .header h1 {
+        font-size: 24px;
+        margin: 0;
+        color: #0d1117;
+      }
+      .content {
+        padding: 32px 24px;
+        text-align: center;
+      }
+      .content p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #555;
+        margin-bottom: 24px;
+      }
+      .button {
+        display: inline-block;
+        background-color: #2196f3;
+        color: #ffffff !important;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background-color 0.2s ease-in-out;
+      }
+      .button:hover {
+        background-color: #1e88e5;
+      }
+      .footer {
+        background-color: #f5f8fc;
+        padding: 20px 24px;
+        text-align: center;
+        font-size: 13px;
+        color: #777;
+      }
+      .link {
+        display: inline-block;
+        margin-top: 10px;
+        word-break: break-all;
+        font-size: 14px;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #0f141a;
+          color: #fff;
+        }
+        .email-container {
+          background-color: #1b222a;
+          box-shadow: 0 2px 8px #0005;
+        }
+        .header {
+          background-color: #252f3a;
+        }
+        .header h1{
+          color: #ccc;
+        }
+        .content p {
+          color: #ccc;
+        }
+        .footer {
+          background-color: #1e2630;
+          color: #999;
         }
       }
     </style>
   </head>
 
   <body>
-    <div>
-      <div style="background: #fff; margin: 0 auto; max-width: 600px">
-        <table role="presentation" style="background: #fff; width: 100%">
-          <tbody>
-            <tr>
-              <td style="border: #dddddd solid 1px; border-top: 0; direction: ltr; font-size: 0; padding: 20px 0; text-align: center; vertical-align: top">
-                <div class="mj-column-per-100" style="font-size: 13px; text-align: left; direction: ltr; display: inline-block; vertical-align: bottom; width: 100%">
-                  <table role="presentation" width="100%">
-                    <tr>
-                      <td align="center" style="padding: 10px 25px; padding-bottom: 40px; word-break: break-word">
-                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 32px; font-weight: bold; line-height: 1; text-align: center; color: #555">Подтвердите адрес электронной почты</div>
-                      </td>
-                    </tr>
+    <div class="email-container">
+      <div class="header">
+        <h1>Подтвердите адрес электронной почты</h1>
+      </div>
 
-                    <tr>
-                      <td align="center" style="padding: 10px 25px; padding-bottom: 20px; word-break: break-word">
-                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 22px; text-align: center; color: #555">Пожалуйста, подтвердите свой адрес электронной почты, чтобы продолжить пользоваться аккаунтом</div>
-                      </td>
-                    </tr>
+      <div class="content">
+        <p>Пожалуйста, подтвердите свой адрес электронной почты, чтобы продолжить пользоваться аккаунтом.</p>
 
-                    <tr>
-                      <td align="center" style="padding: 10px 25px; padding-top: 30px; padding-bottom: 40px; word-break: break-word">
-                        <a href="{{ callback }}" target="_blank" rel="noopener noreferrer">
-                          <table role="presentation" style="border-collapse: separate; line-height: 100%">
-                            <tr>
-                              <td align="center" bgcolor="#2F67F6" role="presentation" style="border: none; border-radius: 3px; color: #ffffff; cursor: auto; padding: 15px 25px" valign="middle">
-                                <p style="background: #2f67f6; color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 15px; font-weight: normal; line-height: 120%; margin: 0; text-decoration: none; text-transform: none">Подтвердить почту</p>
-                              </td>
-                            </tr>
-                          </table>
-                        </a>
-                      </td>
-                    </tr>
+        <a href="{{ callback }}" class="button" target="_blank" rel="noopener noreferrer">
+          Подтвердить почту
+        </a>
 
-                    <tr>
-                      <td align="center" style="padding: 10px 25px; padding-bottom: 0; word-break: break-word">
-                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 22px; text-align: center; color: #555">Или подтвердите с помощью этой ссылки:</div>
-                      </td>
-                    </tr>
+        <p>Или используйте ссылку ниже, если кнопка не работает:</p>
+        <a href="{{ callback }}" class="link" target="_blank" rel="noopener noreferrer">{{ callback }}</a>
+      </div>
 
-                    <tr>
-                      <td align="center" style="padding: 10px 25px; padding-bottom: 40px; word-break: break-word">
-                        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; line-height: 22px; text-align: center; color: #555">
-                          <a href="{{ callback }}" target="_blank" rel="noopener noreferrer" style="color: #2f67f6">{{ callback }}</a>
-                        </div>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="footer">
+        Это письмо отправлено автоматически. Пожалуйста, не отвечайте на него.
       </div>
     </div>
   </body>
