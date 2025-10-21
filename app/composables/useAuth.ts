@@ -82,10 +82,10 @@ export default function useAuth() {
 
   const signOut = async (options?: SignOutOptions): Promise<SignOutResult> => {
     try {
+      localStorage.removeItem(useRuntimeConfig().public.auth.refreshTokenKey)
+
       await trpc.auth.signOut.mutate()
       await getSession()
-
-      localStorage.removeItem(useRuntimeConfig().public.auth.refreshTokenKey)
 
       if (options?.redirectTo) {
         router.push(options.redirectTo)

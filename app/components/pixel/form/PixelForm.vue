@@ -20,7 +20,7 @@ const props = withDefaults(
     fullWidth?: boolean
   }>(),
   {
-    fullWidth: true,
+    fullWidth: false,
   },
 )
 const emits = defineEmits<{
