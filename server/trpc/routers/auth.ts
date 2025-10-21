@@ -19,7 +19,7 @@ async function authorizeUser(event: H3Event, user: User) {
   const accessToken = jwt.sign(
     {
       id: user.id,
-      password: crc32(user.password!).toString(16),
+      password: user.password ? crc32(user.password).toString(16) : null,
     } as AuthTokenData,
     useRuntimeConfig().auth.jwtSecretKey,
     { expiresIn: ACCESS_TOKEN_EXPIRES_IN },
