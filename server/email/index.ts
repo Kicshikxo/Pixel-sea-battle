@@ -8,6 +8,7 @@ const transporter = createTransport(
   {
     host: useRuntimeConfig().email.host,
     port: useRuntimeConfig().email.port,
+    secure: useRuntimeConfig().email.port === 465,
     auth: {
       user: useRuntimeConfig().email.auth.user,
       pass: useRuntimeConfig().email.auth.password,

@@ -40,7 +40,7 @@ export const emailConfirmationRouter = trpcRouter({
         emailConfirmationId: z.string().uuid(),
       }),
     )
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const emailConfirmation = await prisma.emailConfirmation.findUnique({
         where: { id: input.emailConfirmationId },
         include: { user: true },

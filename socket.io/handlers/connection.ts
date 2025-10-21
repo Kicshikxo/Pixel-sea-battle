@@ -1,5 +1,5 @@
-import { Socket } from 'socket.io'
 import * as handlers from '~~/socket.io/handlers'
+import { SocketHandler } from '~~/types/socket.io'
 
 export default {
   event: 'connection',
@@ -8,4 +8,4 @@ export default {
       socket.on(event, (data, callback) => handler(socket, data, callback)),
     )
   },
-} as { event: string; handler: (socket: Socket) => void }
+} as SocketHandler

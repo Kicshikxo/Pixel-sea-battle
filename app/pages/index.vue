@@ -18,6 +18,8 @@
       </div>
     </PixelContainer>
 
+    <PixelButton label="refresh" @click="refreshRooms" />
+
     <br />
     <br />
     <PixelContainer v-for="room in rooms?.response" full-width>
@@ -90,10 +92,10 @@ const createRoomValidationSchema = computed(() =>
 async function handleCreateRoom(values: z.infer<typeof createRoomValidationSchema.value>) {
   createRoomLoading.value = true
   try {
-    const room = await trpc.room.create.query({
+    const room = await trpc.room.create.mutate({
       type: values.private ? RoomType.PRIVATE : RoomType.PUBLIC,
     })
-    await trpc.room.join.query({ id: room.id })
+    await trpc.room.join.mutate({ id: room.id })
     router.push({ name: 'room-id', params: { id: room.id } })
   } catch (error: any) {
     toast.error(t(error.message))
@@ -104,7 +106,7 @@ async function handleCreateRoom(values: z.infer<typeof createRoomValidationSchem
 
 async function handleJoinRoom(id: string) {
   try {
-    const room = await trpc.room.join.query({ id: id })
+    const room = await trpc.room.join.mutate({ id: id })
     router.push({ name: 'room-id', params: { id: room.id } })
 
     await refreshRooms()

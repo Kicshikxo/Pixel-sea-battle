@@ -1,5 +1,5 @@
-import { Socket } from 'socket.io'
 import { prisma } from '~~/prisma/client'
+import { SocketHandler } from '~~/types/socket.io'
 
 export default {
   event: 'room:leave',
@@ -15,7 +15,4 @@ export default {
 
     callback?.()
   },
-} as {
-  event: string
-  handler: (socket: Socket, data: { id: string }, callback?: () => void) => void
-}
+} as SocketHandler<{ id: string }>

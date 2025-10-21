@@ -7,7 +7,7 @@ export default {
   },
   unableToReadTokenData: {
     en: 'Unable to read token data',
-    ru: 'Невозможно прочитать данные токен',
+    ru: 'Невозможно прочитать данные токена',
   },
   userNotFound: {
     en: 'User not found',
@@ -28,5 +28,9 @@ export default {
   googleUserNotFound: {
     en: 'Google user not found',
     ru: 'Пользователь Google не найден',
+  },
+  invalidRefreshToken: {
+    en: 'Invalid refresh token',
+    ru: 'Неверный токен обновления',
   },
 } satisfies Locales

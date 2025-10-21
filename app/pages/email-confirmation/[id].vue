@@ -81,7 +81,7 @@ onMounted(() => {
 async function handleConfirmEmail() {
   loading.value = true
   try {
-    await trpc.emailConfirmation.confirm.query({
+    await trpc.emailConfirmation.confirm.mutate({
       emailConfirmationId: route.params.id,
     })
 

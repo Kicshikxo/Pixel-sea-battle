@@ -27,12 +27,14 @@ export default function useAuth() {
 
   const signUp = async (options: SignUpOptions): Promise<SignUpResult> => {
     try {
-      const data = await trpc.auth.signUp.query({
+      const data = await trpc.auth.signUp.mutate({
         email: options.email,
         username: options.username,
         password: options.password,
       })
       await getSession()
+
+      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)
@@ -41,25 +43,25 @@ export default function useAuth() {
       return {
         status: 200,
         error: null,
-        data,
       }
     } catch (error) {
       const trpcError = error as TRPCClientError<AuthRouter>
       return {
         status: trpcError.shape?.data?.httpStatus ?? 200,
         error: trpcError.shape?.message ?? null,
-        data: null,
       }
     }
   }
 
   const signIn = async (options: SingInOptions): Promise<SignInResult> => {
     try {
-      await trpc.auth.signIn.query({
+      const data = await trpc.auth.signIn.mutate({
         email: options.email,
         password: options.password,
       })
       await getSession()
+
+      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)
@@ -80,8 +82,10 @@ export default function useAuth() {
 
   const signOut = async (options?: SignOutOptions): Promise<SignOutResult> => {
     try {
-      await trpc.auth.signOut.query()
+      await trpc.auth.signOut.mutate()
       await getSession()
+
+      localStorage.removeItem(useRuntimeConfig().public.auth.refreshTokenKey)
 
       if (options?.redirectTo) {
         router.push(options.redirectTo)
@@ -102,10 +106,12 @@ export default function useAuth() {
 
   const googleSignIn = async (options: GoogleSingInOptions): Promise<GoogleSignInResult> => {
     try {
-      await trpc.auth.googleSignIn.query({
+      const data = await trpc.auth.googleSignIn.mutate({
         accessToken: options.accessToken,
       })
       await getSession()
+
+      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)
@@ -126,8 +132,10 @@ export default function useAuth() {
 
   const guestSignIn = async (options: GuestSingInOptions): Promise<GuestSignInResult> => {
     try {
-      await trpc.auth.guestSignIn.query()
+      const data = await trpc.auth.guestSignIn.mutate()
       await getSession()
+
+      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)

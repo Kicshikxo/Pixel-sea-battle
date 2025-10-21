@@ -1,12 +1,12 @@
 import type { Room, RoomMessage } from '@prisma/client'
-import { Socket } from 'socket.io'
 import { prisma } from '~~/prisma/client'
+import { SocketHandler } from '~~/types/socket.io'
 
 export default {
   event: 'room:join',
   handler: async (socket, data, callback) => {
     const room = await prisma.room.findUnique({
-      where: { id: data.id },
+      where: { id: data?.id },
       include: { messages: true },
     })
 
@@ -16,11 +16,4 @@ export default {
 
     callback?.({ room, messages: room.messages })
   },
-} as {
-  event: string
-  handler: (
-    socket: Socket,
-    data: { id: string },
-    callback?: (response?: { room: Room | null; messages: RoomMessage[] }) => void,
-  ) => void
-}
+} as SocketHandler<{ id: string }, { room: Room | null; messages: RoomMessage[] }>

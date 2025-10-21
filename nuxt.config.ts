@@ -1,3 +1,5 @@
+import { locales } from './types/i18n'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
 
@@ -41,13 +43,13 @@ export default defineNuxtConfig({
       {
         vueI18n: '~/i18n.config.ts',
 
-        locales: ['en', 'ru'],
+        locales,
         strategy: 'no_prefix',
-        defaultLocale: 'en',
+        defaultLocale: locales[0],
 
         detectBrowserLanguage: {
           useCookie: true,
-          cookieKey: process.env.LOCALE_COOKIE_NAME ?? 'sea-battle__locale',
+          cookieKey: process.env.LOCALE_COOKIE_KEY ?? 'sea-battle__locale',
         },
       },
     ],
@@ -56,7 +58,7 @@ export default defineNuxtConfig({
       {
         preference: 'system',
         fallback: 'dark',
-        storageKey: process.env.COLOR_MODE_COOKIE_NAME ?? 'sea-battle__color-mode',
+        storageKey: process.env.COLOR_MODE_STORAGE_KEY ?? 'sea-battle__color-mode',
       },
     ],
     [
@@ -83,14 +85,19 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    public: {
+      auth: {
+        accessTokenKey: process.env.ACCESS_TOKEN_COOKIE_KEY ?? 'sea-battle__access-token',
+        refreshTokenKey: process.env.REFRESH_TOKEN_STORAGE_KEY ?? 'sea-battle__refresh-token',
+      },
+    },
     auth: {
       googleClientId: process.env.GOOGLE_CLIENT_ID,
       jwtSecretKey: process.env.JWT_SECRET_KEY ?? '<jwt_secret_key>',
-      cookieName: process.env.AUTH_COOKIE_NAME ?? 'sea-battle__auth-token',
     },
     email: {
       host: process.env.EMAIL_HOST ?? 'smtp.gmail.com',
-      port: Number(process.env.EMAIL_PORT) ?? 587,
+      port: Number(process.env.EMAIL_PORT) ?? 465,
       auth: {
         user: process.env.EMAIL_USER,
         password: process.env.EMAIL_PASSWORD,

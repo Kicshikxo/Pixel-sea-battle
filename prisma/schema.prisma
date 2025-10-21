@@ -19,6 +19,7 @@ model User {
   rooms      RoomUser[]
   messages   RoomMessage[]
 
+  refreshTokens     UserRefreshToken[]
   passwordRecovery  PasswordRecovery?
   emailConfirmation EmailConfirmation?
 
@@ -34,6 +35,21 @@ enum UserType {
   DEFAULT
   GOOGLE
   GUEST
+}
+
+model UserRefreshToken {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("refresh_token_id") @db.Uuid
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String @map("user_id") @db.Uuid
+
+  token String @unique @map("token")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  expiredAt DateTime @map("expired_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("user_refresh_tokens")
 }
 
 model EmailConfirmation {

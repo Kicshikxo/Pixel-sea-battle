@@ -12,20 +12,20 @@ export const passwordRecoveryRouter = trpcRouter({
         email: z.string().email(),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       await sendPasswordRecovery(ctx.event, input.email)
     }),
 
   info: trpcPublicProcedure
     .input(
       z.object({
-        passwordRecovertId: z.string().uuid(),
+        passwordRecoveryId: z.string().uuid(),
       }),
     )
     .query(async ({ input }) => {
       const passwordRecovery = await prisma.passwordRecovery.findUnique({
         where: {
-          id: input.passwordRecovertId,
+          id: input.passwordRecoveryId,
           expiredAt: { gt: new Date() },
         },
         include: { user: true },
@@ -48,7 +48,7 @@ export const passwordRecoveryRouter = trpcRouter({
         password: z.string(),
       }),
     )
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const passwordRecovery = await prisma.passwordRecovery.findUnique({
         where: { id: input.passwordRecoveryId },
         include: { user: true },

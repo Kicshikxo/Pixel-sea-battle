@@ -1,7 +1,7 @@
 import type { RoomMessage } from '@prisma/client'
-import { Socket } from 'socket.io'
 import { prisma } from '~~/prisma/client'
 import { io } from '~~/socket.io'
+import { SocketHandler } from '~~/types/socket.io'
 
 export default {
   event: 'room:chat:sendMessage',
@@ -16,11 +16,13 @@ export default {
 
     callback?.(message)
   },
-} as {
-  event: string
-  handler: (
-    socket: Socket,
-    data: { roomId: string; text: string },
-    callback?: (message: RoomMessage) => void,
-  ) => void
-}
+} as SocketHandler<{ roomId: string; text: string }, RoomMessage>
+
+// as {
+//   event: string
+//   handler: (
+//     socket: Socket,
+//     data: { roomId: string; text: string },
+//     callback?: (message: RoomMessage) => void,
+//   ) => void
+// }

@@ -49,7 +49,7 @@ export const roomRouter = trpcRouter({
           type: RoomType.PUBLIC,
         }),
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       return await prisma.room.create({
         data: {
           type: input.type,
@@ -64,7 +64,7 @@ export const roomRouter = trpcRouter({
         id: z.string().uuid(),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const room = await prisma.room.findUnique({
         where: { id: input.id, status: { not: RoomStatus.FINISHED } },
         include: { users: true },

@@ -77,7 +77,7 @@ const passwordRecoverySchema = computed(() =>
 async function handleChangePassword(values: z.infer<typeof passwordRecoverySchema.value>) {
   loading.value = true
   try {
-    await trpc.passwordRecovery.send.query({
+    await trpc.passwordRecovery.send.mutate({
       email: values.email,
     })
 

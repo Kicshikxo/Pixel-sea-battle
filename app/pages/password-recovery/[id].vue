@@ -84,7 +84,7 @@ const loading = ref(false)
 const changed = ref(false)
 
 const { data: userInfo, error: userError } = await trpc.passwordRecovery.info.useQuery({
-  passwordRecovertId: route.params.id,
+  passwordRecoveryId: route.params.id,
 })
 
 onMounted(() => {
@@ -104,7 +104,7 @@ const passwordRecoverySchema = computed(() =>
 async function handleChangePassword(values: z.infer<typeof passwordRecoverySchema.value>) {
   loading.value = true
   try {
-    await trpc.passwordRecovery.change.query({
+    await trpc.passwordRecovery.change.mutate({
       passwordRecoveryId: route.params.id,
       password: values.password,
     })

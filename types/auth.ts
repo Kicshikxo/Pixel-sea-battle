@@ -7,7 +7,6 @@ export interface SignUpOptions {
 export interface SignUpResult {
   status: number
   error: string | null
-  data: SessionData | null
 }
 
 export interface SingInOptions {

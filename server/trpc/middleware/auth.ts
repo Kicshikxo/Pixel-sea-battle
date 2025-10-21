@@ -7,7 +7,7 @@ import type { AuthTokenData } from '~~/types/auth'
 
 export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
   const headerToken = getHeaders(ctx.event).authorization?.substring('Bearer '.length)
-  const cookieToken = getCookie(ctx.event, useRuntimeConfig().auth.cookieName)
+  const cookieToken = getCookie(ctx.event, useRuntimeConfig().public.auth.accessTokenKey)
 
   const token = headerToken || cookieToken
   if (!token) {
