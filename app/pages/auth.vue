@@ -319,6 +319,7 @@ async function handleSubmit(values: Record<string, any>) {
     &__sign-in,
     &__sign-up {
       margin-left: auto;
+      text-align: right;
     }
   }
 
