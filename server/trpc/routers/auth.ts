@@ -47,12 +47,6 @@ async function authorizeUser(event: H3Event, user: User) {
     },
   })
 
-  await prisma.userRefreshToken.deleteMany({
-    where: {
-      expiredAt: { lt: new Date() },
-    },
-  })
-
   return {
     accessToken,
     refreshToken,
