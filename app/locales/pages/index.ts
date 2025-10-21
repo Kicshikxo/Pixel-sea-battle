@@ -16,6 +16,14 @@ export default {
     },
   },
   room: {
+    listActive: {
+      en: 'Active rooms',
+      ru: 'Активные комнаты',
+    },
+    listPublic: {
+      en: 'Public rooms',
+      ru: 'Публичные комнаты',
+    },
     create: {
       en: 'Create room',
       ru: 'Создать комнату',
@@ -38,7 +46,7 @@ export default {
     },
     join: {
       en: 'Join',
-      ru: 'Подключиться',
+      ru: 'Войти',
     },
   },
   signOut: {

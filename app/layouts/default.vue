@@ -22,7 +22,7 @@
         <PixelAvatar
           v-if="session.data.value?.id"
           :seed="session.data.value?.id"
-          size="small"
+          small
           @click="openProfile"
         />
       </header>

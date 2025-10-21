@@ -3,10 +3,11 @@
     <PixelContainer>
       <div class="password-recovery-page__container">
         <TransitionExpandY>
-          <PixelForm :validation-schema="passwordRecoverySchema" @submit="handleChangePassword">
-            <div class="password-recovery-page__form-title">
-              {{ userInfo?.email ?? $t('page.passwordRecovery.passwordRecovery') }}
-            </div>
+          <PixelForm
+            :validation-schema="passwordRecoverySchema"
+            :title="userInfo?.email ?? $t('page.passwordRecovery.passwordRecovery')"
+            @submit="handleChangePassword"
+          >
             <template v-if="changed === false">
               <template v-if="Boolean(userError) === false">
                 <input type="text" name="username" autocomplete="username" style="display: none" />
@@ -135,12 +136,6 @@ async function handleOpenAuthPage() {
 
   &__container {
     width: 450px !important;
-  }
-
-  &__form-title {
-    font-size: 20px;
-    margin-bottom: 16px;
-    word-break: break-all;
   }
 
   &__column {

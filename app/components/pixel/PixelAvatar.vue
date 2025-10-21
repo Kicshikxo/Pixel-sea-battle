@@ -1,6 +1,15 @@
 <template>
   <PixelBorder>
-    <div :class="['px-avatar', `px-avatar--${size}`]" v-html="svg" />
+    <div
+      :class="[
+        'px-avatar',
+        {
+          'px-avatar--small': small,
+          'px-avatar--large': large,
+        },
+      ]"
+      v-html="svg"
+    />
   </PixelBorder>
 </template>
 
@@ -13,12 +22,14 @@ const props = withDefaults(
   defineProps<{
     seed: string
     style?: keyof typeof styles
-    size?: 'small' | 'medium' | 'large'
+    small?: boolean
+    large?: boolean
     scale?: number
   }>(),
   {
     style: 'identicon',
-    size: 'medium',
+    small: false,
+    large: false,
     scale: 50,
   },
 )
@@ -28,15 +39,13 @@ const svg = computed(() => getAvatar(props.seed, props.style, props.scale).svg)
 
 <style lang="scss" scoped>
 .px-avatar {
+  width: 64px;
+  height: 64px;
   background: var(--px-color-white);
 
   &--small {
     width: 32px;
     height: 32px;
-  }
-  &--medium {
-    width: 64px;
-    height: 64px;
   }
   &--large {
     width: 128px;

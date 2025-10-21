@@ -16,7 +16,7 @@ model User {
   password String? @map("password") @db.Char(60)
 
   ownedRooms Room[]
-  rooms      RoomUser[]
+  rooms      State[]
   messages   RoomMessage[]
 
   refreshTokens     UserRefreshToken[]
@@ -78,13 +78,17 @@ model PasswordRecovery {
 }
 
 model Room {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @map("room_id") @db.Uuid
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @map("room_id") @db.Uuid
+  name String @unique @map("name")
 
   type   RoomType   @default(PUBLIC) @map("room_type")
   status RoomStatus @default(PENDING) @map("room_status")
 
-  users    RoomUser[]
+  states   State[]       @relation("RoomStates")
   messages RoomMessage[]
+
+  currentState   State?  @relation("RoomCurrentState", fields: [currentStateId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  currentStateId String? @unique @map("current_state_id") @db.Uuid
 
   creator   User   @relation(fields: [creatorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   creatorId String @map("creator_id") @db.Uuid
@@ -107,6 +111,75 @@ enum RoomStatus {
   FINISHED
 }
 
+model State {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("state_id") @db.Uuid
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String @map("user_id") @db.Uuid
+
+  room   Room   @relation("RoomStates", fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  roomId String @map("room_id") @db.Uuid
+
+  currentRoom Room? @relation("RoomCurrentState")
+
+  ships       Ship[]
+  sourceShots Shot[] @relation("StateSourceShots")
+  targetShots Shot[] @relation("StateTargetShots")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("states")
+}
+
+model Ship {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("ship_id") @db.Uuid
+
+  state   State  @relation(fields: [stateId], references: [id], onDelete: Cascade)
+  stateId String @map("state_id") @db.Uuid
+
+  positionX Int @map("position_x")
+  positionY Int @map("position_y")
+
+  type        ShipType        @map("ship_type")
+  orientation ShipOrientation @map("ship_orientation")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("ships")
+}
+
+enum ShipType {
+  Quadruple
+  Triple
+  Double
+  Single
+}
+
+enum ShipOrientation {
+  Horizontal
+  Vertical
+}
+
+model Shot {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @map("shot_id") @db.Uuid
+
+  sourceState   State  @relation("StateSourceShots", fields: [sourceStateId], references: [id], onDelete: Cascade)
+  sourceStateId String @map("source_state_id") @db.Uuid
+
+  targetState   State  @relation("StateTargetShots", fields: [targetStateId], references: [id], onDelete: Cascade)
+  targetStateId String @map("target_state_id") @db.Uuid
+
+  positionX Int @map("position_x")
+  positionY Int @map("position_y")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("shots")
+}
+
 model RoomMessage {
   id String @id @default(dbgenerated("gen_random_uuid()")) @map("message_id") @db.Uuid
 
@@ -122,19 +195,4 @@ model RoomMessage {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("room_messages")
-}
-
-model RoomUser {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @map("room_user_id") @db.Uuid
-
-  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId String @map("user_id") @db.Uuid
-
-  room   Room   @relation(fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  roomId String @map("room_id") @db.Uuid
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-
-  @@map("room_users")
 }

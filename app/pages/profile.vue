@@ -1,7 +1,7 @@
 <template>
   <div class="profile-page">
     <div ref="avatar">
-      <PixelAvatar v-if="session.data.value?.id" :seed="session.data.value?.id" size="large" />
+      <PixelAvatar v-if="session.data.value?.id" :seed="session.data.value?.id" large />
     </div>
     <PixelButton @click="handleSignout">
       {{ $t('page.index.signOut') }}

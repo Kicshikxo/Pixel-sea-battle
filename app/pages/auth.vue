@@ -4,14 +4,9 @@
       <PixelForm
         class="sign-in-page__form"
         :validation-schema="validationSchema"
+        :title="action === 'signIn' ? $t('page.auth.signInTitle') : $t('page.auth.signUpTitle')"
         @submit="handleSubmit"
       >
-        <TransitionSwipeY>
-          <div class="sign-in-page__form-title" :key="action">
-            {{ action === 'signIn' ? $t('page.auth.signInTitle') : $t('page.auth.signUpTitle') }}
-          </div>
-        </TransitionSwipeY>
-
         <TransitionExpandY>
           <div class="sign-in-page__form-content" :key="action">
             <template v-if="action === 'signIn'">
@@ -102,7 +97,7 @@
               class="sign-in-page__options__sign-up"
               @click="action = 'signIn'"
             >
-              {{ $t('page.auth.alreadyHaveAccount') }}
+              {{ $t('page.auth.haveAnAccount') }}
             </span>
           </div>
         </TransitionSwipeY>
@@ -278,11 +273,6 @@ async function handleSubmit(values: Record<string, any>) {
 
   &__form {
     width: 400px;
-
-    &-title {
-      font-size: 20px;
-      margin-bottom: 16px;
-    }
 
     &-content {
       width: 100%;

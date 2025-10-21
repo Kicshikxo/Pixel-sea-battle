@@ -7,7 +7,7 @@
     <ClientOnly>
       <PixelContainer v-for="message in socketRoomStore.messages" full-width>
         ({{ new Date(message.createdAt).toLocaleString() }})
-        <PixelAvatar :seed="message.userId" size="small" /> {{ message.text }}
+        <PixelAvatar :seed="message.userId" small /> {{ message.text }}
       </PixelContainer>
     </ClientOnly>
   </div>

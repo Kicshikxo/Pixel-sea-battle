@@ -6,12 +6,9 @@
           <PixelForm
             v-if="sended === false"
             :validation-schema="passwordRecoverySchema"
+            :title="$t('page.passwordRecovery.passwordRecovery')"
             @submit="handleChangePassword"
           >
-            <div class="password-recovery-page__form-title">
-              {{ $t('page.passwordRecovery.passwordRecovery') }}
-            </div>
-
             <PixelFormTextInput
               name="email"
               type="email"
@@ -109,11 +106,6 @@ async function handleOpenAuthPage() {
 
   &__container {
     width: 450px !important;
-  }
-
-  &__form-title {
-    font-size: 20px;
-    margin-bottom: 16px;
   }
 
   &__column {

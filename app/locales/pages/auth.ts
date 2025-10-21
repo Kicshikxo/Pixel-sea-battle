@@ -41,8 +41,8 @@ export default {
     en: 'No account?',
     ru: 'Нет аккаунта?',
   },
-  alreadyHaveAccount: {
-    en: 'Already have an account?',
+  haveAnAccount: {
+    en: 'Have an account?',
     ru: 'Уже есть аккаунт?',
   },
   signIn: {

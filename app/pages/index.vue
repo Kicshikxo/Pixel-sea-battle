@@ -1,39 +1,58 @@
 <template>
   <div class="index-page">
+    <PixelButton @click="showCreateRoom = true" class="index-page__create-room-button">
+      {{ $t('page.index.room.create') }}
+      <template #append-icon>
+        <icon name="pixelarticons:plus" />
+      </template>
+    </PixelButton>
     <PixelContainer>
       <div class="index-page__actions">
-        <PixelButton @click="showCreateRoom = true">
-          {{ $t('page.index.room.create') }}
-          <template #append-icon>
-            <icon name="pixelarticons:plus" />
-          </template>
-        </PixelButton>
-        <PixelDivider mode="vertical" :text="$t('page.index.room.or')" />
-        <PixelButton @click="showCreateRoom = true">
-          {{ $t('page.index.room.create') }}
-          <template #append-icon>
-            <icon name="pixelarticons:plus" />
-          </template>
-        </PixelButton>
-      </div>
-    </PixelContainer>
-
-    <PixelButton label="refresh" @click="refreshRooms" />
-
-    <br />
-    <br />
-    <PixelContainer v-for="room in rooms?.response" full-width>
-      {{ room.id }}
-      <div>
-        <PixelAvatar v-for="{ userId } in room.users" :seed="userId" />
-      </div>
-      <br />
-      <PixelButton @click="handleJoinRoom(room.id)">
-        {{ $t('page.index.room.join') }}
-        <template #append-icon>
-          <icon name="pixelarticons:cloud-upload" />
+        <template v-if="activeRooms?.total">
+          <PixelDivider :text="$t('page.index.room.listActive')" />
+          <div class="index-page__rooms-list">
+            <PixelContainer v-for="room in activeRooms?.response" full-width>
+              <div class="index-page__room">
+                <div class="index-page__room__name">
+                  {{ room.name }}
+                </div>
+                <div class="index-page__room__avatars">
+                  <PixelAvatar v-for="{ userId } in room.states" :seed="userId" small />
+                </div>
+                <PixelButton
+                  @click="handleJoinRoom(room.id)"
+                  :label="$t('page.index.room.join')"
+                  small
+                  full-width
+                />
+              </div>
+            </PixelContainer>
+          </div>
         </template>
-      </PixelButton>
+
+        <template v-if="publicRooms?.total || publicRoomsLoading">
+          <PixelDivider :text="$t('page.index.room.listPublic')" />
+          <PixelLoader v-if="publicRoomsLoading" />
+          <div class="index-page__rooms-list">
+            <PixelContainer v-for="room in publicRooms?.response" full-width>
+              <div class="index-page__room">
+                <div class="index-page__room__name">
+                  {{ room.name }}
+                </div>
+                <div class="index-page__room__avatars">
+                  <PixelAvatar v-for="{ userId } in room.states" :seed="userId" small />
+                </div>
+                <PixelButton
+                  @click="handleJoinRoom(room.id)"
+                  :label="$t('page.index.room.join')"
+                  small
+                  full-width
+                />
+              </div>
+            </PixelContainer>
+          </div>
+        </template>
+      </div>
     </PixelContainer>
 
     <PixelModal v-model:show="showCreateRoom" :title="$t('page.index.room.creating')">
@@ -42,6 +61,16 @@
         :validation-schema="createRoomValidationSchema"
         @submit="handleCreateRoom"
       >
+        <PixelFormTextInput
+          name="name"
+          :label="$t('page.index.room.name')"
+          :placeholder="$t('page.index.room.name')"
+        >
+          <template #prepend-icon>
+            <icon name="pixelarticons:card-text" />
+          </template>
+        </PixelFormTextInput>
+
         <PixelFormCheckbox name="private" :label="$t('page.index.room.private')" />
 
         <PixelButton
@@ -71,6 +100,8 @@ import PixelModal from '~/components/pixel/PixelModal.vue'
 import { RoomType } from '@prisma/client'
 import type { FormContext } from 'vee-validate'
 import { z } from 'zod'
+import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
+import PixelLoader from '~/components/pixel/PixelLoader.vue'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -81,10 +112,23 @@ const createRoomForm = ref<FormContext>()
 const showCreateRoom = ref(false)
 const createRoomLoading = ref(false)
 
-const { data: rooms, refresh: refreshRooms } = trpc.room.listActive.useQuery()
+const {
+  data: publicRooms,
+  pending: publicRoomsLoading,
+  refresh: refreshPublicRooms,
+} = trpc.room.listPublic.useQuery()
+const {
+  data: activeRooms,
+  pending: activeRoomsLoading,
+  refresh: refreshActiveRooms,
+} = trpc.room.listActive.useQuery()
 
 const createRoomValidationSchema = computed(() =>
   z.object({
+    name: z
+      .string()
+      .min(1, t('validation.required'))
+      .max(100, { message: t('validation.tooManyCharacters') }),
     private: z.boolean().default(false),
   }),
 )
@@ -93,6 +137,7 @@ async function handleCreateRoom(values: z.infer<typeof createRoomValidationSchem
   createRoomLoading.value = true
   try {
     const room = await trpc.room.create.mutate({
+      name: values.name,
       type: values.private ? RoomType.PRIVATE : RoomType.PUBLIC,
     })
     await trpc.room.join.mutate({ id: room.id })
@@ -109,7 +154,8 @@ async function handleJoinRoom(id: string) {
     const room = await trpc.room.join.mutate({ id: id })
     router.push({ name: 'room-id', params: { id: room.id } })
 
-    await refreshRooms()
+    await refreshActiveRooms()
+    await refreshPublicRooms()
   } catch (error: any) {
     toast.error(t(error.message))
   }
@@ -124,13 +170,39 @@ async function handleJoinRoom(id: string) {
   flex-direction: column;
   align-items: center;
 
+  &__create-room-button {
+    margin-bottom: 32px;
+  }
+
   &__actions {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    // width: 100%;
     gap: 16px;
-    height: 128px;
+    width: 600px;
+  }
+
+  &__rooms-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+  &__room {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    &__name {
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    &__avatars {
+      display: flex;
+      gap: 8px;
+    }
   }
 }
 </style>

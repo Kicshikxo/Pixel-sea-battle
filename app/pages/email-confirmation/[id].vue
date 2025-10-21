@@ -3,11 +3,11 @@
     <PixelContainer>
       <div class="email-confirmation-page__container">
         <TransitionExpandY>
-          <PixelForm v-if="confirmed === false" @submit="handleConfirmEmail">
-            <div class="email-confirmation-page__form-title">
-              {{ $t('page.emailConfirmation.emailConfirmation') }}
-            </div>
-
+          <PixelForm
+            v-if="confirmed === false"
+            :title="$t('page.emailConfirmation.emailConfirmation')"
+            @submit="handleConfirmEmail"
+          >
             <div v-if="Boolean(userError) === false" class="email-confirmation-page__column">
               <span style="width: 100%">
                 {{ $t('page.emailConfirmation.emailForConfirmation') }}:
@@ -116,11 +116,6 @@ async function handleOpenIndexPage() {
 
   &__container {
     width: 450px !important;
-  }
-
-  &__form-title {
-    font-size: 20px;
-    margin-bottom: 16px;
   }
 
   &__column {
