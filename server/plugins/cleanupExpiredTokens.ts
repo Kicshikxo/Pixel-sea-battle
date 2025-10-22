@@ -1,7 +1,7 @@
 import { prisma } from '~~/prisma/client'
 
 export default defineNitroPlugin((nitroApp) => {
-  const CLEANUP_INTERVAL = 10 * 60 * 1000
+  const CLEANUP_INTERVAL = 1 * 60 * 1000
 
   const cleanupExpiredTokens = async () => {
     try {

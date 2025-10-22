@@ -7,8 +7,6 @@ export default defineStore('socketRoom', () => {
   const messages = ref<RoomMessage[]>([])
 
   async function joinRoom(id: string) {
-    if (import.meta.server) return
-
     await new Promise<void>((resolve) =>
       socket.emit('room:join', { id }, (response) => {
         room.value = response.room
@@ -18,8 +16,6 @@ export default defineStore('socketRoom', () => {
     )
   }
   async function leaveRoom(id: string) {
-    if (import.meta.server) return
-
     await new Promise<void>((resolve) =>
       socket.emit('room:leave', { id }, () => {
         room.value = null

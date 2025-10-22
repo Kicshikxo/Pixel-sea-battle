@@ -21,7 +21,7 @@
     <PixelContainer>
       <div class="index-page__actions">
         <TransitionExpandY>
-          <div v-if="activeRooms?.total || activeRoomsLoading" class="index-page__rooms">
+          <div v-if="activeRooms?.total" class="index-page__rooms">
             <PixelDivider :text="$t('page.index.room.listActive')" />
             <TransitionExpandY>
               <div v-if="activeRoomsLoading">
@@ -189,9 +189,6 @@ async function handleJoinRoom(id: string) {
   try {
     const room = await trpc.room.join.mutate({ id: id })
     router.push({ name: 'room-id', params: { id: room.id } })
-
-    await refreshActiveRooms()
-    await refreshPublicRooms()
   } catch (error: any) {
     toast.error(t(error.message))
   }

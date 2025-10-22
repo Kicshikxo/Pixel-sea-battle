@@ -1,6 +1,10 @@
 import type { Locales } from '~~/types/i18n'
 
 export default {
+  unauthorized: {
+    en: 'Unauthorized',
+    ru: 'Не авторизован',
+  },
   unableToReadToken: {
     en: 'Unable to read token',
     ru: 'Невозможно прочитать токен',
