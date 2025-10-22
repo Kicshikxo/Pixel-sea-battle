@@ -107,7 +107,7 @@ export default /*html*/ `
       </div>
 
       <div class="content">
-        <p>Пожалуйста, подтвердите свой адрес электронной почты, чтобы продолжить пользоваться аккаунтом.</p>
+        <p>Пожалуйста, подтвердите свой адрес электронной почты.</p>
 
         <a href="{{ callback }}" class="button" target="_blank" rel="noopener noreferrer">
           Подтвердить почту

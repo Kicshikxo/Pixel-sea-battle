@@ -47,8 +47,8 @@ export async function sendEmailConfirmation(event: H3Event, email: string) {
         callback: `${getRequestURL(event).origin}/email-confirmation/${emailConfirmation.id}`,
       }),
     })
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -75,7 +75,7 @@ export async function sendPasswordRecovery(event: H3Event, email: string) {
         callback: `${getRequestURL(event).origin}/password-recovery/${passwordRecovery.id}`,
       }),
     })
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
   }
 }

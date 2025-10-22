@@ -27,14 +27,12 @@ export default function useAuth() {
 
   const signUp = async (options: SignUpOptions): Promise<SignUpResult> => {
     try {
-      const data = await trpc.auth.signUp.mutate({
+      await trpc.auth.signUp.mutate({
         email: options.email,
         username: options.username,
         password: options.password,
       })
       await getSession()
-
-      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)
@@ -55,13 +53,11 @@ export default function useAuth() {
 
   const signIn = async (options: SingInOptions): Promise<SignInResult> => {
     try {
-      const data = await trpc.auth.signIn.mutate({
+      await trpc.auth.signIn.mutate({
         email: options.email,
         password: options.password,
       })
       await getSession()
-
-      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)
@@ -82,8 +78,6 @@ export default function useAuth() {
 
   const signOut = async (options?: SignOutOptions): Promise<SignOutResult> => {
     try {
-      localStorage.removeItem(useRuntimeConfig().public.auth.refreshTokenKey)
-
       await trpc.auth.signOut.mutate()
       await getSession()
 
@@ -106,12 +100,10 @@ export default function useAuth() {
 
   const googleSignIn = async (options: GoogleSingInOptions): Promise<GoogleSignInResult> => {
     try {
-      const data = await trpc.auth.googleSignIn.mutate({
+      await trpc.auth.googleSignIn.mutate({
         accessToken: options.accessToken,
       })
       await getSession()
-
-      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)
@@ -132,10 +124,8 @@ export default function useAuth() {
 
   const guestSignIn = async (options: GuestSingInOptions): Promise<GuestSignInResult> => {
     try {
-      const data = await trpc.auth.guestSignIn.mutate()
+      await trpc.auth.guestSignIn.mutate()
       await getSession()
-
-      localStorage.setItem(useRuntimeConfig().public.auth.refreshTokenKey, data.refreshToken)
 
       if (options.redirectTo) {
         router.push(options.redirectTo)

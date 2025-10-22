@@ -23,7 +23,7 @@ export default {
       const user = await prisma.user.findUnique({ where: { id: data.id } })
 
       socket.user = user
-    } catch (e) {
+    } catch {
       socket.user = null
     }
 

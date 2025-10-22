@@ -1,57 +1,92 @@
 <template>
   <div class="index-page">
-    <PixelButton @click="showCreateRoom = true" class="index-page__create-room-button">
-      {{ $t('page.index.room.create') }}
+    <PixelButton
+      class="index-page__create-room-button"
+      :label="$t('page.index.room.create')"
+      @click="showCreateRoom = true"
+    >
       <template #append-icon>
         <icon name="pixelarticons:plus" />
       </template>
     </PixelButton>
+    <PixelButton
+      class="index-page__create-room-button"
+      label="refresh"
+      @click="refreshActiveRooms().then(() => refreshPublicRooms())"
+    >
+      <template #append-icon>
+        <icon name="pixelarticons:reload" />
+      </template>
+    </PixelButton>
     <PixelContainer>
       <div class="index-page__actions">
-        <template v-if="activeRooms?.total">
-          <PixelDivider :text="$t('page.index.room.listActive')" />
-          <div class="index-page__rooms-list">
-            <PixelContainer v-for="room in activeRooms?.response" full-width>
-              <div class="index-page__room">
-                <div class="index-page__room__name">
-                  {{ room.name }}
-                </div>
-                <div class="index-page__room__avatars">
-                  <PixelAvatar v-for="{ userId } in room.states" :seed="userId" small />
-                </div>
-                <PixelButton
-                  @click="handleJoinRoom(room.id)"
-                  :label="$t('page.index.room.join')"
-                  small
-                  full-width
-                />
+        <TransitionExpandY>
+          <div v-if="activeRooms?.total || activeRoomsLoading" class="index-page__rooms">
+            <PixelDivider :text="$t('page.index.room.listActive')" />
+            <TransitionExpandY>
+              <div v-if="activeRoomsLoading">
+                <PixelLoader />
               </div>
-            </PixelContainer>
+            </TransitionExpandY>
+            <TransitionExpandY>
+              <div class="index-page__rooms-list">
+                <PixelContainer v-for="room in activeRooms?.response" :key="room.id" full-width>
+                  <div class="index-page__room">
+                    <div class="index-page__room__name">{{ room.name }}</div>
+                    <div class="index-page__room__avatars">
+                      <PixelAvatar
+                        v-for="{ userId } in room.states"
+                        :key="userId"
+                        :seed="userId"
+                        small
+                      />
+                    </div>
+                    <PixelButton
+                      @click="handleJoinRoom(room.id)"
+                      :label="$t('page.index.room.join')"
+                      small
+                      full-width
+                    />
+                  </div>
+                </PixelContainer>
+              </div>
+            </TransitionExpandY>
           </div>
-        </template>
+        </TransitionExpandY>
 
-        <template v-if="publicRooms?.total || publicRoomsLoading">
-          <PixelDivider :text="$t('page.index.room.listPublic')" />
-          <PixelLoader v-if="publicRoomsLoading" />
-          <div class="index-page__rooms-list">
-            <PixelContainer v-for="room in publicRooms?.response" full-width>
-              <div class="index-page__room">
-                <div class="index-page__room__name">
-                  {{ room.name }}
-                </div>
-                <div class="index-page__room__avatars">
-                  <PixelAvatar v-for="{ userId } in room.states" :seed="userId" small />
-                </div>
-                <PixelButton
-                  @click="handleJoinRoom(room.id)"
-                  :label="$t('page.index.room.join')"
-                  small
-                  full-width
-                />
+        <TransitionExpandY>
+          <div v-if="publicRooms?.total || publicRoomsLoading" class="index-page__rooms">
+            <PixelDivider :text="$t('page.index.room.listPublic')" />
+            <TransitionExpandY>
+              <div v-if="publicRoomsLoading">
+                <PixelLoader />
               </div>
-            </PixelContainer>
+            </TransitionExpandY>
+            <TransitionExpandY>
+              <div class="index-page__rooms-list">
+                <PixelContainer v-for="room in publicRooms?.response" :key="room.id" full-width>
+                  <div class="index-page__room">
+                    <div class="index-page__room__name">{{ room.name }}</div>
+                    <div class="index-page__room__avatars">
+                      <PixelAvatar
+                        v-for="{ userId } in room.states"
+                        :key="userId"
+                        :seed="userId"
+                        small
+                      />
+                    </div>
+                    <PixelButton
+                      @click="handleJoinRoom(room.id)"
+                      :label="$t('page.index.room.join')"
+                      small
+                      full-width
+                    />
+                  </div>
+                </PixelContainer>
+              </div>
+            </TransitionExpandY>
           </div>
-        </template>
+        </TransitionExpandY>
       </div>
     </PixelContainer>
 
@@ -96,6 +131,7 @@ import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelDivider from '~/components/pixel/PixelDivider.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
+import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
 
 import { RoomType } from '@prisma/client'
 import type { FormContext } from 'vee-validate'
@@ -113,15 +149,15 @@ const showCreateRoom = ref(false)
 const createRoomLoading = ref(false)
 
 const {
-  data: publicRooms,
-  pending: publicRoomsLoading,
-  refresh: refreshPublicRooms,
-} = trpc.room.listPublic.useQuery()
-const {
   data: activeRooms,
   pending: activeRoomsLoading,
   refresh: refreshActiveRooms,
 } = trpc.room.listActive.useQuery()
+const {
+  data: publicRooms,
+  pending: publicRoomsLoading,
+  refresh: refreshPublicRooms,
+} = trpc.room.listPublic.useQuery()
 
 const createRoomValidationSchema = computed(() =>
   z.object({
@@ -183,12 +219,22 @@ async function handleJoinRoom(id: string) {
     width: 600px;
   }
 
-  &__rooms-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  &__rooms {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 16px;
     width: 100%;
   }
+
+  &__rooms-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    width: 100%;
+  }
+
   &__room {
     display: flex;
     flex-direction: column;
@@ -196,7 +242,9 @@ async function handleJoinRoom(id: string) {
 
     &__name {
       font-size: 12px;
-      word-break: break-all;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     &__avatars {

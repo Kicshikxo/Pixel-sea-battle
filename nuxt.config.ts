@@ -88,7 +88,7 @@ export default defineNuxtConfig({
     public: {
       auth: {
         accessTokenKey: process.env.ACCESS_TOKEN_COOKIE_KEY ?? 'sea-battle__access-token',
-        refreshTokenKey: process.env.REFRESH_TOKEN_STORAGE_KEY ?? 'sea-battle__refresh-token',
+        refreshTokenKey: process.env.REFRESH_TOKEN_COOKIE_KEY ?? 'sea-battle__refresh-token',
       },
     },
     auth: {
