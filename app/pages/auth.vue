@@ -317,6 +317,7 @@ async function handleSubmit(values: Record<string, any>) {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    width: 400px;
     height: 64px !important;
 
     &-button {

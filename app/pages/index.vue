@@ -230,7 +230,7 @@ async function handleJoinRoom(id: string) {
 
   &__rooms-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     width: 100%;
   }
