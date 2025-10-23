@@ -20,7 +20,7 @@ export interface SignInResult {
 }
 
 export interface GoogleSingInOptions {
-  accessToken: string
+  idToken: string
   redirectTo?: string
 }
 export interface GoogleSignInResult {
@@ -42,11 +42,6 @@ export interface SignOutOptions {
 export interface SignOutResult {
   status: number
   error: string | null
-}
-
-export interface AuthTokenData {
-  id: string
-  password: string | null
 }
 
 export interface SessionData {

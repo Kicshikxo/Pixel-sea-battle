@@ -7,8 +7,8 @@ import { prisma } from '~~/prisma/client'
 import { sendEmailConfirmation } from '~~/server/email'
 import { trpcPublicProcedure, trpcRouter } from '~~/server/trpc'
 import { trpcAuthProcedure } from '~~/server/trpc/middleware/auth'
-import { authorizeUser } from '~~/server/trpc/utils/auth'
 import type { SessionData } from '~~/types/auth'
+import { createSession } from '../utils/auth'
 
 export const authRouter = trpcRouter({
   signUp: trpcPublicProcedure
@@ -42,7 +42,7 @@ export const authRouter = trpcRouter({
 
       sendEmailConfirmation(ctx.event, input.email)
 
-      return await authorizeUser(ctx.event, user)
+      return await createSession(ctx.event, user)
     }),
 
   signIn: trpcPublicProcedure
@@ -64,23 +64,34 @@ export const authRouter = trpcRouter({
         })
       }
 
-      return await authorizeUser(ctx.event, user)
+      return await createSession(ctx.event, user)
     }),
 
   signOut: trpcPublicProcedure.mutation(async ({ ctx }) => {
-    deleteCookie(ctx.event, useRuntimeConfig().public.auth.accessTokenKey)
+    const sessionCookie = getCookie(ctx.event, useRuntimeConfig().public.auth.sessionKey)
+    if (sessionCookie) {
+      try {
+        await prisma.userSession.deleteMany({
+          where: {
+            userId: sessionCookie,
+          },
+        })
+      } finally {
+        deleteCookie(ctx.event, useRuntimeConfig().public.auth.sessionKey)
+      }
+    }
   }),
 
   googleSignIn: trpcPublicProcedure
     .input(
       z.object({
-        accessToken: z.string(),
+        idToken: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const googleUser = (
         await new OAuth2Client().verifyIdToken({
-          idToken: input.accessToken,
+          idToken: input.idToken,
           audience: useRuntimeConfig().auth.googleClientId,
         })
       ).getPayload()
@@ -105,7 +116,7 @@ export const authRouter = trpcRouter({
         update: {},
       })
 
-      return await authorizeUser(ctx.event, user)
+      return await createSession(ctx.event, user)
     }),
 
   guestSignIn: trpcPublicProcedure.mutation(async ({ ctx }) => {
@@ -116,7 +127,7 @@ export const authRouter = trpcRouter({
       },
     })
 
-    return await authorizeUser(ctx.event, user)
+    return await createSession(ctx.event, user)
   }),
 
   session: trpcAuthProcedure.query(async ({ ctx }) => {

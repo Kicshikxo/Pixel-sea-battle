@@ -101,7 +101,7 @@ export default function useAuth() {
   const googleSignIn = async (options: GoogleSingInOptions): Promise<GoogleSignInResult> => {
     try {
       await trpc.auth.googleSignIn.mutate({
-        accessToken: options.accessToken,
+        idToken: options.idToken,
       })
       await getSession()
 

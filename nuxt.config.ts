@@ -5,7 +5,6 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  ssr: false,
   components: false,
 
   app: {
@@ -88,8 +87,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       auth: {
-        accessTokenKey: process.env.ACCESS_TOKEN_COOKIE_KEY ?? 'sea-battle__access-token',
-        refreshTokenKey: process.env.REFRESH_TOKEN_COOKIE_KEY ?? 'sea-battle__refresh-token',
+        sessionKey: process.env.SESSION_COOKIE_KEY ?? 'sea-battle__session',
       },
     },
     auth: {

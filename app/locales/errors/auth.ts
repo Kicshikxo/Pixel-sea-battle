@@ -1,26 +1,23 @@
 import type { Locales } from '~~/types/i18n'
 
 export default {
-  unauthorized: {
-    en: 'Unauthorized',
-    ru: 'Не авторизован',
+  unableToReadSession: {
+    en: 'Unable to read session',
+    ru: 'Невозможно прочитать сессию',
   },
-  unableToReadToken: {
-    en: 'Unable to read token',
-    ru: 'Невозможно прочитать токен',
-  },
-  unableToReadTokenData: {
-    en: 'Unable to read token data',
-    ru: 'Невозможно прочитать данные токена',
+  sessionNotFound: {
+    en: 'Session not found',
+    ru: 'Сессия не найдена',
   },
   userNotFound: {
     en: 'User not found',
     ru: 'Пользователь не найден',
   },
-  invalidTokenCredentials: {
+  invalidSession: {
     en: 'Invalid token credentials',
     ru: 'Неверные учетные данные токена',
   },
+
   userAlreadyExists: {
     en: 'User already exists',
     ru: 'Пользователь уже существует',
@@ -32,9 +29,5 @@ export default {
   googleUserNotFound: {
     en: 'Google user not found',
     ru: 'Пользователь Google не найден',
-  },
-  invalidRefreshToken: {
-    en: 'Invalid refresh token',
-    ru: 'Неверный токен обновления',
   },
 } satisfies Locales

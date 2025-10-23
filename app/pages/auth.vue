@@ -215,7 +215,7 @@ const validationSchema = computed(() =>
 async function handleGoogleSignIn(response: CredentialResponse) {
   googleLoading.value = true
   const { error } = await googleSignIn({
-    accessToken: response.credential!,
+    idToken: response.credential!,
     redirectTo: (route.query.redirectTo as string) ?? '/',
   })
   if (error) toast.error(t(error))

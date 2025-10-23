@@ -28,6 +28,10 @@ export default {
       en: 'Create room',
       ru: 'Создать комнату',
     },
+    refresh: {
+      en: 'Refresh',
+      ru: 'Обновить',
+    },
     creating: {
       en: 'Creating room',
       ru: 'Создание комнаты',

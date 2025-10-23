@@ -11,7 +11,7 @@
     </PixelButton>
     <PixelButton
       class="index-page__create-room-button"
-      label="refresh"
+      :label="$t('page.index.room.refresh')"
       @click="refreshActiveRooms().then(() => refreshPublicRooms())"
     >
       <template #append-icon>
