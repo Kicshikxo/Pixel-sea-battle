@@ -32,7 +32,6 @@
     "nuxt-typed-router": "4.0.2",
     "nuxt-vue3-google-signin": "0.0.13",
     "pinia": "3.0.3",
-    "prettier": "3.6.2",
     "socket.io": "4.8.1",
     "socket.io-client": "4.8.1",
     "trpc-nuxt": "1.2.0",
@@ -42,7 +41,6 @@
   },
   "devDependencies": {
     "@iconify-json/pixelarticons": "1.2.2",
-    "@types/bcryptjs": "3.0.0",
     "@types/nodemailer": "7.0.2",
     "prisma": "6.18.0",
     "sass-embedded": "1.93.2"
