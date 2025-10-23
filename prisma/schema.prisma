@@ -44,7 +44,7 @@ model UserSession {
   userId String @map("user_id") @db.Uuid
 
   createdAt DateTime @default(now()) @map("created_at")
-  expiredAt DateTime @map("expired_at")
+  expiresAt DateTime @map("expires_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("user_sessions")
@@ -57,6 +57,7 @@ model EmailConfirmation {
   userId String @unique @map("user_id") @db.Uuid
 
   createdAt DateTime @default(now()) @map("created_at")
+  expiresAt DateTime @map("expires_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("email_confirmation")
@@ -69,7 +70,7 @@ model PasswordRecovery {
   userId String @unique @map("user_id") @db.Uuid
 
   createdAt DateTime @default(now()) @map("created_at")
-  expiredAt DateTime @map("expired_at")
+  expiresAt DateTime @map("expires_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("password_recovery")

@@ -38,7 +38,12 @@ export async function sendEmailConfirmation(event: H3Event, email: string) {
     if (user.emailConfirmation) {
       await prisma.emailConfirmation.delete({ where: { userId: user.id } })
     }
-    const emailConfirmation = await prisma.emailConfirmation.create({ data: { userId: user.id } })
+    const emailConfirmation = await prisma.emailConfirmation.create({
+      data: {
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    })
 
     await transporter.sendMail({
       to: user.email,
@@ -65,7 +70,10 @@ export async function sendPasswordRecovery(event: H3Event, email: string) {
       await prisma.passwordRecovery.delete({ where: { userId: user.id } })
     }
     const passwordRecovery = await prisma.passwordRecovery.create({
-      data: { userId: user.id, expiredAt: new Date(Date.now() + 60 * 60 * 1000) },
+      data: {
+        userId: user.id,
+        expiresAt: new Date(Date.now() + 60 * 60 * 1000),
+      },
     })
 
     await transporter.sendMail({

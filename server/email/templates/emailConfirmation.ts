@@ -115,6 +115,10 @@ export default /*html*/ `
 
         <p>Или используйте ссылку ниже, если кнопка не работает:</p>
         <a href="{{ callback }}" class="link" target="_blank" rel="noopener noreferrer">{{ callback }}</a>
+
+        <p style="margin-top: 24px; font-size: 13px; color: #999;">
+          Ссылка действительна в течение 24 часов.
+        </p>
       </div>
 
       <div class="footer">

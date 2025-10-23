@@ -12,7 +12,10 @@ export const emailConfirmationRouter = trpcRouter({
     )
     .query(async ({ input }) => {
       const emailConfirmation = await prisma.emailConfirmation.findUnique({
-        where: { id: input.emailConfirmationId },
+        where: {
+          id: input.emailConfirmationId,
+          expiresAt: { gt: new Date() },
+        },
         include: { user: true },
       })
 
@@ -42,7 +45,10 @@ export const emailConfirmationRouter = trpcRouter({
     )
     .mutation(async ({ input }) => {
       const emailConfirmation = await prisma.emailConfirmation.findUnique({
-        where: { id: input.emailConfirmationId },
+        where: {
+          id: input.emailConfirmationId,
+          expiresAt: { gt: new Date() },
+        },
         include: { user: true },
       })
 

@@ -26,7 +26,7 @@ export const passwordRecoveryRouter = trpcRouter({
       const passwordRecovery = await prisma.passwordRecovery.findUnique({
         where: {
           id: input.passwordRecoveryId,
-          expiredAt: { gt: new Date() },
+          expiresAt: { gt: new Date() },
         },
         include: { user: true },
       })

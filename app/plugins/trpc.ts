@@ -11,7 +11,11 @@ export default defineNuxtPlugin(() => {
         url: `/api/trpc`,
         fetchOptions: {
           onResponseError(error) {
-            if (error.response?.status === 401 && session.status.value === 'authenticated') {
+            if (
+              import.meta.client &&
+              error.response?.status === 401 &&
+              session.status.value === 'authenticated'
+            ) {
               window.location.reload()
             }
           },
