@@ -1,7 +1,7 @@
 import { TRPCError } from '@trpc/server'
 import { prisma } from '~~/prisma/client'
 import { trpcMiddleware, trpcPublicProcedure } from '~~/server/trpc'
-import { updateSession } from '~~/server/trpc/utils/auth'
+import { refreshSession } from '~~/server/trpc/utils/auth'
 
 export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
   const sessionCookie = getCookie(ctx.event, useRuntimeConfig().public.auth.sessionKey)
@@ -32,7 +32,7 @@ export const authMiddleware = trpcMiddleware(async ({ ctx, next }) => {
     })
   }
 
-  await updateSession(ctx.event, session)
+  await refreshSession(ctx.event, session)
 
   return next({
     ctx: { user },
