@@ -11,7 +11,7 @@ export const emailConfirmationRouter = trpcRouter({
       }),
     )
     .query(async ({ input }) => {
-      const emailConfirmation = await prisma.emailConfirmation.findUnique({
+      const emailConfirmation = await prisma.userEmailConfirmation.findUnique({
         where: {
           id: input.emailConfirmationId,
           expiresAt: { gt: new Date() },
@@ -27,7 +27,7 @@ export const emailConfirmationRouter = trpcRouter({
       }
 
       if (emailConfirmation.user.emailVerifiedAt) {
-        await prisma.emailConfirmation.delete({ where: { id: emailConfirmation.id } })
+        await prisma.userEmailConfirmation.delete({ where: { id: emailConfirmation.id } })
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'error.emailConfirmation.alreadyConfirmed',
@@ -44,7 +44,7 @@ export const emailConfirmationRouter = trpcRouter({
       }),
     )
     .mutation(async ({ input }) => {
-      const emailConfirmation = await prisma.emailConfirmation.findUnique({
+      const emailConfirmation = await prisma.userEmailConfirmation.findUnique({
         where: {
           id: input.emailConfirmationId,
           expiresAt: { gt: new Date() },
@@ -60,7 +60,7 @@ export const emailConfirmationRouter = trpcRouter({
       }
 
       if (emailConfirmation.user.emailVerifiedAt) {
-        await prisma.emailConfirmation.delete({ where: { id: emailConfirmation.id } })
+        await prisma.userEmailConfirmation.delete({ where: { id: emailConfirmation.id } })
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message: 'error.emailConfirmation.alreadyConfirmed',
@@ -71,7 +71,7 @@ export const emailConfirmationRouter = trpcRouter({
         where: { id: emailConfirmation.userId },
         data: { emailVerifiedAt: new Date() },
       })
-      await prisma.emailConfirmation.delete({ where: { id: emailConfirmation.id } })
+      await prisma.userEmailConfirmation.delete({ where: { id: emailConfirmation.id } })
     }),
 })
 

@@ -23,7 +23,7 @@ export const passwordRecoveryRouter = trpcRouter({
       }),
     )
     .query(async ({ input }) => {
-      const passwordRecovery = await prisma.passwordRecovery.findUnique({
+      const passwordRecovery = await prisma.userPasswordRecovery.findUnique({
         where: {
           id: input.passwordRecoveryId,
           expiresAt: { gt: new Date() },
@@ -49,7 +49,7 @@ export const passwordRecoveryRouter = trpcRouter({
       }),
     )
     .mutation(async ({ input }) => {
-      const passwordRecovery = await prisma.passwordRecovery.findUnique({
+      const passwordRecovery = await prisma.userPasswordRecovery.findUnique({
         where: { id: input.passwordRecoveryId },
         include: { user: true },
       })
@@ -65,7 +65,7 @@ export const passwordRecoveryRouter = trpcRouter({
         where: { id: passwordRecovery.userId },
         data: { password: bcrypt.hashSync(input.password, 8) },
       })
-      await prisma.passwordRecovery.delete({ where: { id: passwordRecovery.id } })
+      await prisma.userPasswordRecovery.delete({ where: { id: passwordRecovery.id } })
     }),
 })
 

@@ -17,7 +17,7 @@ const cleanupTasks: { label: string; handler: () => Promise<number> }[] = [
     label: 'email confirmations',
     handler: async () => {
       return (
-        await prisma.emailConfirmation.deleteMany({
+        await prisma.userEmailConfirmation.deleteMany({
           where: { expiresAt: { lt: new Date() } },
         })
       ).count
@@ -27,7 +27,7 @@ const cleanupTasks: { label: string; handler: () => Promise<number> }[] = [
     label: 'password recoveries',
     handler: async () => {
       return (
-        await prisma.passwordRecovery.deleteMany({
+        await prisma.userPasswordRecovery.deleteMany({
           where: { expiresAt: { lt: new Date() } },
         })
       ).count

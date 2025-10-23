@@ -16,39 +16,35 @@ export const roomRouter = trpcRouter({
       return await prisma.room.findUnique({ where: { id: input.id }, include: { messages: true } })
     }),
 
-  listPublic: trpcAuthProcedure.query(async ({ ctx }) => {
+  listActive: trpcAuthProcedure.query(async ({ ctx }) => {
+    const activeRooms = await prisma.room.findMany({
+      where: {
+        players: { some: { userId: ctx.user.id } },
+        status: { not: RoomStatus.FINISHED },
+      },
+      include: { players: true },
+    })
+
     return {
-      response: await prisma.room.findMany({
-        where: {
-          creatorId: { not: ctx.user.id },
-          type: RoomType.PUBLIC,
-        },
-        include: { states: true },
-      }),
-      total: await prisma.room.count({
-        where: {
-          creatorId: { not: ctx.user.id },
-          type: RoomType.PUBLIC,
-        },
-      }),
+      response: activeRooms,
+      total: activeRooms.length,
     }
   }),
 
-  listActive: trpcAuthProcedure.query(async ({ ctx }) => {
+  listPublic: trpcAuthProcedure.query(async ({ ctx }) => {
+    const publicRooms = await prisma.room.findMany({
+      where: {
+        creatorId: { not: ctx.user.id },
+        type: RoomType.PUBLIC,
+      },
+      include: { players: true },
+    })
+
+    const notFullPublicRooms = publicRooms.filter((room) => room.players.length < 2)
+
     return {
-      response: await prisma.room.findMany({
-        where: {
-          states: { some: { userId: ctx.user.id } },
-          status: { not: RoomStatus.FINISHED },
-        },
-        include: { states: true },
-      }),
-      total: await prisma.room.count({
-        where: {
-          states: { some: { userId: ctx.user.id } },
-          status: { not: RoomStatus.FINISHED },
-        },
-      }),
+      response: notFullPublicRooms,
+      total: notFullPublicRooms.length,
     }
   }),
 
@@ -83,7 +79,7 @@ export const roomRouter = trpcRouter({
     .mutation(async ({ ctx, input }) => {
       const room = await prisma.room.findUnique({
         where: { id: input.id, status: { not: RoomStatus.FINISHED } },
-        include: { states: true },
+        include: { players: true },
       })
 
       if (!room) {
@@ -93,11 +89,11 @@ export const roomRouter = trpcRouter({
         })
       }
 
-      if (room.states.some(({ userId }) => userId === ctx.user.id)) {
+      if (room.players.some(({ userId }) => userId === ctx.user.id)) {
         return room
       }
 
-      if (room.states.length >= 2) {
+      if (room.players.length >= 2) {
         throw new TRPCError({
           code: 'FORBIDDEN',
           message: 'error.room.isFull',
@@ -107,7 +103,7 @@ export const roomRouter = trpcRouter({
       return await prisma.room.update({
         where: { id: input.id },
         data: {
-          states: {
+          players: {
             create: {
               userId: ctx.user.id,
             },

@@ -11,7 +11,7 @@
               <div class="rooms-item__info">
                 <div class="room-item__avatars">
                   <PixelAvatar
-                    v-for="{ userId } in room.states"
+                    v-for="{ userId } in room.players"
                     :key="userId"
                     :seed="userId"
                     small
@@ -41,11 +41,11 @@ import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelDivider from '~/components/pixel/PixelDivider.vue'
 import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
 
-import { RoomType, type Room, type State } from '@prisma/client'
+import { RoomType, type Room, type RoomPlayer } from '@prisma/client'
 
 defineProps<{
   title: string
-  rooms: { total: number; response: (Room & { states: State[] })[] } | null
+  rooms: { total: number; response: (Room & { players: RoomPlayer[] })[] } | null
   loading?: boolean
 }>()
 
