@@ -47,7 +47,7 @@ model UserSession {
   expiredAt DateTime @map("expired_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  @@map("user_refresh_tokens")
+  @@map("user_sessions")
 }
 
 model EmailConfirmation {
