@@ -4,13 +4,15 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "prisma:generate": "prisma generate --no-hints",
-    "prisma:push": "prisma db push",
+    "preview": "nuxt preview",
     "preprepare": "prisma generate --no-hints",
     "prepare": "nuxt prepare",
-    "preview": "nuxt preview"
+    "prebuild": "prisma generate --no-hints",
+    "build": "nuxt build",
+    "pregenerate": "prisma generate --no-hints",
+    "generate": "nuxt generate",
+    "prisma:generate": "prisma generate --no-hints",
+    "prisma:push": "prisma db push"
   },
   "dependencies": {
     "@dicebear/collection": "9.2.4",
