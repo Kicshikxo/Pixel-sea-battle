@@ -92,7 +92,6 @@ export default defineNuxtConfig({
     },
     auth: {
       googleClientId: process.env.GOOGLE_CLIENT_ID,
-      jwtSecretKey: process.env.JWT_SECRET_KEY ?? '<jwt_secret_key>',
     },
     email: {
       host: process.env.EMAIL_HOST ?? 'smtp.gmail.com',

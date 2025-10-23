@@ -1,88 +1,97 @@
 <template>
   <div class="index-page">
-    <PixelButton
-      class="index-page__create-room-button"
-      :label="$t('page.index.room.create')"
-      @click="showCreateRoom = true"
-    >
-      <template #append-icon>
-        <icon name="pixelarticons:plus" />
-      </template>
-    </PixelButton>
-    <PixelButton
-      class="index-page__create-room-button"
-      :label="$t('page.index.room.refresh')"
-      @click="refreshActiveRooms().then(() => refreshPublicRooms())"
-    >
-      <template #append-icon>
-        <icon name="pixelarticons:reload" />
-      </template>
-    </PixelButton>
     <PixelContainer>
       <div class="index-page__actions">
+        <PixelButton :label="$t('page.index.room.create')" @click="showCreateRoomModal = true">
+          <template #append-icon>
+            <icon name="pixelarticons:plus" />
+          </template>
+        </PixelButton>
+
+        <PixelButton
+          :label="$t('page.index.room.refresh')"
+          :loading="activeRoomsLoading || publicRoomsLoading"
+          @click="
+            () => {
+              refreshActiveRooms()
+              refreshPublicRooms()
+            }
+          "
+        >
+          <template #append-icon>
+            <icon name="pixelarticons:reload" />
+          </template>
+        </PixelButton>
+      </div>
+
+      <div class="index-page__rooms">
         <TransitionExpandY>
-          <div v-if="activeRooms?.total" class="index-page__rooms">
-            <PixelDivider :text="$t('page.index.room.listActive')" />
+          <div v-if="activeRooms?.total" class="index-page__rooms-container">
+            <PixelDivider
+              :text="$t('page.index.room.listActive')"
+              class="index-page__rooms-title"
+            />
+
             <TransitionExpandY>
-              <div v-if="activeRoomsLoading">
-                <PixelLoader />
-              </div>
-            </TransitionExpandY>
-            <TransitionExpandY>
-              <div class="index-page__rooms-list">
-                <PixelContainer v-for="room in activeRooms?.response" :key="room.id" full-width>
-                  <div class="index-page__room">
-                    <div class="index-page__room__name">{{ room.name }}</div>
-                    <div class="index-page__room__avatars">
-                      <PixelAvatar
-                        v-for="{ userId } in room.states"
-                        :key="userId"
-                        :seed="userId"
-                        small
-                      />
+              <div v-if="activeRooms.total">
+                <div class="index-page__rooms-list">
+                  <PixelContainer v-for="room in activeRooms?.response" :key="room.id" full-width>
+                    <div class="index-page__rooms-item">
+                      <div class="index-page__rooms-item__name">{{ room.name }}</div>
+                      <div class="index-page__rooms-item__info">
+                        <div class="index-page__rooms-item__avatars">
+                          <PixelAvatar
+                            v-for="{ userId } in room.states"
+                            :key="userId"
+                            :seed="userId"
+                            small
+                          />
+                        </div>
+                        <PixelButton
+                          @click="handleJoinRoom(room.id)"
+                          :label="$t('page.index.room.join')"
+                          small
+                        />
+                      </div>
                     </div>
-                    <PixelButton
-                      @click="handleJoinRoom(room.id)"
-                      :label="$t('page.index.room.join')"
-                      small
-                      full-width
-                    />
-                  </div>
-                </PixelContainer>
+                  </PixelContainer>
+                </div>
               </div>
             </TransitionExpandY>
           </div>
         </TransitionExpandY>
 
         <TransitionExpandY>
-          <div v-if="publicRooms?.total || publicRoomsLoading" class="index-page__rooms">
-            <PixelDivider :text="$t('page.index.room.listPublic')" />
+          <div v-if="publicRooms?.total || publicRoomsLoading" class="index-page__rooms-container">
+            <PixelDivider
+              :text="$t('page.index.room.listPublic')"
+              class="index-page__rooms-title"
+            />
+
             <TransitionExpandY>
-              <div v-if="publicRoomsLoading">
-                <PixelLoader />
-              </div>
-            </TransitionExpandY>
-            <TransitionExpandY>
-              <div class="index-page__rooms-list">
-                <PixelContainer v-for="room in publicRooms?.response" :key="room.id" full-width>
-                  <div class="index-page__room">
-                    <div class="index-page__room__name">{{ room.name }}</div>
-                    <div class="index-page__room__avatars">
-                      <PixelAvatar
-                        v-for="{ userId } in room.states"
-                        :key="userId"
-                        :seed="userId"
-                        small
-                      />
+              <div v-if="publicRooms?.total">
+                <div class="index-page__rooms-list">
+                  <PixelContainer v-for="room in publicRooms?.response" :key="room.id" full-width>
+                    <div class="index-page__rooms-item">
+                      <div class="index-page__rooms-item__name">{{ room.name }}</div>
+                      <div class="index-page__rooms-item__info">
+                        <div class="index-page__rooms-item__avatars">
+                          <PixelAvatar
+                            v-for="{ userId } in room.states"
+                            :key="userId"
+                            :seed="userId"
+                            small
+                          />
+                        </div>
+                        <PixelButton
+                          @click="handleJoinRoom(room.id)"
+                          :label="$t('page.index.room.join')"
+                          small
+                        />
+                      </div>
                     </div>
-                    <PixelButton
-                      @click="handleJoinRoom(room.id)"
-                      :label="$t('page.index.room.join')"
-                      small
-                      full-width
-                    />
-                  </div>
-                </PixelContainer>
+                  </PixelContainer>
+                </div>
               </div>
             </TransitionExpandY>
           </div>
@@ -90,7 +99,7 @@
       </div>
     </PixelContainer>
 
-    <PixelModal v-model:show="showCreateRoom" :title="$t('page.index.room.creating')">
+    <PixelModal v-model:show="showCreateRoomModal" :title="$t('page.index.room.creating')">
       <PixelForm
         ref="createRoomForm"
         :validation-schema="createRoomValidationSchema"
@@ -137,7 +146,6 @@ import { RoomType } from '@prisma/client'
 import type { FormContext } from 'vee-validate'
 import { z } from 'zod'
 import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
-import PixelLoader from '~/components/pixel/PixelLoader.vue'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -145,7 +153,7 @@ const trpc = useTRPC()
 const router = useRouter()
 
 const createRoomForm = ref<FormContext>()
-const showCreateRoom = ref(false)
+const showCreateRoomModal = ref(false)
 const createRoomLoading = ref(false)
 
 const {
@@ -203,50 +211,55 @@ async function handleJoinRoom(id: string) {
   flex-direction: column;
   align-items: center;
 
-  &__create-room-button {
-    margin-bottom: 32px;
-  }
-
   &__actions {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    width: 600px;
+    justify-content: space-between;
+    width: 100%;
   }
 
   &__rooms {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-  }
+    width: 600px;
+    // min-height: 300px;
 
-  &__rooms-list {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    width: 100%;
-  }
-
-  &__room {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    &__name {
-      font-size: 12px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    &-container {
+      display: flex;
+      flex-direction: column;
     }
 
-    &__avatars {
+    &-title {
+      margin-top: 16px;
+    }
+
+    &-list {
       display: flex;
+      flex-direction: column;
+      margin-top: 16px;
+      gap: 16px;
+    }
+
+    &-item {
+      display: flex;
+      flex-direction: column;
       gap: 8px;
+
+      &__name {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &__info {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &__avatars {
+        display: flex;
+        gap: 8px;
+      }
     }
   }
 }

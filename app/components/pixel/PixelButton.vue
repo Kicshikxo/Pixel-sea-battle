@@ -24,31 +24,34 @@
       :type="type"
       :disabled="loading || disabled"
     >
-      <TransitionSwipeY speed="fast">
-        <span v-if="loading" class="px-button__content">
-          <PixelLoader class="px-button__icon" />
-        </span>
-        <span v-else class="px-button__content">
-          <template v-if="iconOnly">
-            <span class="px-button__icon">
-              <slot name="icon" />
-            </span>
-          </template>
-          <template v-else>
-            <span class="px-button__icon">
-              <slot name="prepend-icon" />
-            </span>
-            <span>
-              <slot>
-                {{ label }}
-              </slot>
-            </span>
-            <span class="px-button__icon">
-              <slot name="append-icon" />
-            </span>
-          </template>
-        </span>
-      </TransitionSwipeY>
+      <div>
+        <TransitionSwipeY speed="fast">
+          <div class="px-button__content-wrapper" :key="loading.toString()">
+            <PixelLoader v-if="loading" class="px-button__icon px-button__content-loader" />
+
+            <div :class="['px-button__content', { 'px-button__content--loading': loading }]">
+              <template v-if="iconOnly">
+                <span class="px-button__icon">
+                  <slot name="icon" />
+                </span>
+              </template>
+              <template v-else>
+                <span class="px-button__icon">
+                  <slot name="prepend-icon" />
+                </span>
+                <span>
+                  <slot>
+                    {{ label }}
+                  </slot>
+                </span>
+                <span class="px-button__icon">
+                  <slot name="append-icon" />
+                </span>
+              </template>
+            </div>
+          </div>
+        </TransitionSwipeY>
+      </div>
     </component>
   </PixelBorder>
 </template>
@@ -107,6 +110,21 @@ const props = withDefaults(
     justify-content: center;
     align-items: center;
     gap: 4px;
+
+    &-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    &-loader {
+      position: absolute;
+    }
+
+    &--loading {
+      opacity: 0;
+    }
   }
 
   &--loading {
