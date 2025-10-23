@@ -79,7 +79,7 @@ export default function useAuth() {
   const signOut = async (options?: SignOutOptions): Promise<SignOutResult> => {
     try {
       await trpc.auth.signOut.mutate()
-      await getSession()
+      sessionData.value = null
 
       if (options?.redirectTo) {
         router.push(options.redirectTo)

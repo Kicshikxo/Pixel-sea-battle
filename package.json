@@ -36,6 +36,7 @@
     "pinia": "3.0.3",
     "socket.io": "4.8.1",
     "socket.io-client": "4.8.1",
+    "superjson": "2.2.3",
     "trpc-nuxt": "1.2.0",
     "vue": "3.5.22",
     "vue-router": "4.6.3",

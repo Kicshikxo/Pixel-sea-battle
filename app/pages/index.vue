@@ -26,75 +26,23 @@
 
       <div class="index-page__rooms">
         <TransitionExpandY>
-          <div v-if="activeRooms?.total" class="index-page__rooms-container">
-            <PixelDivider
-              :text="$t('page.index.room.listActive')"
-              class="index-page__rooms-title"
-            />
-
-            <TransitionExpandY>
-              <div v-if="activeRooms.total">
-                <div class="index-page__rooms-list">
-                  <PixelContainer v-for="room in activeRooms?.response" :key="room.id" full-width>
-                    <div class="index-page__rooms-item">
-                      <div class="index-page__rooms-item__name">{{ room.name }}</div>
-                      <div class="index-page__rooms-item__info">
-                        <div class="index-page__rooms-item__avatars">
-                          <PixelAvatar
-                            v-for="{ userId } in room.states"
-                            :key="userId"
-                            :seed="userId"
-                            small
-                          />
-                        </div>
-                        <PixelButton
-                          @click="handleJoinRoom(room.id)"
-                          :label="$t('page.index.room.join')"
-                          small
-                        />
-                      </div>
-                    </div>
-                  </PixelContainer>
-                </div>
-              </div>
-            </TransitionExpandY>
-          </div>
+          <RoomsList
+            v-if="activeRooms?.total"
+            :title="$t('page.index.room.listActive')"
+            :rooms="activeRooms"
+            :loading="activeRoomsLoading"
+            @join-room="handleJoinRoom"
+          />
         </TransitionExpandY>
 
         <TransitionExpandY>
-          <div v-if="publicRooms?.total || publicRoomsLoading" class="index-page__rooms-container">
-            <PixelDivider
-              :text="$t('page.index.room.listPublic')"
-              class="index-page__rooms-title"
-            />
-
-            <TransitionExpandY>
-              <div v-if="publicRooms?.total">
-                <div class="index-page__rooms-list">
-                  <PixelContainer v-for="room in publicRooms?.response" :key="room.id" full-width>
-                    <div class="index-page__rooms-item">
-                      <div class="index-page__rooms-item__name">{{ room.name }}</div>
-                      <div class="index-page__rooms-item__info">
-                        <div class="index-page__rooms-item__avatars">
-                          <PixelAvatar
-                            v-for="{ userId } in room.states"
-                            :key="userId"
-                            :seed="userId"
-                            small
-                          />
-                        </div>
-                        <PixelButton
-                          @click="handleJoinRoom(room.id)"
-                          :label="$t('page.index.room.join')"
-                          small
-                        />
-                      </div>
-                    </div>
-                  </PixelContainer>
-                </div>
-              </div>
-            </TransitionExpandY>
-          </div>
+          <RoomsList
+            v-if="publicRooms?.total || publicRoomsLoading"
+            :title="$t('page.index.room.listPublic')"
+            :rooms="publicRooms"
+            :loading="publicRoomsLoading"
+            @join-room="handleJoinRoom"
+          />
         </TransitionExpandY>
       </div>
     </PixelContainer>
@@ -135,12 +83,12 @@
 <script setup lang="ts">
 import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelFormCheckbox from '~/components/pixel/form/PixelFormCheckbox.vue'
-import PixelAvatar from '~/components/pixel/PixelAvatar.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
-import PixelDivider from '~/components/pixel/PixelDivider.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
 import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
+
+import RoomsList from '~/components/pages/index/RoomsList.vue'
 
 import { RoomType } from '@prisma/client'
 import type { FormContext } from 'vee-validate'
@@ -221,46 +169,6 @@ async function handleJoinRoom(id: string) {
     display: flex;
     flex-direction: column;
     width: 600px;
-    // min-height: 300px;
-
-    &-container {
-      display: flex;
-      flex-direction: column;
-    }
-
-    &-title {
-      margin-top: 16px;
-    }
-
-    &-list {
-      display: flex;
-      flex-direction: column;
-      margin-top: 16px;
-      gap: 16px;
-    }
-
-    &-item {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-
-      &__name {
-        font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      &__info {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      &__avatars {
-        display: flex;
-        gap: 8px;
-      }
-    }
   }
 }
 </style>
