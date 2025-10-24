@@ -33,22 +33,18 @@ function beforeUnloadHandler(event: BeforeUnloadEvent) {
   return true
 }
 onMounted(async () => {
+  window.addEventListener('beforeunload', beforeUnloadHandler)
+
   try {
     await trpc.room.join.mutate({ id: route.params.id as string })
     await socketRoomStore.joinRoom(route.params.id as string)
   } catch (error: any) {
     toast.error(t(error.message))
     router.push({ name: 'index' })
-  } finally {
-    window.addEventListener('beforeunload', beforeUnloadHandler)
   }
 })
 onUnmounted(async () => {
-  try {
-    await socketRoomStore.leaveRoom(route.params.id as string)
-  } finally {
-    window.removeEventListener('beforeunload', beforeUnloadHandler)
-  }
+  window.removeEventListener('beforeunload', beforeUnloadHandler)
 })
 
 async function handleSendMessage(messageText: string) {

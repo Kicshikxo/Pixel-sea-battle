@@ -92,7 +92,6 @@ const messageValidationSchema = computed(() =>
   z.object({
     message: z
       .string()
-      .min(1, t('validation.required'))
       .max(1000, { message: t('validation.tooManyCharacters') })
       .default(''),
   }),
@@ -108,6 +107,7 @@ defineExpose({
 })
 
 async function handleSubmit(values: MessageFormValues) {
+  if (values.message.length === 0) return
   emits('send-message', values.message)
 }
 </script>
