@@ -36,16 +36,15 @@ export interface SocketMiddleware {
   handler: (socket: Socket & { user?: User | null }, next?: () => void) => void
 }
 
+export type Handlers = typeof handlers
+export type Emits<Handler extends keyof Handlers> = SocketHandlerEmits<Handlers[Handler]>
+
 export type ServerToClientEvents = {
-  [Handler in keyof typeof handlers as keyof SocketHandlerEmits<
-    (typeof handlers)[Handler]
-  >]: SocketHandlerEmits<(typeof handlers)[Handler]>[keyof SocketHandlerEmits<
-    (typeof handlers)[Handler]
-  >]
+  [Handler in keyof Handlers as keyof Emits<Handler>]: Emits<Handler>[keyof Emits<Handler>]
 }
 
 export type ClientToServerEvents = {
-  [Handler in keyof typeof handlers as (typeof handlers)[Handler]['event']]: SocketHandlerFunction<
-    (typeof handlers)[Handler]
+  [Handler in keyof Handlers as Handlers[Handler]['event']]: SocketHandlerFunction<
+    Handlers[Handler]
   >
 }
