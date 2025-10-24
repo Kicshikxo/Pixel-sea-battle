@@ -101,7 +101,7 @@ const props = withDefaults(
   height: 40px;
   padding: 0.25rem 0.75rem;
   font-size: 16px;
-  background: #3b3b3b;
+  background-color: #3b3b3b;
   text-transform: uppercase;
   transition: filter 0.125s;
 
@@ -110,6 +110,7 @@ const props = withDefaults(
     justify-content: center;
     align-items: center;
     gap: 4px;
+    white-space: nowrap;
 
     &-wrapper {
       display: flex;
@@ -170,112 +171,112 @@ const props = withDefaults(
   }
 
   &--dark {
-    background: var(--px-color-dark);
+    background-color: var(--px-color-dark);
     color: var(--px-color-white-on-dark-black-on-light);
 
     &:not(:disabled) {
       @media (hover: hover) {
         &:hover {
-          background: var(--px-color-dark-hover);
+          background-color: var(--px-color-dark-hover);
         }
       }
       &:active {
-        background: var(--px-color-dark-active);
+        background-color: var(--px-color-dark-active);
       }
     }
   }
 
   &--light {
-    background: var(--px-color-light);
+    background-color: var(--px-color-light);
     color: var(--px-color-dark);
     :not(:disabled) {
       @media (hover: hover) {
         &:hover {
-          background: var(--px-color-light-hover);
+          background-color: var(--px-color-light-hover);
         }
       }
 
       &:active {
-        background: var(--px-color-light-active);
+        background-color: var(--px-color-light-active);
       }
     }
   }
 
   &--red {
-    background: var(--px-color-red);
+    background-color: var(--px-color-red);
     color: var(--px-color-white);
     &:not(:disabled) {
       @media (hover: hover) {
         &:hover {
-          background: var(--px-color-red-hover);
+          background-color: var(--px-color-red-hover);
         }
       }
 
       &:active {
-        background: var(--px-color-red-active);
+        background-color: var(--px-color-red-active);
       }
     }
   }
 
   &--yellow {
-    background: var(--px-color-yellow);
+    background-color: var(--px-color-yellow);
     color: var(--px-color-white);
     &:not(:disabled) {
       @media (hover: hover) {
         &:hover {
-          background: var(--px-color-yellow-hover);
+          background-color: var(--px-color-yellow-hover);
         }
       }
 
       &:active {
-        background: var(--px-color-yellow-active);
+        background-color: var(--px-color-yellow-active);
       }
     }
   }
 
   &--green {
-    background: var(--px-color-green);
+    background-color: var(--px-color-green);
     color: var(--px-color-white);
     &:not(:disabled) {
       @media (hover: hover) {
         &:hover {
-          background: var(--px-color-green-hover);
+          background-color: var(--px-color-green-hover);
         }
       }
       &:active {
-        background: var(--px-color-green-active);
+        background-color: var(--px-color-green-active);
       }
     }
   }
 
   &--blue {
-    background: var(--px-color-blue);
+    background-color: var(--px-color-blue);
     color: var(--px-color-white);
     &:not(:disabled) {
       @media (hover: hover) {
         &:hover {
-          background: var(--px-color-blue-hover);
+          background-color: var(--px-color-blue-hover);
         }
       }
 
       &:active {
-        background: var(--px-color-blue-active);
+        background-color: var(--px-color-blue-active);
       }
     }
   }
 
   &--yellow {
-    background: var(--px-color-yellow);
+    background-color: var(--px-color-yellow);
     color: var(--px-color-white);
     &:not(:disabled) {
       @media (hover: hover) {
         &:hover {
-          background: var(--px-color-yellow-hover);
+          background-color: var(--px-color-yellow-hover);
         }
       }
 
       &:active {
-        background: var(--px-color-yellow-active);
+        background-color: var(--px-color-yellow-active);
       }
     }
   }

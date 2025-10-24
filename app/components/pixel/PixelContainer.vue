@@ -23,7 +23,7 @@ const props = withDefaults(
 
 <style lang="scss" scoped>
 .px-container {
-  background: var(--px-color-dark);
+  background-color: var(--px-color-dark);
   padding: 12px;
 
   &--full-width {

@@ -1,6 +1,6 @@
 <template>
-  <transition name="px-transition-fade" :mode="mode" v-bind="{ appear }">
-    <slot :class="`px-transition-fade--${speed}`"><!----></slot>
+  <transition name="transition-fade" :mode="mode" v-bind="{ appear }">
+    <slot :class="`transition-fade--${speed}`"><!----></slot>
   </transition>
 </template>
 
@@ -20,20 +20,20 @@ const props = withDefaults(
 </script>
 
 <style lang="scss" scoped>
-.px-transition-fade {
+.transition-fade {
   &--fast {
-    --px-transition-time-fade: var(--px-transition-time-fast);
+    --transition-time-fade: var(--transition-time-fast);
   }
   &--normal {
-    --px-transition-time-fade: var(--px-transition-time-normal);
+    --transition-time-fade: var(--transition-time-normal);
   }
   &--slow {
-    --px-transition-time-fade: var(--px-transition-time-slow);
+    --transition-time-fade: var(--transition-time-slow);
   }
 
   &-enter-active,
   &-leave-active {
-    transition: opacity var(--px-transition-time-fade);
+    transition: opacity var(--transition-time-fade);
   }
 
   &-enter-from {

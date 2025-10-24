@@ -54,9 +54,9 @@ const props = withDefaults(
 
 .px-border {
   display: inline-flex;
-  background: var(--px-color-border);
+  background-color: var(--px-color-border);
   padding: var(--px-border-width);
-  transition: background var(--px-transition-time-fast);
+  transition: background-color var(--transition-time-fast);
 
   &--full-width {
     width: 100%;
@@ -103,7 +103,7 @@ const props = withDefaults(
       hsl(360, 100%, 50%)
     );
 
-    animation: px-border--rainbow-spin calc(var(--px-transition-time-slow) * 10) linear infinite;
+    animation: px-border--rainbow-spin calc(var(--transition-time-slow) * 10) linear infinite;
     @keyframes px-border--rainbow-spin {
       from {
         --px-border-rainbow-angle: 0deg;

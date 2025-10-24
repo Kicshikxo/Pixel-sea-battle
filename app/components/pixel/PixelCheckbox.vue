@@ -74,7 +74,7 @@ function handleInput(event: Event) {
 
   &__icon-wrapper {
     display: flex;
-    background: var(--px-color-white);
+    background-color: var(--px-color-white);
     width: 20px;
     height: 20px;
   }

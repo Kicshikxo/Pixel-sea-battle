@@ -325,7 +325,7 @@ async function handleSubmit(values: Record<string, any>) {
     &-button {
       width: 100%;
       height: 40px;
-      background: var(--px-color-white-on-light-black-on-dark);
+      background-color: var(--px-color-white-on-light-black-on-dark);
       color-scheme: auto;
     }
   }

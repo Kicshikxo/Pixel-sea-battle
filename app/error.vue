@@ -45,7 +45,7 @@ const handleSubmit = () => {
   min-height: 100vh;
   max-height: 100vh;
   overflow: hidden;
-  background: var(--px-color-page-background);
+  background-color: var(--px-color-page-background);
 
   &__form {
     width: 400px !important;

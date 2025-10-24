@@ -1,6 +1,10 @@
 <template>
   <div class="room-page">
     <PixelContainer full-width>
+      <RoomBoard />
+    </PixelContainer>
+
+    <PixelContainer full-width>
       <RoomMessages
         ref="roomMessages"
         :messages="socketRoomStore.messages"
@@ -12,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import RoomBoard from '~/components/pages/room/RoomBoard.vue'
 import RoomMessages from '~/components/pages/room/RoomMessages.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 
@@ -61,9 +66,10 @@ async function handleSendMessage(messageText: string) {
 <style lang="scss" scoped>
 .room-page {
   flex: 1;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 16px;
+  padding: 16px;
 }
 </style>

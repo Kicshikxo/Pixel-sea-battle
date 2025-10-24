@@ -85,7 +85,7 @@ function openProfile() {
   width: 100%;
   height: 64px;
   padding: 8px 24px;
-  background: var(--px-color-page-header);
+  background-color: var(--px-color-page-header);
   border-bottom: 2px solid var(--px-color-border);
 
   &__logo {
@@ -111,7 +111,7 @@ function openProfile() {
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--px-color-page-background);
+  background-color: var(--px-color-page-background);
 }
 .px-loading-indicator {
   position: absolute !important;

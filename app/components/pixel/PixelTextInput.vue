@@ -135,6 +135,11 @@ function handleClear() {
     width: 100%;
   }
 
+  &__label {
+    font-size: 16px;
+    height: 24px;
+  }
+
   &__wrapper {
     display: flex;
     justify-content: center;
@@ -144,7 +149,7 @@ function handleClear() {
     height: 40px;
     padding: 8px;
     color: var(--px-color-dark);
-    background: var(--px-color-white);
+    background-color: var(--px-color-white);
   }
 
   &__field {
@@ -152,7 +157,7 @@ function handleClear() {
     font-size: 16px;
     color: var(--px-color-black);
     caret-color: var(--px-color-black);
-    background: transparent;
+    background-color: transparent;
 
     &:-webkit-autofill,
     &:-webkit-autofill:hover,

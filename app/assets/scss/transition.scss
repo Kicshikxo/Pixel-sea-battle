@@ -1,0 +1,12 @@
+:root {
+  --transition-time-fast: 0.125s;
+  --transition-time-normal: 0.25s;
+  --transition-time-slow: 0.5s;
+
+  --transition-time-expand-swipe-x: var(--transition-time-normal);
+  --transition-time-expand-swipe-y: var(--transition-time-normal);
+  --transition-time-expand: var(--transition-time-normal);
+  --transition-time-fade: var(--transition-time-normal);
+  --transition-time-swipe-y: var(--transition-time-normal);
+  --transition-time-swipe-x: var(--transition-time-normal);
+}

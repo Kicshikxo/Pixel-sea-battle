@@ -32,6 +32,7 @@ export default defineNuxtConfig({
   css: [
     '~/assets/scss/main.scss',
     '~/assets/scss/pixel.scss',
+    '~/assets/scss/transition.scss',
     '~/assets/scss/minecraft.fontface.scss',
     '~/assets/scss/toast.scss',
     'vue-toastification/dist/index.css',

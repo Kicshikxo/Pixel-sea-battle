@@ -128,7 +128,7 @@ async function handleOpenIndexPage() {
   &__email {
     width: 100%;
     padding: 8px;
-    background: var(--px-color-white);
+    background-color: var(--px-color-white);
     color: var(--px-color-black);
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <transition name="px-transition-swipe-x" :mode="mode" v-bind="{ appear }">
-    <slot :class="`px-transition-swipe-x--${speed}`"><!----></slot>
+  <transition name="transition-swipe-x" :mode="mode" v-bind="{ appear }">
+    <slot :class="`transition-swipe-x--${speed}`"><!----></slot>
   </transition>
 </template>
 
@@ -20,22 +20,22 @@ const props = withDefaults(
 </script>
 
 <style lang="scss" scoped>
-.px-transition-swipe-x {
+.transition-swipe-x {
   &--fast {
-    --px-transition-time-swipe-x: var(--px-transition-time-fast);
+    --transition-time-swipe-x: var(--transition-time-fast);
   }
   &--normal {
-    --px-transition-time-swipe-x: var(--px-transition-time-normal);
+    --transition-time-swipe-x: var(--transition-time-normal);
   }
   &--slow {
-    --px-transition-time-swipe-x: var(--px-transition-time-slow);
+    --transition-time-swipe-x: var(--transition-time-slow);
   }
 
   &-enter-active,
   &-leave-active {
     transition:
-      transform var(--px-transition-time-swipe-x) cubic-bezier(0.175, 0.885, 0.32, 1.275),
-      opacity var(--px-transition-time-swipe-x) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform var(--transition-time-swipe-x) cubic-bezier(0.175, 0.885, 0.32, 1.275),
+      opacity var(--transition-time-swipe-x) cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   &-enter-from {

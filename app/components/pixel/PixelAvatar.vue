@@ -41,7 +41,7 @@ const svg = computed(() => getAvatar(props.seed, props.style, props.scale).svg)
 .px-avatar {
   width: 64px;
   height: 64px;
-  background: var(--px-color-white);
+  background-color: var(--px-color-white);
 
   &--small {
     width: 32px;

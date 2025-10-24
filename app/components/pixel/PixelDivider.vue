@@ -34,7 +34,7 @@ const props = withDefaults(
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--px-color-black);
+  background-color: var(--px-color-black);
 
   &--horizontal {
     width: 100%;

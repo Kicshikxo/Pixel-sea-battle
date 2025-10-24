@@ -2,29 +2,26 @@
   <div class="room-messages">
     <PixelForm
       ref="form"
-      class="room-messages__form"
       :validation-schema="messageValidationSchema"
       :title="$t('page.room.messages')"
       full-width
       @submit="handleSubmit"
     >
-      <PixelFormTextInput
-        name="message"
-        :label="$t('page.room.message')"
-        :placeholder="$t('page.room.message')"
-        :readonly="loading"
-      >
-        <template #prepend-icon>
-          <icon name="pixelarticons:mail" />
-        </template>
-      </PixelFormTextInput>
+      <div class="room-messages__field">
+        <PixelFormTextInput
+          name="message"
+          :label="$t('page.room.message')"
+          :placeholder="$t('page.room.message')"
+          :readonly="loading"
+          :max-length="1000"
+        >
+          <template #prepend-icon>
+            <icon name="pixelarticons:mail" />
+          </template>
+        </PixelFormTextInput>
 
-      <PixelButton
-        type="submit"
-        :label="$t('page.room.sendMessage')"
-        :loading="loading"
-        class="room-messages__button"
-      />
+        <PixelButton type="submit" :label="$t('page.room.sendMessage')" :loading="loading" />
+      </div>
     </PixelForm>
 
     <TransitionExpandY>
@@ -119,14 +116,19 @@ async function handleSubmit(values: MessageFormValues) {
   gap: 16px;
   width: 100%;
 
-  &__button {
-    margin-left: auto;
+  &__field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
   }
 
   &__list {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    max-height: calc(60px * 5 - 8px);
+    overflow-y: auto;
   }
 
   &__list-item {

@@ -159,10 +159,10 @@ async function handleJoinRoom(id: string) {
 <style lang="scss" scoped>
 .index-page {
   flex: 1;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 16px;
 
   &__actions {
     display: flex;

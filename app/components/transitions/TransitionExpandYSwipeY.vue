@@ -1,6 +1,6 @@
 <template>
   <transition
-    name="px-transition-expand-swipe-y"
+    name="transition-expand-swipe-y"
     :mode="mode"
     v-bind="{ appear }"
     @beforeEnter="beforeEnter"
@@ -9,7 +9,7 @@
     @beforeLeave="beforeLeave"
     @leave="leave"
   >
-    <slot :class="`px-transition-expand-swipe-y--${speed}`"><!----></slot>
+    <slot :class="`transition-expand-swipe-y--${speed}`"><!----></slot>
   </transition>
 </template>
 
@@ -36,24 +36,24 @@ const leave = beforeEnter
 </script>
 
 <style lang="scss">
-.px-transition-expand-swipe-y {
+.transition-expand-swipe-y {
   &--fast {
-    --px-transition-time-expand-swipe-y: var(--px-transition-time-fast);
+    --transition-time-expand-swipe-y: var(--transition-time-fast);
   }
   &--normal {
-    --px-transition-time-expand-swipe-y: var(--px-transition-time-normal);
+    --transition-time-expand-swipe-y: var(--transition-time-normal);
   }
   &--slow {
-    --px-transition-time-expand-swipe-y: var(--px-transition-time-slow);
+    --transition-time-expand-swipe-y: var(--transition-time-slow);
   }
 
   &-enter-active,
   &-leave-active {
     overflow: hidden;
     transition:
-      height var(--px-transition-time-expand-swipe-y),
-      transform var(--px-transition-time-expand-swipe-y),
-      opacity var(--px-transition-time-expand-swipe-y);
+      height var(--transition-time-expand-swipe-y),
+      transform var(--transition-time-expand-swipe-y),
+      opacity var(--transition-time-expand-swipe-y);
   }
 
   &-enter-from {

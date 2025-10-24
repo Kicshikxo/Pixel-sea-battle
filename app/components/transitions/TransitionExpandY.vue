@@ -1,6 +1,6 @@
 <template>
   <transition
-    name="px-transition-expand"
+    name="transition-expand"
     :mode="mode"
     v-bind="{ appear }"
     @beforeEnter="beforeEnter"
@@ -9,7 +9,7 @@
     @beforeLeave="beforeLeave"
     @leave="leave"
   >
-    <slot :class="`px-transition-expand--${speed}`"><!----></slot>
+    <slot :class="`transition-expand--${speed}`"><!----></slot>
   </transition>
 </template>
 
@@ -36,23 +36,23 @@ const leave = beforeEnter
 </script>
 
 <style lang="scss">
-.px-transition-expand {
+.transition-expand {
   &--fast {
-    --px-transition-time-expand: var(--px-transition-time-fast);
+    --transition-time-expand: var(--transition-time-fast);
   }
   &--normal {
-    --px-transition-time-expand: var(--px-transition-time-normal);
+    --transition-time-expand: var(--transition-time-normal);
   }
   &--slow {
-    --px-transition-time-expand: var(--px-transition-time-slow);
+    --transition-time-expand: var(--transition-time-slow);
   }
 
   &-enter-active,
   &-leave-active {
     overflow: hidden;
     transition:
-      height var(--px-transition-time-expand),
-      opacity var(--px-transition-time-expand);
+      height var(--transition-time-expand),
+      opacity var(--transition-time-expand);
   }
 
   &-enter-from {
