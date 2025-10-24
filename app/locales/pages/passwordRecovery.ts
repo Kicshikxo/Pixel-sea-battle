@@ -17,7 +17,6 @@ export default {
     en: 'Password recovery successfully sended',
     ru: 'Запрос на восстановление пароля успешно отправлен',
   },
-
   unableToChangePassword: {
     en: 'Unable to change password',
     ru: 'Невозможно изменить пароль',

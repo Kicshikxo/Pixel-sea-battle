@@ -17,7 +17,6 @@ export default {
     en: 'Invalid token credentials',
     ru: 'Неверные учетные данные токена',
   },
-
   userAlreadyExists: {
     en: 'User already exists',
     ru: 'Пользователь уже существует',

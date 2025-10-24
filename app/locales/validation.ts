@@ -5,12 +5,10 @@ export default {
     en: 'Required',
     ru: 'Необходимое поле',
   },
-
   invalidEmail: {
     en: 'Invalid email',
     ru: 'Невалидная почта',
   },
-
   tooManyCharacters: {
     en: 'Too many characters',
     ru: 'Слишком много символов',
