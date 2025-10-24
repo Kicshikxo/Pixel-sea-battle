@@ -30,7 +30,7 @@
             v-if="activeRooms?.total"
             :title="$t('page.index.room.listActive')"
             :rooms="activeRooms"
-            :loading="activeRoomsLoading"
+            :join-room-loading="joinRoomLoading"
             @join-room="handleJoinRoom"
           />
         </TransitionExpandY>
@@ -40,7 +40,7 @@
             v-if="publicRooms?.total || publicRoomsLoading"
             :title="$t('page.index.room.listPublic')"
             :rooms="publicRooms"
-            :loading="publicRoomsLoading"
+            :join-room-loading="joinRoomLoading"
             @join-room="handleJoinRoom"
           />
         </TransitionExpandY>
@@ -103,6 +103,7 @@ const router = useRouter()
 const createRoomForm = ref<FormContext>()
 const showCreateRoomModal = ref(false)
 const createRoomLoading = ref(false)
+const joinRoomLoading = ref(false)
 
 const {
   data: activeRooms,
@@ -142,11 +143,14 @@ async function handleCreateRoom(values: z.infer<typeof createRoomValidationSchem
 }
 
 async function handleJoinRoom(id: string) {
+  joinRoomLoading.value = true
   try {
     const room = await trpc.room.join.mutate({ id: id })
     router.push({ name: 'room-id', params: { id: room.id } })
   } catch (error: any) {
     toast.error(t(error.message))
+  } finally {
+    joinRoomLoading.value = false
   }
 }
 </script>

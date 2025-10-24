@@ -22,6 +22,7 @@
                   <PixelButton
                     @click="$emit('join-room', room.id)"
                     :label="$t('page.index.room.join')"
+                    :disabled="joinRoomLoading"
                     small
                   />
                 </div>
@@ -43,11 +44,16 @@ import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
 
 import { RoomType, type Room, type RoomPlayer } from '@prisma/client'
 
-defineProps<{
-  title: string
-  rooms: { total: number; response: (Room & { players: RoomPlayer[] })[] } | null
-  loading?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    title: string
+    rooms: { total: number; response: (Room & { players: RoomPlayer[] })[] } | null
+    joinRoomLoading?: boolean
+  }>(),
+  {
+    joinRoomLoading: false,
+  },
+)
 
 defineEmits<{
   (e: 'join-room', id: string): void

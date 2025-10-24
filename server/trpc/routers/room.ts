@@ -19,7 +19,7 @@ export const roomRouter = trpcRouter({
   listActive: trpcAuthProcedure.query(async ({ ctx }) => {
     const activeRooms = await prisma.room.findMany({
       where: {
-        players: { some: { userId: ctx.user.id } },
+        OR: [{ players: { some: { userId: ctx.user.id } } }, { creatorId: ctx.user.id }],
         status: { not: RoomStatus.FINISHED },
       },
       include: { players: true },
