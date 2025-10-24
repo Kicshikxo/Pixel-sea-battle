@@ -3,4 +3,4 @@ import { SocketHandler } from '~~/types/socket.io'
 export default {
   event: 'disconnect',
   handler: async (socket) => {},
-} as SocketHandler
+} as SocketHandler<'disconnect', undefined>

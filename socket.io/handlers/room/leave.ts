@@ -15,4 +15,4 @@ export default {
 
     callback?.()
   },
-} as SocketHandler<{ id: string }>
+} as SocketHandler<'room:leave', { id: string }>

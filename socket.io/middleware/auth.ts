@@ -1,12 +1,5 @@
-import type { User } from '@prisma/client'
 import { prisma } from '~~/prisma/client'
 import { SocketMiddleware } from '~~/types/socket.io'
-
-declare module 'socket.io' {
-  interface Socket {
-    user?: User | null
-  }
-}
 
 export default {
   name: 'auth',

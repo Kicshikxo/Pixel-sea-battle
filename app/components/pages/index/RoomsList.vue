@@ -47,16 +47,17 @@ import { RoomType, type Room, type RoomPlayer } from '@prisma/client'
 const props = withDefaults(
   defineProps<{
     title: string
-    rooms: { total: number; response: (Room & { players: RoomPlayer[] })[] } | null
+    rooms?: { total: number; response: (Room & { players: RoomPlayer[] })[] } | null
     joinRoomLoading?: boolean
   }>(),
   {
+    rooms: null,
     joinRoomLoading: false,
   },
 )
 
 defineEmits<{
-  (e: 'join-room', id: string): void
+  'join-room': [id: string]
 }>()
 </script>
 

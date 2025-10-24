@@ -10,6 +10,7 @@
       :autocomplete="autocomplete"
       :label="label"
       :placeholder="placeholder"
+      :readonly="readonly"
       :max-length="maxLength"
       :full-width="fullWidth"
       :clearable="clearable"
@@ -41,6 +42,7 @@ const props = withDefaults(
     autocomplete?: string
     label?: string
     placeholder?: string
+    readonly?: boolean
     maxLength?: number | string
     fullWidth?: boolean
     clearable?: boolean
@@ -50,6 +52,7 @@ const props = withDefaults(
     autocomplete: 'one-time-code',
     label: '',
     placeholder: '',
+    readonly: false,
     maxLength: undefined,
     fullWidth: true,
     clearable: false,

@@ -1,62 +1,73 @@
 <template>
   <div class="room-page">
     <PixelContainer full-width>
-      <PixelTextInput v-model="messageText" :label="$t('page.room.message')" />
-      <PixelButton :label="$t('page.room.sendMessage')" @click="handleSendMessage" />
+      <RoomMessages
+        ref="roomMessages"
+        :messages="socketRoomStore.messages"
+        :loading="sendMessageLoading"
+        @send-message="handleSendMessage"
+      />
     </PixelContainer>
-    <ClientOnly>
-      <PixelContainer v-for="message in socketRoomStore.messages" full-width>
-        ({{ new Date(message.createdAt).toLocaleString() }})
-        <PixelAvatar :seed="message.userId" small /> {{ message.text }}
-      </PixelContainer>
-    </ClientOnly>
   </div>
 </template>
 
 <script setup lang="ts">
-import PixelAvatar from '~/components/pixel/PixelAvatar.vue'
-import PixelButton from '~/components/pixel/PixelButton.vue'
+import RoomMessages from '~/components/pages/room/RoomMessages.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
-import PixelTextInput from '~/components/pixel/PixelTextInput.vue'
 
 import useSocketRoomStore from '~/store/socketRoom'
+
+const route = useRoute('room-id')
+const router = useRouter()
+const toast = useToast()
+const trpc = useTRPC()
+const { t } = useI18n()
+const socketRoomStore = useSocketRoomStore()
+
+const roomMessages = ref<InstanceType<typeof RoomMessages>>()
+const sendMessageLoading = ref(false)
 
 function beforeUnloadHandler(event: BeforeUnloadEvent) {
   event.preventDefault()
 
   return true
 }
-onMounted(() => window.addEventListener('beforeunload', beforeUnloadHandler))
-onUnmounted(() => window.removeEventListener('beforeunload', beforeUnloadHandler))
-
-const route = useRoute('room-id')
-const router = useRouter()
-const trpc = useTRPC()
-const socketRoomStore = useSocketRoomStore()
-
-const messageText = ref('')
-
-await socketRoomStore.joinRoom(route.params.id as string)
-
-onBeforeRouteLeave(async () => {
-  await socketRoomStore.leaveRoom(route.params.id as string)
+onMounted(async () => {
+  try {
+    await trpc.room.join.mutate({ id: route.params.id as string })
+    await socketRoomStore.joinRoom(route.params.id as string)
+  } catch (error: any) {
+    toast.error(t(error.message))
+    router.push({ name: 'index' })
+  } finally {
+    window.addEventListener('beforeunload', beforeUnloadHandler)
+  }
+})
+onUnmounted(async () => {
+  try {
+    await socketRoomStore.leaveRoom(route.params.id as string)
+  } finally {
+    window.removeEventListener('beforeunload', beforeUnloadHandler)
+  }
 })
 
-async function handleSendMessage() {
-  await socketRoomStore.sendMessage(messageText.value)
-  messageText.value = ''
+async function handleSendMessage(messageText: string) {
+  sendMessageLoading.value = true
+  try {
+    await socketRoomStore.sendMessage(messageText)
+  } finally {
+    roomMessages.value?.resetForm()
+    sendMessageLoading.value = false
+  }
 }
-
-const { data: room } = await trpc.room.info.useQuery({ id: route.params.id as string })
-if (!room.value) router.push({ name: 'index' })
 </script>
 
 <style lang="scss" scoped>
 .room-page {
   flex: 1;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  gap: 8px;
+  align-items: center;
 }
 </style>

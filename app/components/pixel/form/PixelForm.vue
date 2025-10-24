@@ -1,5 +1,6 @@
 <template>
   <Form
+    ref="form"
     :class="['px-form', { 'px-form--full-width': fullWidth }]"
     :validation-schema="toTypedSchema(validationSchema ?? z.object({}))"
     v-slot="formContext"
@@ -18,7 +19,7 @@
 import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
 
 import { toTypedSchema } from '@vee-validate/zod'
-import { Form } from 'vee-validate'
+import { Form, type FormActions, type FormContext } from 'vee-validate'
 import { z } from 'zod'
 
 const props = withDefaults(
@@ -33,11 +34,17 @@ const props = withDefaults(
   },
 )
 const emits = defineEmits<{
-  submit: [values: z.infer<T>]
+  submit: [values: z.infer<T>, formActions: FormActions<z.infer<T>>]
 }>()
 
-function handleSubmit(values: z.infer<T>) {
-  emits('submit', values)
+const form = ref<FormContext<z.infer<T>>>()
+
+defineExpose({
+  formContext: form,
+})
+
+function handleSubmit(values: z.infer<T>, formActions: FormActions<z.infer<T>>) {
+  emits('submit', values, formActions)
 }
 </script>
 

@@ -87,7 +87,10 @@ model Room {
   messages RoomMessage[]
 
   currentPlayer   RoomPlayer? @relation("RoomCurrentPlayer", fields: [currentPlayerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  currentPlayerId String?     @unique @map("current_player_id") @db.Uuid
+  currentPlayerId String?     @map("current_player_id") @db.Uuid
+
+  winningPlayer   RoomPlayer? @relation("RoomWinningPlayer", fields: [winningPlayerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  winningPlayerId String?     @map("winning_player_id") @db.Uuid
 
   creator   User   @relation(fields: [creatorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   creatorId String @map("creator_id") @db.Uuid
@@ -119,7 +122,8 @@ model RoomPlayer {
   room   Room   @relation("RoomPlayers", fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   roomId String @map("room_id") @db.Uuid
 
-  currentRoom Room? @relation("RoomCurrentPlayer")
+  currentRooms Room[] @relation("RoomCurrentPlayer")
+  winningRooms Room[] @relation("RoomWinningPlayer")
 
   ships       RoomPlayerShip[]
   sourceShots RoomPlayerShot[] @relation("PlayerSourceShots")
@@ -129,6 +133,7 @@ model RoomPlayer {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
 
+  @@unique([userId, roomId], map: "room_players_unique")
   @@map("room_players")
 }
 

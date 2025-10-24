@@ -125,8 +125,9 @@ const createRoomValidationSchema = computed(() =>
     private: z.boolean().default(false),
   }),
 )
+type CreateRoomFormValues = z.infer<typeof createRoomValidationSchema.value>
 
-async function handleCreateRoom(values: z.infer<typeof createRoomValidationSchema.value>) {
+async function handleCreateRoom(values: CreateRoomFormValues) {
   createRoomLoading.value = true
   try {
     const room = await trpc.room.create.mutate({
@@ -158,7 +159,7 @@ async function handleJoinRoom(id: string) {
 <style lang="scss" scoped>
 .index-page {
   flex: 1;
-  padding: 32px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -187,6 +187,7 @@ const signInValidationSchema = computed(() =>
       .default(''),
   }),
 )
+type SignInFormValues = z.infer<typeof signInValidationSchema.value>
 
 const signUpValidationSchema = computed(() =>
   z.object({
@@ -207,6 +208,7 @@ const signUpValidationSchema = computed(() =>
       .default(''),
   }),
 )
+type SignUpFormValues = z.infer<typeof signUpValidationSchema.value>
 
 const validationSchema = computed(() =>
   action.value === 'signIn' ? signInValidationSchema.value : signUpValidationSchema.value,
@@ -229,7 +231,7 @@ async function handleGuestSignIn() {
   if (error) toast.error(t(error))
   loading.value = false
 }
-async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>) {
+async function handleSignIn(values: SignInFormValues) {
   loading.value = true
   const { error } = await signIn({
     email: values.email,
@@ -239,7 +241,7 @@ async function handleSignIn(values: z.infer<typeof signInValidationSchema.value>
   if (error) toast.error(t(error))
   loading.value = false
 }
-async function handleSignUp(values: z.infer<typeof signUpValidationSchema.value>) {
+async function handleSignUp(values: SignUpFormValues) {
   loading.value = true
   const { error } = await signUp({
     email: values.email,
@@ -256,9 +258,9 @@ function handlePasswordRecovery() {
 
 async function handleSubmit(values: Record<string, any>) {
   if (action.value === 'signIn') {
-    await handleSignIn(values as z.infer<typeof signInValidationSchema.value>)
+    await handleSignIn(values as SignInFormValues)
   } else {
-    await handleSignUp(values as z.infer<typeof signUpValidationSchema.value>)
+    await handleSignUp(values as SignUpFormValues)
   }
 }
 </script>
