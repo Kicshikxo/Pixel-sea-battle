@@ -7,28 +7,28 @@ export default defineStore('socketRoom', () => {
   const messages = ref<(RoomMessage & { user: User })[]>([])
 
   async function joinRoom(id: string) {
-    await new Promise((resolve) =>
+    await new Promise<void>((resolve) =>
       socket.emit('room:join', { id }, (response) => {
         room.value = response?.room ?? null
         messages.value = response?.messages ?? []
-        resolve
+        resolve()
       }),
     )
   }
   async function leaveRoom(id: string) {
-    await new Promise((resolve) =>
+    await new Promise<void>((resolve) =>
       socket.emit('room:leave', { id }, () => {
         room.value = null
         messages.value = []
-        resolve
+        resolve()
       }),
     )
   }
 
   async function sendMessage(text: string) {
     if (!room.value) return
-    return new Promise((resolve) =>
-      socket.emit('room:chat:sendMessage', { roomId: room.value!.id, text }, resolve),
+    return new Promise<void>((resolve) =>
+      socket.emit('room:chat:sendMessage', { roomId: room.value!.id, text }, () => resolve()),
     )
   }
   socket.on('room:chat:addMessage', (message) => {

@@ -8,7 +8,8 @@
       <RoomMessages
         ref="roomMessages"
         :messages="socketRoomStore.messages"
-        :loading="sendMessageLoading"
+        :messages-loading="messagesLoading"
+        :send-loading="sendMessageLoading"
         @send-message="handleSendMessage"
       />
     </PixelContainer>
@@ -37,6 +38,7 @@ const route = useRoute('room-id')
 const socketRoomStore = useSocketRoomStore()
 
 const roomMessages = ref<InstanceType<typeof RoomMessages>>()
+const messagesLoading = ref(true)
 const sendMessageLoading = ref(false)
 
 const roomId = computed(() => route.params.id as string)
@@ -49,7 +51,11 @@ function beforeUnloadHandler(event: BeforeUnloadEvent) {
 onMounted(async () => {
   window.addEventListener('beforeunload', beforeUnloadHandler)
 
-  await socketRoomStore.joinRoom(roomId.value)
+  try {
+    await socketRoomStore.joinRoom(roomId.value)
+  } finally {
+    messagesLoading.value = false
+  }
 })
 onUnmounted(async () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler)
