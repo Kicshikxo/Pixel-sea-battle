@@ -16,8 +16,8 @@ export default {
       socket.user = user
     } catch {
       socket.user = null
+    } finally {
+      next()
     }
-
-    if (next) next()
   },
 } as SocketMiddleware

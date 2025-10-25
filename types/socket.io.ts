@@ -33,7 +33,7 @@ export type SocketHandlerEmits<Handler extends SocketHandler<any>> =
 
 export interface SocketMiddleware {
   name: string
-  handler: (socket: Socket & { user?: User | null }, next?: () => void) => void
+  handler: (socket: Socket & { user?: User | null }, next: () => void) => void
 }
 
 export type Handlers = typeof handlers

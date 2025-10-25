@@ -98,12 +98,21 @@ import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 const { t } = useI18n()
 const toast = useToast()
 const trpc = useTRPC()
+const route = useRoute('index')
 const router = useRouter()
 
 const createRoomForm = ref<FormContext>()
 const showCreateRoomModal = ref(false)
 const createRoomLoading = ref(false)
 const joinRoomLoading = ref(false)
+
+onMounted(() => {
+  const error = route.query.error as string | undefined
+  if (error) {
+    toast.error(t(error))
+    router.replace({ query: {} })
+  }
+})
 
 const {
   data: activeRooms,

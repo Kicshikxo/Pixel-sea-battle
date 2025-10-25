@@ -22,15 +22,24 @@ import PixelContainer from '~/components/pixel/PixelContainer.vue'
 
 import useSocketRoomStore from '~/store/socketRoom'
 
+definePageMeta({
+  middleware: async (to) => {
+    const trpc = useTRPC()
+    try {
+      await trpc.room.join.mutate({ id: to.params.id as string })
+    } catch (error: any) {
+      return navigateTo({ name: 'index', query: { error: error.message } })
+    }
+  },
+})
+
 const route = useRoute('room-id')
-const router = useRouter()
-const toast = useToast()
-const trpc = useTRPC()
-const { t } = useI18n()
 const socketRoomStore = useSocketRoomStore()
 
 const roomMessages = ref<InstanceType<typeof RoomMessages>>()
 const sendMessageLoading = ref(false)
+
+const roomId = computed(() => route.params.id as string)
 
 function beforeUnloadHandler(event: BeforeUnloadEvent) {
   event.preventDefault()
@@ -40,16 +49,12 @@ function beforeUnloadHandler(event: BeforeUnloadEvent) {
 onMounted(async () => {
   window.addEventListener('beforeunload', beforeUnloadHandler)
 
-  try {
-    await trpc.room.join.mutate({ id: route.params.id as string })
-    await socketRoomStore.joinRoom(route.params.id as string)
-  } catch (error: any) {
-    toast.error(t(error.message))
-    router.push({ name: 'index' })
-  }
+  await socketRoomStore.joinRoom(roomId.value)
 })
 onUnmounted(async () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler)
+
+  await socketRoomStore.leaveRoom(roomId.value)
 })
 
 async function handleSendMessage(messageText: string) {
