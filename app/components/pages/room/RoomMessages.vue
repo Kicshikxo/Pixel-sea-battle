@@ -122,12 +122,10 @@ watch(
   },
 )
 
-function resetForm() {
-  form.value?.formContext.resetForm()
-}
-
 defineExpose({
-  resetForm,
+  resetForm() {
+    form.value?.formContext.resetForm()
+  },
 })
 
 async function handleSubmit(values: MessageFormValues) {

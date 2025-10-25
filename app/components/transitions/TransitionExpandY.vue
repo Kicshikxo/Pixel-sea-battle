@@ -27,9 +27,19 @@ const props = withDefaults(
   },
 )
 
+function getVisibleHeight(element: Element) {
+  const maxHeight = parseFloat(getComputedStyle(element).maxHeight)
+
+  if (isNaN(maxHeight) || maxHeight === 0 || maxHeight === Infinity) {
+    return element.scrollHeight
+  }
+
+  return Math.min(element.scrollHeight, maxHeight)
+}
+
 const beforeEnter = (element: Element) => ((element as HTMLElement).style.height = '0')
 const enter = (element: Element) =>
-  ((element as HTMLElement).style.height = `${element.scrollHeight}px`)
+  ((element as HTMLElement).style.height = `${getVisibleHeight(element)}px`)
 const afterEnter = (element: Element) => ((element as HTMLElement).style.height = '')
 const beforeLeave = enter
 const leave = beforeEnter
