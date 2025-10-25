@@ -41,4 +41,12 @@ export default {
     en: 'Leave',
     ru: 'Выйти',
   },
+  playerJoin: {
+    en: '{username} joined the room',
+    ru: '{username} присоединился к комнате',
+  },
+  playerLeave: {
+    en: '{username} left the room',
+    ru: '{username} вышел из комнаты',
+  },
 } satisfies Locales

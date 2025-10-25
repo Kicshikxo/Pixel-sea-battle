@@ -6,16 +6,6 @@ import { trpcRouter } from '~~/server/trpc'
 import { trpcAuthProcedure } from '~~/server/trpc/middleware/auth'
 
 export const roomRouter = trpcRouter({
-  info: trpcAuthProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      }),
-    )
-    .query(async ({ input }) => {
-      return await prisma.room.findUnique({ where: { id: input.id }, include: { messages: true } })
-    }),
-
   listActive: trpcAuthProcedure.query(async ({ ctx }) => {
     const activeRooms = await prisma.room.findMany({
       where: {

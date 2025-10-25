@@ -7,7 +7,7 @@
     <PixelContainer full-width>
       <RoomMessages
         ref="roomMessages"
-        :messages="socketRoomStore.messages"
+        :messages="roomStore.room?.messages"
         :messages-loading="messagesLoading"
         :send-loading="sendMessageLoading"
         @send-message="handleSendMessage"
@@ -44,7 +44,7 @@ import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
 
-import useSocketRoomStore from '~/store/socketRoom'
+import useRoomStore from '~/store/room'
 
 import type { RouteLocation } from 'vue-router'
 
@@ -61,7 +61,7 @@ definePageMeta({
 
 const route = useRoute('room-id')
 const router = useRouter()
-const socketRoomStore = useSocketRoomStore()
+const roomStore = useRoomStore()
 
 const roomMessages = ref<InstanceType<typeof RoomMessages>>()
 const messagesLoading = ref(true)
@@ -82,7 +82,7 @@ onMounted(async () => {
   window.addEventListener('beforeunload', beforeUnloadHandler)
 
   try {
-    await socketRoomStore.joinRoom(roomId.value)
+    await roomStore.joinRoom(roomId.value)
   } finally {
     messagesLoading.value = false
   }
@@ -90,7 +90,9 @@ onMounted(async () => {
 onUnmounted(async () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler)
 
-  await socketRoomStore.leaveRoom(roomId.value)
+  if (roomStore.room) {
+    await roomStore.leaveRoom(roomId.value)
+  }
 })
 onBeforeRouteLeave(async (to) => {
   if (showRoomLeaveModal.value) {
@@ -107,7 +109,7 @@ async function handleLeaveRoom() {
   roomLeaveLoading.value = true
 
   try {
-    await socketRoomStore.leaveRoom(roomId.value)
+    await roomStore.leaveRoom(roomId.value)
 
     if (roomLeaveLocation.value) {
       await router.push({ path: roomLeaveLocation.value.path })
@@ -123,7 +125,7 @@ async function handleLeaveRoom() {
 async function handleSendMessage(messageText: string) {
   sendMessageLoading.value = true
   try {
-    await socketRoomStore.sendMessage(messageText)
+    await roomStore.sendMessage(messageText)
   } finally {
     roomMessages.value?.resetForm()
     sendMessageLoading.value = false

@@ -10,7 +10,7 @@ export interface SocketHandler<
 > {
   readonly event: Event
   handler: (
-    socket: Socket & { user?: User | null },
+    socket: Socket<ClientToServerEvents, ServerToClientEvents> & { user?: User | null },
     data: Data,
     callback?: (response?: Response) => void,
   ) => void
@@ -33,7 +33,10 @@ export type SocketHandlerEmits<Handler extends SocketHandler<any>> =
 
 export interface SocketMiddleware {
   name: string
-  handler: (socket: Socket & { user?: User | null }, next: () => void) => void
+  handler: (
+    socket: Socket<ClientToServerEvents, ServerToClientEvents> & { user?: User | null },
+    next: () => void,
+  ) => void
 }
 
 export type Handlers = typeof handlers

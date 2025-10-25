@@ -1,4 +1,11 @@
-import type { Room, RoomMessage, User } from '@prisma/client'
+import type {
+  Room,
+  RoomMessage,
+  RoomPlayer,
+  RoomPlayerShip,
+  RoomPlayerShot,
+  User,
+} from '@prisma/client'
 import { prisma } from '~~/prisma/client'
 import type { SocketHandler } from '~~/types/socket.io'
 
@@ -14,16 +21,60 @@ export default {
           include: { user: true },
           orderBy: { createdAt: 'desc' },
         },
+        players: {
+          include: {
+            user: true,
+            ships: true,
+            sourceShots: true,
+            targetShots: true,
+          },
+        },
       },
     })
     if (!room) return
 
-    socket.join(room.id)
+    const player = await prisma.roomPlayer.findUnique({
+      where: {
+        userId_roomId: {
+          userId: socket.user.id,
+          roomId: room.id,
+        },
+      },
+      include: {
+        user: true,
+        ships: true,
+        sourceShots: true,
+        targetShots: true,
+      },
+    })
+    if (!player) return
 
-    callback?.({ room, messages: room.messages })
+    socket.join(room.id)
+    socket.to(room.id).emit('room:playerJoin', player)
+
+    callback?.(room)
   },
 } as SocketHandler<
   'room:join',
   { id: string },
-  { room: Room | null; messages: (RoomMessage & { user: User })[] }
+  Room & {
+    messages: (RoomMessage & { user: User })[]
+    players: (RoomPlayer & {
+      user: User
+      ships: RoomPlayerShip[]
+      sourceShots: RoomPlayerShot[]
+      targetShots: RoomPlayerShot[]
+    })[]
+  },
+  [
+    {
+      event: 'room:playerJoin'
+      data: RoomPlayer & {
+        user: User
+        ships: RoomPlayerShip[]
+        sourceShots: RoomPlayerShot[]
+        targetShots: RoomPlayerShot[]
+      }
+    },
+  ]
 >

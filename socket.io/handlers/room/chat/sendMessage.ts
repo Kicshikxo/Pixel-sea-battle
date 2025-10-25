@@ -1,7 +1,7 @@
 import type { RoomMessage, User } from '@prisma/client'
 import { prisma } from '~~/prisma/client'
 import { io } from '~~/socket.io'
-import { SocketHandler } from '~~/types/socket.io'
+import type { SocketHandler } from '~~/types/socket.io'
 
 export default {
   event: 'room:chat:sendMessage',

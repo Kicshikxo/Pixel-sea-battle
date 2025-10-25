@@ -1,5 +1,5 @@
 import { prisma } from '~~/prisma/client'
-import { SocketMiddleware } from '~~/types/socket.io'
+import type { SocketMiddleware } from '~~/types/socket.io'
 
 export default {
   name: 'auth',

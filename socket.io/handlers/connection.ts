@@ -1,5 +1,5 @@
 import * as handlers from '~~/socket.io/handlers'
-import { SocketHandler } from '~~/types/socket.io'
+import type { SocketHandler } from '~~/types/socket.io'
 
 export default {
   event: 'connection',
