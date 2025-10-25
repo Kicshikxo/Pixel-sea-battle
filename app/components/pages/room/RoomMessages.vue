@@ -142,7 +142,7 @@ async function handleSubmit(values: MessageFormValues) {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-height: calc(60px * 5 - 8px);
+    max-height: calc((52px + 8px) * 5 - 8px);
     overflow-y: auto;
   }
 
@@ -151,6 +151,8 @@ async function handleSubmit(values: MessageFormValues) {
     gap: 4px;
 
     &__container {
+      min-height: 52px;
+
       &:not(:last-child) {
         margin-bottom: 8px;
       }
