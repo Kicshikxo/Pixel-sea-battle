@@ -12,6 +12,7 @@ export default {
       include: {
         messages: {
           include: { user: true },
+          orderBy: { createdAt: 'asc' },
         },
       },
     })

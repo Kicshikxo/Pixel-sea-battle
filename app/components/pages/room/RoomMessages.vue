@@ -26,29 +26,36 @@
 
     <TransitionExpandY>
       <div v-if="messages?.length" class="room-messages__list">
-        <PixelContainer v-for="message in messages" full-width>
-          <div class="room-messages__list-item">
-            <span class="room-messages__list-item__time">
-              ({{ new Date(message.createdAt).toLocaleTimeString() }})
-            </span>
-            <span>
-              <span
-                :class="[
-                  'room-messages__list-item__username',
-                  {
-                    'room-messages__list-item__username--current':
-                      session.data.value?.id === message.user.id,
-                  },
-                ]"
-              >
-                {{ message.user.username }}
+        <PixelContainer
+          v-for="message in messages"
+          :key="message.id"
+          class="room-messages__list-item__container"
+          full-width
+        >
+          <TransitionExpandY appear>
+            <div class="room-messages__list-item">
+              <span class="room-messages__list-item__time">
+                ({{ new Date(message.createdAt).toLocaleTimeString() }})
               </span>
-              <span>:</span>
-            </span>
-            <span class="room-messages__list-item__message">
-              {{ message.text }}
-            </span>
-          </div>
+              <span>
+                <span
+                  :class="[
+                    'room-messages__list-item__username',
+                    {
+                      'room-messages__list-item__username--current':
+                        session.data.value?.id === message.user.id,
+                    },
+                  ]"
+                >
+                  {{ message.user.username }}
+                </span>
+                <span>:</span>
+              </span>
+              <span class="room-messages__list-item__message">
+                {{ message.text }}
+              </span>
+            </div>
+          </TransitionExpandY>
         </PixelContainer>
       </div>
     </TransitionExpandY>
@@ -126,7 +133,6 @@ async function handleSubmit(values: MessageFormValues) {
   &__list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
     max-height: calc(60px * 5 - 8px);
     overflow-y: auto;
   }
@@ -134,6 +140,12 @@ async function handleSubmit(values: MessageFormValues) {
   &__list-item {
     display: flex;
     gap: 4px;
+
+    &__container {
+      &:not(:last-child) {
+        margin-bottom: 8px;
+      }
+    }
 
     &__username {
       font-weight: bold;
