@@ -6,11 +6,15 @@
     v-slot="formContext"
     @submit="handleSubmit"
   >
-    <TransitionSwipeY>
+    <TransitionSwipeY v-if="animatedTitle">
       <div v-if="title" class="px-form__title" :key="title">
         {{ title }}
       </div>
     </TransitionSwipeY>
+    <div v-else-if="title" class="px-form__title">
+      {{ title }}
+    </div>
+
     <slot :form-context="formContext" />
   </Form>
 </template>
@@ -26,10 +30,12 @@ const props = withDefaults(
   defineProps<{
     validationSchema?: T
     title?: string
+    animatedTitle?: boolean
     fullWidth?: boolean
   }>(),
   {
     title: '',
+    animatedTitle: false,
     fullWidth: false,
   },
 )

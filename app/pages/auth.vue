@@ -5,6 +5,7 @@
         class="sign-in-page__form"
         :validation-schema="validationSchema"
         :title="action === 'signIn' ? $t('page.auth.signInTitle') : $t('page.auth.signUpTitle')"
+        animated-title
         @submit="handleSubmit"
       >
         <TransitionExpandY>

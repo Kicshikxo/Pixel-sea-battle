@@ -164,6 +164,10 @@ async function handleSubmit(values: MessageFormValues) {
         color: var(--px-color-green);
       }
     }
+
+    &__message {
+      word-break: break-all;
+    }
   }
 }
 </style>
