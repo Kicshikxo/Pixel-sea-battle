@@ -25,4 +25,20 @@ export default {
     I: { en: 'I', ru: 'И' },
     J: { en: 'J', ru: 'К' },
   },
+  confirmLeave: {
+    en: 'Confirm leave',
+    ru: 'Подтвердите выход',
+  },
+  confirmLeaveMessage: {
+    en: 'Are you sure you want to leave the room? Your progress will be saved',
+    ru: 'Вы уверены, что хотите выйти из комнаты? Весь прогресс будет сохранён',
+  },
+  cancel: {
+    en: 'Cancel',
+    ru: 'Отмена',
+  },
+  leave: {
+    en: 'Leave',
+    ru: 'Выйти',
+  },
 } satisfies Locales
