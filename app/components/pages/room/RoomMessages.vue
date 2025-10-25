@@ -35,7 +35,7 @@
           :key="message.id"
           class="room-messages__list__container-wrapper"
         >
-          <TransitionExpandY appear>
+          <TransitionExpandY :appear="animateMessages">
             <div class="room-messages__list__container">
               <PixelContainer full-width>
                 <div class="room-messages__list-item">
@@ -111,6 +111,16 @@ const messageValidationSchema = computed(() =>
   }),
 )
 type MessageFormValues = z.infer<typeof messageValidationSchema.value>
+
+const animateMessages = ref(false)
+watch(
+  () => props.messages,
+  () => {
+    nextTick(() => {
+      animateMessages.value = true
+    })
+  },
+)
 
 function resetForm() {
   form.value?.formContext.resetForm()
