@@ -53,8 +53,4 @@ export default {
       ru: 'Войти',
     },
   },
-  signOut: {
-    en: 'Sign out',
-    ru: 'Выйти',
-  },
 } satisfies Locales

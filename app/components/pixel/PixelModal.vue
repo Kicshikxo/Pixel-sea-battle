@@ -7,7 +7,10 @@
             <div class="px-modal">
               <PixelContainer full-width>
                 <div class="px-modal__header">
-                  <span class="px-modal__header__title">{{ title }}</span>
+                  <span class="px-modal__header__title">
+                    <slot name="icon" />
+                    {{ title }}
+                  </span>
                   <PixelButton color="dark" small icon-only @click="handleClose">
                     <template #icon>
                       <icon name="pixelarticons:close" />
@@ -68,6 +71,9 @@ function handleClose() {
     gap: 16px;
 
     &__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-size: 20px;
     }
   }

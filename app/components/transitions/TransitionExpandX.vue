@@ -1,6 +1,6 @@
 <template>
   <transition
-    name="transition-expand-y"
+    name="transition-expand-x"
     :mode="mode"
     v-bind="{ appear }"
     @beforeEnter="beforeEnter"
@@ -9,7 +9,7 @@
     @beforeLeave="beforeLeave"
     @leave="leave"
   >
-    <slot :class="`transition-expand-y--${speed}`"><!----></slot>
+    <slot :class="`transition-expand-x--${speed}`"><!----></slot>
   </transition>
 </template>
 
@@ -27,26 +27,26 @@ const props = withDefaults(
   },
 )
 
-function getVisibleHeight(element: Element) {
-  const maxHeight = parseFloat(getComputedStyle(element).maxHeight)
+function getVisibleWidth(element: Element) {
+  const maxWidth = parseFloat(getComputedStyle(element).maxWidth)
 
-  if (isNaN(maxHeight) || maxHeight === 0 || maxHeight === Infinity) {
-    return element.scrollHeight
+  if (isNaN(maxWidth) || maxWidth === 0 || maxWidth === Infinity) {
+    return element.scrollWidth
   }
 
-  return Math.min(element.scrollHeight, maxHeight)
+  return Math.min(element.scrollWidth, maxWidth)
 }
 
-const beforeEnter = (element: Element) => ((element as HTMLElement).style.height = '0')
+const beforeEnter = (element: Element) => ((element as HTMLElement).style.width = '0')
 const enter = (element: Element) =>
-  ((element as HTMLElement).style.height = `${getVisibleHeight(element)}px`)
-const afterEnter = (element: Element) => ((element as HTMLElement).style.height = '')
+  ((element as HTMLElement).style.width = `${getVisibleWidth(element)}px`)
+const afterEnter = (element: Element) => ((element as HTMLElement).style.width = '')
 const beforeLeave = enter
 const leave = beforeEnter
 </script>
 
 <style lang="scss">
-.transition-expand-y {
+.transition-expand-x {
   &--fast {
     --transition-time-expand: var(--transition-time-fast);
   }
@@ -61,7 +61,7 @@ const leave = beforeEnter
   &-leave-active {
     overflow: hidden;
     transition:
-      height var(--transition-time-expand),
+      width var(--transition-time-expand),
       opacity var(--transition-time-expand);
   }
 

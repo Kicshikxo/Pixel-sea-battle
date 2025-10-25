@@ -48,34 +48,40 @@
     </PixelContainer>
 
     <PixelModal v-model:show="showCreateRoomModal" :title="$t('page.index.room.creating')">
-      <PixelForm
-        ref="createRoomForm"
-        :validation-schema="createRoomValidationSchema"
-        @submit="handleCreateRoom"
-      >
-        <PixelFormTextInput
-          name="name"
-          :label="$t('page.index.room.name')"
-          :placeholder="$t('page.index.room.name')"
-        >
-          <template #prepend-icon>
-            <icon name="pixelarticons:card-text" />
-          </template>
-        </PixelFormTextInput>
+      <template #icon>
+        <icon name="pixelarticons:users" />
+      </template>
 
-        <PixelFormCheckbox name="private" :label="$t('page.index.room.private')" />
-
-        <PixelButton
-          type="submit"
-          :label="$t('page.index.room.create')"
-          :loading="createRoomLoading"
-          full-width
+      <div class="create-room-modal">
+        <PixelForm
+          ref="createRoomForm"
+          :validation-schema="createRoomValidationSchema"
+          @submit="handleCreateRoom"
         >
-          <template #append-icon>
-            <icon name="pixelarticons:plus" />
-          </template>
-        </PixelButton>
-      </PixelForm>
+          <PixelFormTextInput
+            name="name"
+            :label="$t('page.index.room.name')"
+            :placeholder="$t('page.index.room.name')"
+          >
+            <template #prepend-icon>
+              <icon name="pixelarticons:card-text" />
+            </template>
+          </PixelFormTextInput>
+
+          <PixelFormCheckbox name="private" :label="$t('page.index.room.private')" />
+
+          <PixelButton
+            type="submit"
+            :label="$t('page.index.room.create')"
+            :loading="createRoomLoading"
+            full-width
+          >
+            <template #append-icon>
+              <icon name="pixelarticons:plus" />
+            </template>
+          </PixelButton>
+        </PixelForm>
+      </div>
     </PixelModal>
   </div>
 </template>
@@ -184,5 +190,9 @@ async function handleJoinRoom(id: string) {
     flex-direction: column;
     width: 600px;
   }
+}
+
+.create-room-modal {
+  width: 400px;
 }
 </style>

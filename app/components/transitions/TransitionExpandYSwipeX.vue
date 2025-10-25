@@ -1,6 +1,6 @@
 <template>
   <transition
-    name="transition-expand-swipe-x"
+    name="transition-expand-y-swipe-x"
     :mode="mode"
     v-bind="{ appear }"
     @beforeEnter="beforeEnter"
@@ -9,7 +9,7 @@
     @beforeLeave="beforeLeave"
     @leave="leave"
   >
-    <slot :class="`transition-expand-swipe-x--${speed}`"><!----></slot>
+    <slot :class="`transition-expand-y-swipe-x--${speed}`"><!----></slot>
   </transition>
 </template>
 
@@ -46,7 +46,7 @@ const leave = beforeEnter
 </script>
 
 <style lang="scss">
-.transition-expand-swipe-x {
+.transition-expand-y-swipe-x {
   &--fast {
     --transition-time-expand-swipe-x: var(--transition-time-fast);
   }

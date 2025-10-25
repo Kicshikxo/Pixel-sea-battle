@@ -11,6 +11,7 @@ import emailConfirmationPage from './pages/emailConfirmation'
 import errorPage from './pages/error'
 import indexPage from './pages/index'
 import passwordRecoveryPage from './pages/passwordRecovery'
+import profilePage from './pages/profile'
 import roomPage from './pages/room'
 
 import validation from './validation'
@@ -29,6 +30,7 @@ export const translationFiles: Record<string, Locales> = {
     error: errorPage,
     index: indexPage,
     passwordRecovery: passwordRecoveryPage,
+    profile: profilePage,
     room: roomPage,
   },
 

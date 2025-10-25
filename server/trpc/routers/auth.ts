@@ -130,6 +130,10 @@ export const authRouter = trpcRouter({
     return await createSession(ctx.event, user)
   }),
 
+  info: trpcAuthProcedure.query(async ({ ctx }) => {
+    return ctx.user
+  }),
+
   session: trpcAuthProcedure.query(async ({ ctx }) => {
     return {
       id: ctx.user.id,

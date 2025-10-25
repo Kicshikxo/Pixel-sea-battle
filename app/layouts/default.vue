@@ -11,19 +11,24 @@
             </div>
           </NuxtLink>
         </TransitionFade>
+
+        <div class="px-header__actions">
+          <PixelLocaleSwitch class="px-header__actions__item" />
+          <PixelThemeSwitch class="px-header__actions__item" />
+          <TransitionExpandX>
+            <div v-if="session.data.value?.id">
+              <div class="px-header__actions__item">
+                <PixelAvatar :seed="session.data.value?.id" small @click="openProfile" />
+              </div>
+            </div>
+          </TransitionExpandX>
+        </div>
+
         <NuxtLoadingIndicator
           class="px-loading-indicator"
           color="var(--px-color-page-loading-indicator)"
           :height="2"
           :throttle="0"
-        />
-        <PixelLocaleSwitch />
-        <PixelThemeSwitch />
-        <PixelAvatar
-          v-if="session.data.value?.id"
-          :seed="session.data.value?.id"
-          small
-          @click="openProfile"
         />
       </header>
     </PixelShadow>
@@ -40,6 +45,7 @@ import PixelAvatar from '~/components/pixel/PixelAvatar.vue'
 import PixelLocaleSwitch from '~/components/pixel/PixelLocaleSwitch.vue'
 import PixelShadow from '~/components/pixel/PixelShadow.vue'
 import PixelThemeSwitch from '~/components/pixel/PixelThemeSwitch.vue'
+import TransitionExpandX from '~/components/transitions/TransitionExpandX.vue'
 import TransitionFade from '~/components/transitions/TransitionFade.vue'
 
 const { t, locale } = useI18n()
@@ -78,10 +84,8 @@ function openProfile() {
 }
 .px-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: start;
   align-items: center;
-  position: relative;
-  gap: 24px;
   width: 100%;
   height: 64px;
   padding: 8px 24px;
@@ -91,10 +95,10 @@ function openProfile() {
   &__logo {
     display: flex;
     gap: 8px;
-    margin-right: auto;
 
     &-img {
       width: 64px;
+      height: 64px;
     }
 
     &-text {
@@ -102,6 +106,19 @@ function openProfile() {
       display: flex;
       flex-direction: column;
       justify-content: center;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      height: 36px;
+      margin-left: 24px;
     }
   }
 }
