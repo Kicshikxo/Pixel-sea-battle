@@ -120,6 +120,7 @@ function openProfile() {
 }
 .px-page {
   display: flex;
+  justify-content: center;
   width: 100%;
   min-height: 100%;
   position: absolute;

@@ -59,7 +59,9 @@ function handleClickCell(row: number, column: number) {
     border-collapse: collapse;
 
     &__cell {
+      min-width: 32px;
       width: 32px;
+      min-height: 32px;
       height: 32px;
       border: 2px solid var(--px-color-black-on-light-white-on-dark);
       text-align: center;

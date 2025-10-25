@@ -82,5 +82,6 @@ async function handleSendMessage(messageText: string) {
   align-items: center;
   gap: 16px;
   padding: 16px;
+  max-width: 1200px;
 }
 </style>

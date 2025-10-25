@@ -13,5 +13,7 @@ import PlayerBoard from '~/components/pages/room/PlayerBoard.vue'
 .room-board {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 </style>

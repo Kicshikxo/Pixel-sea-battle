@@ -30,37 +30,40 @@
 
     <TransitionExpandY>
       <div v-if="messages?.length" class="room-messages__list">
-        <PixelContainer
+        <div
           v-for="message in messages"
           :key="message.id"
-          class="room-messages__list-item__container"
-          full-width
+          class="room-messages__list__container-wrapper"
         >
           <TransitionExpandY appear>
-            <div class="room-messages__list-item">
-              <span class="room-messages__list-item__time">
-                ({{ new Date(message.createdAt).toLocaleTimeString() }})
-              </span>
-              <span>
-                <span
-                  :class="[
-                    'room-messages__list-item__username',
-                    {
-                      'room-messages__list-item__username--current':
-                        session.data.value?.id === message.user.id,
-                    },
-                  ]"
-                >
-                  {{ message.user.username }}
-                </span>
-                <span>:</span>
-              </span>
-              <span class="room-messages__list-item__message">
-                {{ message.text }}
-              </span>
+            <div class="room-messages__list__container">
+              <PixelContainer full-width>
+                <div class="room-messages__list-item">
+                  <span class="room-messages__list-item__time">
+                    ({{ new Date(message.createdAt).toLocaleTimeString() }})
+                  </span>
+                  <span>
+                    <span
+                      :class="[
+                        'room-messages__list-item__username',
+                        {
+                          'room-messages__list-item__username--current':
+                            session.data.value?.id === message.user.id,
+                        },
+                      ]"
+                    >
+                      {{ message.user.username }}
+                    </span>
+                    <span>:</span>
+                  </span>
+                  <span class="room-messages__list-item__message">
+                    {{ message.text }}
+                  </span>
+                </div>
+              </PixelContainer>
             </div>
           </TransitionExpandY>
-        </PixelContainer>
+        </div>
       </div>
     </TransitionExpandY>
   </div>
@@ -144,19 +147,19 @@ async function handleSubmit(values: MessageFormValues) {
     width: 100%;
     max-height: calc((52px + 8px) * 5 - 8px);
     overflow-y: auto;
+
+    &__container {
+      margin-bottom: 8px;
+    }
+
+    &__container-wrapper:last-child &__container {
+      margin-bottom: 0;
+    }
   }
 
   &__list-item {
     display: flex;
     gap: 4px;
-
-    &__container {
-      min-height: 52px;
-
-      &:not(:last-child) {
-        margin-bottom: 8px;
-      }
-    }
 
     &__username {
       font-weight: bold;
