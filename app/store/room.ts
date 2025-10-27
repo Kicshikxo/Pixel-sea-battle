@@ -7,9 +7,11 @@ import type {
   User,
 } from '@prisma/client'
 import { defineStore } from 'pinia'
-import { socket } from '~~/socket.io/client'
+import useSocketStore from '~/store/socket'
 
 export default defineStore('room', () => {
+  const { socket } = useSocketStore()
+  const { session } = useAuth()
   const toast = useToast()
   const { t } = useI18n()
 
@@ -26,34 +28,38 @@ export default defineStore('room', () => {
     | null
   >(null)
 
-  async function joinRoom(id: string) {
+  async function connectRoom(id: string) {
     await new Promise<void>((resolve) =>
-      socket.emit('room:join', { id }, (response) => {
+      socket.emit('room:connect', { id }, (response) => {
         room.value = response ?? null
         resolve()
       }),
     )
   }
-  async function leaveRoom(id: string) {
+  async function disconnectRoom(id: string) {
     await new Promise<void>((resolve) =>
-      socket.emit('room:leave', { id }, () => {
+      socket.emit('room:disconnect', { id }, () => {
         room.value = null
         resolve()
       }),
     )
   }
 
-  socket.on('room:playerJoin', (response) => {
-    toast.success(t('page.room.playerJoin', { username: response.user.username }))
-    console.log('Кто то присоединился', response)
+  socket.on('room:playerConnect', (response) => {
+    toast.success(t('page.room.playerConnect', { username: response.user.username }))
     if (!room.value) return
     room.value.players.push(response)
   })
-  socket.on('room:playerLeave', (response) => {
-    toast.error(t('page.room.playerLeave', { username: response.user.username }))
-    console.log('Кто то отключился', response)
+  socket.on('room:playerDisconnect', (response) => {
+    toast.error(t('page.room.playerDisconnect', { username: response.user.username }))
     if (!room.value) return
     room.value.players = room.value.players.filter((player) => player.userId !== response.userId)
+  })
+  socket.on('room:playerLeave', (response) => {
+    if (response.user.id === session.data.value?.id) {
+      toast.error(t('page.room.youLeave'))
+      room.value = null
+    }
   })
 
   async function sendMessage(text: string) {
@@ -69,5 +75,5 @@ export default defineStore('room', () => {
     }
   })
 
-  return { room, joinRoom, leaveRoom, sendMessage }
+  return { room, connectRoom, disconnectRoom, sendMessage }
 })

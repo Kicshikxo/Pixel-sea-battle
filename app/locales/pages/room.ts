@@ -29,9 +29,13 @@ export default {
     en: 'Confirm leave',
     ru: 'Подтвердите выход',
   },
-  confirmLeaveMessage: {
+  confirmSafeLeaveMessage: {
     en: 'Are you sure you want to leave the room? Your progress will be saved',
     ru: 'Вы уверены, что хотите выйти из комнаты? Весь прогресс будет сохранён',
+  },
+  confirmUnsafeLeaveMessage: {
+    en: 'Are you sure you want to leave the room? Your progress will be lost',
+    ru: 'Вы уверены, что хотите выйти из комнаты? Весь прогресс будет удалён',
   },
   cancel: {
     en: 'Cancel',
@@ -41,12 +45,24 @@ export default {
     en: 'Leave',
     ru: 'Выйти',
   },
+  playerConnect: {
+    en: '{username} connect to the room',
+    ru: '{username} подключился к комнате',
+  },
+  playerDisconnect: {
+    en: '{username} disconnect from the room',
+    ru: '{username} отключился от комнаты',
+  },
   playerJoin: {
-    en: '{username} joined the room',
-    ru: '{username} присоединился к комнате',
+    en: '{username} join the room',
+    ru: '{username} вошёл в комнату',
   },
   playerLeave: {
-    en: '{username} left the room',
-    ru: '{username} вышел из комнаты',
+    en: '{username} leave the room',
+    ru: '{username} вышёл из комнаты',
+  },
+  youLeave: {
+    en: 'You leave the room',
+    ru: 'Вы вышли из комнаты',
   },
 } satisfies Locales

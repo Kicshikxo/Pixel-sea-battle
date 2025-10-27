@@ -86,12 +86,12 @@ const { session } = useAuth()
 
 const props = withDefaults(
   defineProps<{
-    messages?: (RoomMessage & { user: User })[] | null
+    messages?: (RoomMessage & { user: User })[]
     messagesLoading?: boolean
     sendLoading?: boolean
   }>(),
   {
-    messages: null,
+    messages: () => [],
     messagesLoading: false,
     sendLoading: false,
   },
@@ -117,7 +117,7 @@ watch(
   () => props.messages,
   () => {
     nextTick(() => {
-      animateMessages.value = true
+      animateMessages.value = !!props.messages.length
     })
   },
 )

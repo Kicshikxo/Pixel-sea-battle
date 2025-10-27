@@ -8,6 +8,7 @@
           'px-avatar--large': large,
         },
       ]"
+      :title="title"
       v-html="svg"
     />
   </PixelBorder>
@@ -21,12 +22,14 @@ import { styles } from '~/utils/getAvatar'
 const props = withDefaults(
   defineProps<{
     seed: string
+    title?: string
     style?: keyof typeof styles
     small?: boolean
     large?: boolean
     scale?: number
   }>(),
   {
+    title: '',
     style: 'identicon',
     small: false,
     large: false,

@@ -9,4 +9,8 @@ export default {
     en: 'Room is full',
     ru: 'Комната заполнена',
   },
+  notJoined: {
+    en: 'You are not joined to this room',
+    ru: 'Вы не присоединены к этой комнате',
+  },
 } satisfies Locales

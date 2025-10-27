@@ -53,4 +53,8 @@ export default {
       ru: 'Войти',
     },
   },
+  quickJoin: {
+    en: 'Quick join',
+    ru: 'Быстрая игра',
+  },
 } satisfies Locales

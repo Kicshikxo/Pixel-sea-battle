@@ -18,7 +18,12 @@
           <TransitionExpandX>
             <div v-if="session.data.value?.id">
               <div class="px-header__actions__item">
-                <PixelAvatar :seed="session.data.value?.id" small @click="openProfile" />
+                <PixelAvatar
+                  :seed="session.data.value?.id"
+                  :title="session.data.value?.username"
+                  small
+                  @click="openProfile"
+                />
               </div>
             </div>
           </TransitionExpandX>

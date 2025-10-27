@@ -1,16 +1,16 @@
-import type { RoomPlayer, User } from '@prisma/client'
+import { type RoomPlayer, type User } from '@prisma/client'
 import { prisma } from '~~/prisma/client'
 import type { SocketHandler } from '~~/types/socket.io'
 
 export default {
-  event: 'room:leave',
+  event: 'room:disconnect',
   handler: async (socket, data, callback) => {
-    if (!socket.user) return
+    if (!socket.user) return callback?.()
 
     const room = await prisma.room.findUnique({
       where: { id: data?.id, players: { some: { userId: socket.user.id } } },
     })
-    if (!room) return
+    if (!room) return callback?.()
 
     const player = await prisma.roomPlayer.findUnique({
       where: {
@@ -23,18 +23,24 @@ export default {
         user: true,
       },
     })
-    if (!player) return
+    if (!player) return callback?.()
 
     socket.leave(room.id)
-    socket.to(room.id).emit('room:playerLeave', player)
+    socket.to(room.id).emit('room:playerDisconnect', player)
 
     callback?.()
   },
 } as SocketHandler<
-  'room:leave',
+  'room:disconnect',
   { id: string },
-  null,
+  void,
   [
+    {
+      event: 'room:playerDisconnect'
+      data: RoomPlayer & {
+        user: User
+      }
+    },
     {
       event: 'room:playerLeave'
       data: RoomPlayer & {

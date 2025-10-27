@@ -109,7 +109,6 @@ enum RoomType {
 enum RoomStatus {
   PENDING
   STARTED
-  PAUSED
   FINISHED
 }
 

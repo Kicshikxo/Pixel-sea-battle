@@ -7,19 +7,14 @@
             <icon name="pixelarticons:plus" />
           </template>
         </PixelButton>
-
         <PixelButton
-          :label="$t('page.index.room.refresh')"
-          :loading="activeRoomsLoading || publicRoomsLoading"
-          @click="
-            () => {
-              refreshActiveRooms()
-              refreshPublicRooms()
-            }
-          "
+          :label="$t('page.index.quickJoin')"
+          :loading="quickMatchLoading"
+          :disabled="joinRoomLoading"
+          @click="handleQuickJoin"
         >
-          <template #append-icon>
-            <icon name="pixelarticons:reload" />
+          <template #prepend-icon>
+            <icon name="pixelarticons:shuffle" />
           </template>
         </PixelButton>
       </div>
@@ -27,9 +22,10 @@
       <div class="index-page__rooms">
         <TransitionExpandY>
           <RoomsList
-            v-if="activeRooms?.total"
+            v-if="roomsStore.activeRooms.length"
             :title="$t('page.index.room.listActive')"
-            :rooms="activeRooms"
+            :rooms="roomsStore.activeRooms"
+            :rooms-loading="roomsLoading"
             :join-room-loading="joinRoomLoading"
             @join-room="handleJoinRoom"
           />
@@ -37,9 +33,10 @@
 
         <TransitionExpandY>
           <RoomsList
-            v-if="publicRooms?.total || publicRoomsLoading"
+            v-if="roomsStore.publicRooms.length || roomsLoading"
             :title="$t('page.index.room.listPublic')"
-            :rooms="publicRooms"
+            :rooms="roomsStore.publicRooms ?? []"
+            :rooms-loading="roomsLoading"
             :join-room-loading="joinRoomLoading"
             @join-room="handleJoinRoom"
           />
@@ -89,6 +86,7 @@
 <script setup lang="ts">
 import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelFormCheckbox from '~/components/pixel/form/PixelFormCheckbox.vue'
+import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
@@ -99,44 +97,48 @@ import RoomsList from '~/components/pages/index/RoomsList.vue'
 import { RoomType } from '@prisma/client'
 import type { FormContext } from 'vee-validate'
 import { z } from 'zod'
-import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
+import useRoomsStore from '~/store/rooms'
 
 const { t } = useI18n()
 const toast = useToast()
 const trpc = useTRPC()
 const route = useRoute('index')
 const router = useRouter()
+const roomsStore = useRoomsStore()
 
 const createRoomForm = ref<FormContext>()
 const showCreateRoomModal = ref(false)
-const createRoomLoading = ref(false)
-const joinRoomLoading = ref(false)
 
-onMounted(() => {
-  const error = route.query.error as string | undefined
-  if (error) {
-    toast.error(t(error))
-    router.replace({ query: {} })
+const createRoomLoading = ref(false)
+const roomsLoading = ref(true)
+const joinRoomLoading = ref(false)
+const quickMatchLoading = ref(false)
+
+onMounted(async () => {
+  try {
+    await roomsStore.getRooms()
+  } finally {
+    roomsLoading.value = false
   }
 })
 
-const {
-  data: activeRooms,
-  pending: activeRoomsLoading,
-  refresh: refreshActiveRooms,
-} = trpc.room.listActive.useQuery()
-const {
-  data: publicRooms,
-  pending: publicRoomsLoading,
-  refresh: refreshPublicRooms,
-} = trpc.room.listPublic.useQuery()
+watch(
+  () => route.query.error,
+  (error) => {
+    if (error) {
+      toast.error(t(error as string))
+      router.replace({ query: {} })
+    }
+  },
+)
 
 const createRoomValidationSchema = computed(() =>
   z.object({
     name: z
       .string()
       .min(1, t('validation.required'))
-      .max(100, { message: t('validation.tooManyCharacters') }),
+      .max(100, { message: t('validation.tooManyCharacters') })
+      .default(''),
     private: z.boolean().default(false),
   }),
 )
@@ -150,7 +152,7 @@ async function handleCreateRoom(values: CreateRoomFormValues) {
       type: values.private ? RoomType.PRIVATE : RoomType.PUBLIC,
     })
     await trpc.room.join.mutate({ id: room.id })
-    router.push({ name: 'room-id', params: { id: room.id } })
+    await router.push({ name: 'room-id', params: { id: room.id } })
   } catch (error: any) {
     toast.error(t(error.message))
   } finally {
@@ -161,12 +163,23 @@ async function handleCreateRoom(values: CreateRoomFormValues) {
 async function handleJoinRoom(id: string) {
   joinRoomLoading.value = true
   try {
-    const room = await trpc.room.join.mutate({ id: id })
-    router.push({ name: 'room-id', params: { id: room.id } })
+    await router.push({ name: 'room-id', params: { id } })
+  } finally {
+    joinRoomLoading.value = false
+  }
+}
+
+async function handleQuickJoin() {
+  joinRoomLoading.value = true
+  quickMatchLoading.value = true
+  try {
+    const room = await trpc.room.quickJoin.mutate()
+    await router.push({ name: 'room-id', params: { id: room.id } })
   } catch (error: any) {
     toast.error(t(error.message))
   } finally {
     joinRoomLoading.value = false
+    quickMatchLoading.value = false
   }
 }
 </script>
@@ -182,7 +195,6 @@ async function handleJoinRoom(id: string) {
   &__actions {
     display: flex;
     justify-content: space-between;
-    width: 100%;
   }
 
   &__rooms {

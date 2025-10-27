@@ -10,9 +10,9 @@ import { prisma } from '~~/prisma/client'
 import type { SocketHandler } from '~~/types/socket.io'
 
 export default {
-  event: 'room:join',
+  event: 'room:connect',
   handler: async (socket, data, callback) => {
-    if (!socket.user) return
+    if (!socket.user) return callback?.()
 
     const room = await prisma.room.findUnique({
       where: { id: data?.id, players: { some: { userId: socket.user.id } } },
@@ -31,7 +31,7 @@ export default {
         },
       },
     })
-    if (!room) return
+    if (!room) return callback?.()
 
     const player = await prisma.roomPlayer.findUnique({
       where: {
@@ -47,15 +47,15 @@ export default {
         targetShots: true,
       },
     })
-    if (!player) return
+    if (!player) return callback?.()
 
     socket.join(room.id)
-    socket.to(room.id).emit('room:playerJoin', player)
+    socket.to(room.id).emit('room:playerConnect', player)
 
     callback?.(room)
   },
 } as SocketHandler<
-  'room:join',
+  'room:connect',
   { id: string },
   Room & {
     messages: (RoomMessage & { user: User })[]
@@ -67,6 +67,15 @@ export default {
     })[]
   },
   [
+    {
+      event: 'room:playerConnect'
+      data: RoomPlayer & {
+        user: User
+        ships: RoomPlayerShip[]
+        sourceShots: RoomPlayerShot[]
+        targetShots: RoomPlayerShot[]
+      }
+    },
     {
       event: 'room:playerJoin'
       data: RoomPlayer & {

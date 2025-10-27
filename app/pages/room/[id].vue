@@ -16,7 +16,13 @@
 
     <PixelModal v-model:show="showRoomLeaveModal" :title="$t('page.room.confirmLeave')">
       <div class="leave-room-modal">
-        {{ $t('page.room.confirmLeaveMessage') }}
+        <span v-if="roomStore.room?.status === RoomStatus.PENDING">
+          {{ $t('page.room.confirmUnsafeLeaveMessage') }}
+        </span>
+        <span v-else>
+          {{ $t('page.room.confirmSafeLeaveMessage') }}
+        </span>
+
         <div class="leave-room-modal__actions">
           <PixelButton
             :label="$t('page.room.cancel')"
@@ -46,6 +52,7 @@ import PixelModal from '~/components/pixel/PixelModal.vue'
 
 import useRoomStore from '~/store/room'
 
+import { RoomStatus } from '@prisma/client'
 import type { RouteLocation } from 'vue-router'
 
 definePageMeta({
@@ -59,6 +66,9 @@ definePageMeta({
   },
 })
 
+const trpc = useTRPC()
+const { t } = useI18n()
+const toast = useToast()
 const route = useRoute('room-id')
 const router = useRouter()
 const roomStore = useRoomStore()
@@ -82,7 +92,7 @@ onMounted(async () => {
   window.addEventListener('beforeunload', beforeUnloadHandler)
 
   try {
-    await roomStore.joinRoom(roomId.value)
+    await roomStore.connectRoom(roomId.value)
   } finally {
     messagesLoading.value = false
   }
@@ -91,7 +101,7 @@ onUnmounted(async () => {
   window.removeEventListener('beforeunload', beforeUnloadHandler)
 
   if (roomStore.room) {
-    await roomStore.leaveRoom(roomId.value)
+    await roomStore.disconnectRoom(roomId.value)
   }
 })
 onBeforeRouteLeave(async (to) => {
@@ -109,14 +119,21 @@ async function handleLeaveRoom() {
   roomLeaveLoading.value = true
 
   try {
-    await roomStore.leaveRoom(roomId.value)
+    const roomStatus = roomStore.room?.status
 
+    await roomStore.disconnectRoom(roomId.value)
+    if (roomStatus === RoomStatus.PENDING) {
+      await trpc.room.leave.mutate({ id: roomId.value })
+    }
+  } catch (error: any) {
+    toast.error(t(error.message))
+  } finally {
     if (roomLeaveLocation.value) {
       await router.push({ path: roomLeaveLocation.value.path })
     } else {
       await router.push({ name: 'index' })
     }
-  } finally {
+
     roomLeaveLoading.value = false
     showRoomLeaveModal.value = false
   }

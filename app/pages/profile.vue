@@ -3,7 +3,7 @@
     <TransitionFade>
       <PixelContainer v-if="userData" full-width>
         <div class="profile-page__profile">
-          <PixelAvatar v-if="userData?.id" :seed="userData?.id" large />
+          <PixelAvatar v-if="userData?.id" :seed="userData?.id" :title="userData?.username" large />
           <div class="profile-page__profile-info">
             <span>{{ $t('page.profile.username') }}: {{ userData?.username }}</span>
             <span>

@@ -6,12 +6,12 @@ import type { SocketHandler } from '~~/types/socket.io'
 export default {
   event: 'room:chat:sendMessage',
   handler: async (socket, data, callback) => {
-    if (!socket.user) return
+    if (!socket.user) return callback?.()
 
     const room = await prisma.room.findUnique({
       where: { id: data.roomId, players: { some: { userId: socket.user.id } } },
     })
-    if (!room) return
+    if (!room) return callback?.()
 
     const message = await prisma.roomMessage.create({
       data: { roomId: room.id, userId: socket.user?.id, text: data.text },

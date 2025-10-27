@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import { socket } from '~~/socket.io/client'
 
 export default defineStore('socket', () => {
+  const { session } = useAuth()
+
   function connectSocket() {
     socket.connect()
   }
@@ -15,5 +17,13 @@ export default defineStore('socket', () => {
     connectSocket()
   }
 
-  return { connectSocket, disconnectSocket, reconnectSocket }
+  watchEffect(() => {
+    if (session.status.value === 'authenticated') {
+      connectSocket()
+    } else {
+      disconnectSocket()
+    }
+  })
+
+  return { socket, connectSocket, disconnectSocket, reconnectSocket }
 })
