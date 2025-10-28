@@ -195,6 +195,7 @@ async function handleQuickJoin() {
   &__actions {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 8px;
   }
 
   &__rooms {

@@ -9,32 +9,32 @@
     <TransitionExpand>
       <div v-if="rooms.length" class="rooms-list__list">
         <TransitionExpand group>
-          <div v-for="room in rooms" :key="room.id" class="rooms-list__list__container">
-            <PixelContainer full-width>
-              <div class="rooms-item">
-                <div class="rooms-item__name">{{ room.name }}</div>
-                <div class="rooms-item__info">
-                  <div class="room-item__avatars">
-                    <PixelAvatar
-                      v-for="player in room.players"
-                      :key="player.userId"
-                      :seed="player.userId"
-                      :title="player.user.username"
-                      small
-                    />
-                  </div>
-                  <div class="rooms-item__actions">
-                    <icon v-if="room.type === RoomType.PRIVATE" name="pixelarticons:lock" />
-                    <PixelButton
-                      @click="$emit('join-room', room.id)"
-                      :label="$t('page.index.room.join')"
-                      :disabled="joinRoomLoading"
-                      small
-                    />
+          <div v-for="room in rooms" :key="room.id">
+            <div class="rooms-list__list__container">
+              <PixelContainer full-width>
+                <div class="rooms-item">
+                  <div class="rooms-item__name">{{ room.name }}</div>
+                  <div class="rooms-item__info">
+                    <div class="rooms-item__avatars">
+                      <TransitionFade group>
+                        <div v-for="player in room.players" :key="player.userId">
+                          <PixelAvatar :seed="player.userId" :title="player.user.username" small />
+                        </div>
+                      </TransitionFade>
+                    </div>
+                    <div class="rooms-item__actions">
+                      <icon v-if="room.type === RoomType.PRIVATE" name="pixelarticons:lock" />
+                      <PixelButton
+                        @click="$emit('join-room', room.id)"
+                        :label="$t('page.index.room.join')"
+                        :disabled="joinRoomLoading"
+                        small
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </PixelContainer>
+              </PixelContainer>
+            </div>
           </div>
         </TransitionExpand>
       </div>
@@ -49,6 +49,7 @@ import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelDivider from '~/components/pixel/PixelDivider.vue'
 import PixelLoader from '~/components/pixel/PixelLoader.vue'
 import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
+import TransitionFade from '~/components/transitions/TransitionFade.vue'
 
 import { RoomType, type Room, type RoomPlayer, type User } from '@prisma/client'
 
@@ -76,7 +77,8 @@ const emits = defineEmits<{
   flex-direction: column;
 
   &__title {
-    margin: 16px 0;
+    margin-top: 8px;
+    margin-bottom: 16px;
   }
 
   &__loader {
@@ -87,8 +89,8 @@ const emits = defineEmits<{
     display: flex;
     flex-direction: column;
 
-    &__container:not(:last-child) {
-      margin-bottom: 8px;
+    &__container {
+      padding-bottom: 8px;
     }
   }
 }
@@ -108,6 +110,8 @@ const emits = defineEmits<{
   &__info {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 36px;
   }
 
   &__avatars {
