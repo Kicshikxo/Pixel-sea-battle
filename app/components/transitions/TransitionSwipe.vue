@@ -1,10 +1,10 @@
 <template>
-  <transition-group v-if="group" :name="`transition-swipe-${axis}-${speed}`" v-bind="{ appear }">
+  <TransitionGroup v-if="group" :name="`transition-swipe-${axis}-${speed}`" v-bind="{ appear }">
     <slot><!----></slot>
-  </transition-group>
-  <transition v-else :name="`transition-swipe-${axis}-${speed}`" :mode="mode" v-bind="{ appear }">
+  </TransitionGroup>
+  <Transition v-else :name="`transition-swipe-${axis}-${speed}`" :mode="mode" v-bind="{ appear }">
     <slot><!----></slot>
-  </transition>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -26,7 +26,7 @@ const props = withDefaults(
 )
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $axes: (
   x: translateX,
   y: translateY,

@@ -1,5 +1,5 @@
 <template>
-  <transition-group
+  <TransitionGroup
     v-if="group"
     :name="`transition-expand-${axis}-${speed}`"
     v-bind="{ appear }"
@@ -10,8 +10,8 @@
     @leave="leave"
   >
     <slot><!----></slot>
-  </transition-group>
-  <transition
+  </TransitionGroup>
+  <Transition
     v-else
     :name="`transition-expand-${axis}-${speed}`"
     :mode="mode"
@@ -23,7 +23,7 @@
     @leave="leave"
   >
     <slot><!----></slot>
-  </transition>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -66,7 +66,7 @@ const beforeLeave = enter
 const leave = beforeEnter
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $axes: (x, y);
 $speeds: (
   fast: var(--transition-time-fast),

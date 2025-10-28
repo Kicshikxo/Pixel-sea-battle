@@ -1,10 +1,10 @@
 <template>
-  <transition-group v-if="group" :name="`transition-fade-${speed}`" v-bind="{ appear }">
+  <TransitionGroup v-if="group" :name="`transition-fade-${speed}`" v-bind="{ appear }">
     <slot><!----></slot>
-  </transition-group>
-  <transition v-else :name="`transition-fade-${speed}`" :mode="mode" v-bind="{ appear }">
+  </TransitionGroup>
+  <Transition v-else :name="`transition-fade-${speed}`" :mode="mode" v-bind="{ appear }">
     <slot><!----></slot>
-  </transition>
+  </Transition>
 </template>
 
 <script setup lang="ts">
@@ -24,7 +24,7 @@ const props = withDefaults(
 )
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $speeds: (
   fast: var(--transition-time-fast),
   normal: var(--transition-time-normal),
