@@ -2,7 +2,7 @@
   <div class="email-confirmation-page">
     <PixelContainer>
       <div class="email-confirmation-page__container">
-        <TransitionExpandY>
+        <TransitionExpand>
           <PixelForm
             v-if="confirmed === false"
             :title="$t('page.emailConfirmation.emailConfirmation')"
@@ -51,7 +51,7 @@
               @click="handleOpenIndexPage"
             />
           </div>
-        </TransitionExpandY>
+        </TransitionExpand>
       </div>
     </PixelContainer>
   </div>
@@ -62,7 +62,7 @@ import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
-import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
+import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
 
 definePageMeta({
   auth: false,

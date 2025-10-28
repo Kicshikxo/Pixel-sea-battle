@@ -6,11 +6,11 @@
     v-slot="formContext"
     @submit="handleSubmit"
   >
-    <TransitionSwipeY v-if="animatedTitle">
+    <TransitionSwipe v-if="animatedTitle">
       <div v-if="title" class="px-form__title" :key="title">
         {{ title }}
       </div>
-    </TransitionSwipeY>
+    </TransitionSwipe>
     <div v-else-if="title" class="px-form__title">
       {{ title }}
     </div>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts" generic="T extends z.ZodSchema">
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 import { toTypedSchema } from '@vee-validate/zod'
 import { Form, type FormActions, type FormContext } from 'vee-validate'

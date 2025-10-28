@@ -8,7 +8,7 @@
         animated-title
         @submit="handleSubmit"
       >
-        <TransitionExpandY>
+        <TransitionExpand>
           <div class="sign-in-page__form-content" :key="action">
             <template v-if="action === 'signIn'">
               <PixelFormTextInput
@@ -68,9 +68,9 @@
               </PixelFormTextInput>
             </template>
           </div>
-        </TransitionExpandY>
+        </TransitionExpand>
 
-        <TransitionSwipeY>
+        <TransitionSwipe>
           <div class="sign-in-page__options" :key="action">
             <span
               v-if="action === 'signIn'"
@@ -101,7 +101,7 @@
               {{ $t('page.auth.haveAnAccount') }}
             </span>
           </div>
-        </TransitionSwipeY>
+        </TransitionSwipe>
 
         <PixelButton
           type="submit"
@@ -139,8 +139,8 @@ import PixelBorder from '~/components/pixel/PixelBorder.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelDivider from '~/components/pixel/PixelDivider.vue'
-import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 import type { CredentialResponse } from 'vue3-google-signin'
 import { z } from 'zod'

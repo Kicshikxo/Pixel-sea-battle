@@ -3,9 +3,9 @@
     <label :for="id" class="px-checkbox__label">
       <PixelBorder depth="2">
         <div class="px-checkbox__icon-wrapper">
-          <TransitionSwipeY>
+          <TransitionSwipe>
             <icon class="px-checkbox__icon" :key="iconName" :name="iconName" size="20" />
-          </TransitionSwipeY>
+          </TransitionSwipe>
         </div>
       </PixelBorder>
     </label>
@@ -21,15 +21,15 @@
     <label v-if="label" :for="id" class="px-checkbox__label">{{ label }}</label>
   </div>
   <div class="px-checkbox__info">
-    <TransitionSwipeY>
+    <TransitionSwipe>
       <span v-if="error" class="px-checkbox__info__error">{{ error }}</span>
-    </TransitionSwipeY>
+    </TransitionSwipe>
   </div>
 </template>
 
 <script setup lang="ts">
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 const props = withDefaults(
   defineProps<{

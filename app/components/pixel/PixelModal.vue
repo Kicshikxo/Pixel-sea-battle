@@ -3,7 +3,7 @@
     <teleport to="body">
       <TransitionFade>
         <div v-if="show" class="px-modal__overlay" @click.self="handleClose">
-          <TransitionSwipeY appear>
+          <TransitionSwipe appear>
             <div class="px-modal">
               <PixelContainer full-width>
                 <div class="px-modal__header">
@@ -22,7 +22,7 @@
                 </div>
               </PixelContainer>
             </div>
-          </TransitionSwipeY>
+          </TransitionSwipe>
         </div>
       </TransitionFade>
     </teleport>
@@ -33,7 +33,7 @@
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import TransitionFade from '~/components/transitions/TransitionFade.vue'
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 const props = defineProps<{
   title?: string

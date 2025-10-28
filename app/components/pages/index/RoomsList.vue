@@ -2,47 +2,43 @@
   <div class="rooms-list">
     <PixelDivider :text="title" class="rooms-list__title" />
 
-    <TransitionExpandY>
+    <TransitionExpand>
       <PixelLoader v-if="roomsLoading" class="rooms-list__loader" />
-    </TransitionExpandY>
+    </TransitionExpand>
 
-    <TransitionExpandY>
-      <div v-if="rooms.length">
-        <div class="rooms-list__list">
-          <div v-for="room in rooms" :key="room.id" class="rooms-list__list__conteiner-wrapper">
-            <TransitionExpandY :appear="animateRooms">
-              <div class="rooms-list__list__container">
-                <PixelContainer full-width>
-                  <div class="rooms-item">
-                    <div class="rooms-item__name">{{ room.name }}</div>
-                    <div class="rooms-item__info">
-                      <div class="room-item__avatars">
-                        <PixelAvatar
-                          v-for="player in room.players"
-                          :key="player.userId"
-                          :seed="player.userId"
-                          :title="player.user.username"
-                          small
-                        />
-                      </div>
-                      <div class="rooms-item__actions">
-                        <icon v-if="room.type === RoomType.PRIVATE" name="pixelarticons:lock" />
-                        <PixelButton
-                          @click="$emit('join-room', room.id)"
-                          :label="$t('page.index.room.join')"
-                          :disabled="joinRoomLoading"
-                          small
-                        />
-                      </div>
-                    </div>
+    <TransitionExpand>
+      <div v-if="rooms.length" class="rooms-list__list">
+        <TransitionExpand group>
+          <div v-for="room in rooms" :key="room.id" class="rooms-list__list__container">
+            <PixelContainer full-width>
+              <div class="rooms-item">
+                <div class="rooms-item__name">{{ room.name }}</div>
+                <div class="rooms-item__info">
+                  <div class="room-item__avatars">
+                    <PixelAvatar
+                      v-for="player in room.players"
+                      :key="player.userId"
+                      :seed="player.userId"
+                      :title="player.user.username"
+                      small
+                    />
                   </div>
-                </PixelContainer>
+                  <div class="rooms-item__actions">
+                    <icon v-if="room.type === RoomType.PRIVATE" name="pixelarticons:lock" />
+                    <PixelButton
+                      @click="$emit('join-room', room.id)"
+                      :label="$t('page.index.room.join')"
+                      :disabled="joinRoomLoading"
+                      small
+                    />
+                  </div>
+                </div>
               </div>
-            </TransitionExpandY>
+            </PixelContainer>
           </div>
-        </div>
+        </TransitionExpand>
       </div>
-    </TransitionExpandY>
+    </TransitionExpand>
   </div>
 </template>
 
@@ -52,7 +48,7 @@ import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelDivider from '~/components/pixel/PixelDivider.vue'
 import PixelLoader from '~/components/pixel/PixelLoader.vue'
-import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
+import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
 
 import { RoomType, type Room, type RoomPlayer, type User } from '@prisma/client'
 
@@ -72,16 +68,6 @@ const props = withDefaults(
 const emits = defineEmits<{
   'join-room': [id: string]
 }>()
-
-const animateRooms = ref(false)
-watch(
-  () => props.rooms,
-  () => {
-    nextTick(() => {
-      animateRooms.value = !!props.rooms.length
-    })
-  },
-)
 </script>
 
 <style lang="scss" scoped>
@@ -101,12 +87,8 @@ watch(
     display: flex;
     flex-direction: column;
 
-    &__container {
+    &__container:not(:last-child) {
       margin-bottom: 8px;
-    }
-
-    &__container-wrapper:last-child &__container {
-      margin-bottom: 0;
     }
   }
 }

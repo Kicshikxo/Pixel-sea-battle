@@ -2,7 +2,7 @@
   <div class="password-recovery-page">
     <PixelContainer>
       <div class="password-recovery-page__container">
-        <TransitionExpandY>
+        <TransitionExpand>
           <PixelForm
             :validation-schema="passwordRecoverySchema"
             :title="userInfo?.email ?? $t('page.passwordRecovery.passwordRecovery')"
@@ -58,7 +58,7 @@
               />
             </div>
           </PixelForm>
-        </TransitionExpandY>
+        </TransitionExpand>
       </div>
     </PixelContainer>
   </div>
@@ -69,7 +69,7 @@ import PixelForm from '~/components/pixel/form/PixelForm.vue'
 import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
-import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
+import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
 
 import { z } from 'zod'
 

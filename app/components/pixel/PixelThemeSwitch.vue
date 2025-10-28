@@ -1,17 +1,17 @@
 <template>
   <div class="px-theme-switch">
     <client-only>
-      <TransitionSwipeY>
+      <TransitionSwipe>
         <div class="px-theme-switch__icon" :key="`${colorMode.value}-${iconName}`">
           <icon :name="iconName" size="24" @click="handleClick" />
         </div>
-      </TransitionSwipeY>
+      </TransitionSwipe>
     </client-only>
   </div>
 </template>
 
 <script setup lang="ts">
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 const colorMode = useColorMode()
 

@@ -24,7 +24,7 @@
             spellcheck="false"
           />
         </TransitionFade>
-        <TransitionSwipeY>
+        <TransitionSwipe>
           <div v-if="clearable && !readonly" class="px-text-input__icon">
             <icon
               name="pixelarticons:close"
@@ -32,8 +32,8 @@
               @click="handleClear"
             />
           </div>
-        </TransitionSwipeY>
-        <TransitionSwipeY>
+        </TransitionSwipe>
+        <TransitionSwipe>
           <div v-if="type === 'password'" :key="passwordIcon" class="px-text-input__icon">
             <icon
               :name="passwordIcon"
@@ -41,7 +41,7 @@
               @click="handleShowPassword"
             />
           </div>
-        </TransitionSwipeY>
+        </TransitionSwipe>
         <div class="px-text-input__icon">
           <slot name="append-icon" />
         </div>
@@ -49,9 +49,9 @@
     </PixelBorder>
 
     <div class="px-text-input__info">
-      <TransitionSwipeY>
+      <TransitionSwipe>
         <span v-if="error" class="px-text-input__info__error">{{ error }}</span>
-      </TransitionSwipeY>
+      </TransitionSwipe>
       <span v-if="maxLength" class="px-text-input__info__max-length-counter">
         {{ modelValue.length ?? 0 }} / {{ maxLength }}
       </span>
@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
 import TransitionFade from '~/components/transitions/TransitionFade.vue'
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 const props = withDefaults(
   defineProps<{

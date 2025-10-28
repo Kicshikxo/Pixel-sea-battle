@@ -15,7 +15,7 @@
         <div class="px-header__actions">
           <PixelLocaleSwitch class="px-header__actions__item" />
           <PixelThemeSwitch class="px-header__actions__item" />
-          <TransitionExpandX>
+          <TransitionExpand axis="x">
             <div v-if="session.data.value?.id">
               <div class="px-header__actions__item">
                 <PixelAvatar
@@ -26,7 +26,7 @@
                 />
               </div>
             </div>
-          </TransitionExpandX>
+          </TransitionExpand>
         </div>
 
         <NuxtLoadingIndicator
@@ -50,7 +50,7 @@ import PixelAvatar from '~/components/pixel/PixelAvatar.vue'
 import PixelLocaleSwitch from '~/components/pixel/PixelLocaleSwitch.vue'
 import PixelShadow from '~/components/pixel/PixelShadow.vue'
 import PixelThemeSwitch from '~/components/pixel/PixelThemeSwitch.vue'
-import TransitionExpandX from '~/components/transitions/TransitionExpandX.vue'
+import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
 import TransitionFade from '~/components/transitions/TransitionFade.vue'
 
 const { t, locale } = useI18n()

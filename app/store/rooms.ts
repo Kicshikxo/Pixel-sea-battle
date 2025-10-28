@@ -44,5 +44,11 @@ export default defineStore('rooms', () => {
     }
   })
 
+  watchEffect(() => {
+    if (session.status.value === 'unauthenticated') {
+      rooms.value = []
+    }
+  })
+
   return { activeRooms, publicRooms, getRooms }
 })

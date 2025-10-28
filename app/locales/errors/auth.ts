@@ -22,8 +22,8 @@ export default {
     ru: 'Пользователь уже существует',
   },
   incorrectLoginCredentials: {
-    en: 'Incorrect login credentials',
-    ru: 'Неверный логин или пароль',
+    en: 'Incorrect email or password',
+    ru: 'Неверная почта или пароль',
   },
   googleUserNotFound: {
     en: 'Google user not found',

@@ -1,6 +1,9 @@
 <template>
-  <transition name="transition-fade" :mode="mode" v-bind="{ appear }">
-    <slot :class="`transition-fade--${speed}`"><!----></slot>
+  <transition-group v-if="group" :name="`transition-fade-${speed}`" v-bind="{ appear }">
+    <slot><!----></slot>
+  </transition-group>
+  <transition v-else :name="`transition-fade-${speed}`" :mode="mode" v-bind="{ appear }">
+    <slot><!----></slot>
   </transition>
 </template>
 
@@ -10,36 +13,38 @@ const props = withDefaults(
     mode?: 'out-in' | 'in-out'
     speed?: 'fast' | 'normal' | 'slow'
     appear?: boolean
+    group?: boolean
   }>(),
   {
     mode: 'out-in',
     speed: 'normal',
     appear: false,
+    group: false,
   },
 )
 </script>
 
 <style lang="scss" scoped>
-.transition-fade {
-  &--fast {
-    --transition-time-fade: var(--transition-time-fast);
-  }
-  &--normal {
-    --transition-time-fade: var(--transition-time-normal);
-  }
-  &--slow {
-    --transition-time-fade: var(--transition-time-slow);
+$speeds: (
+  fast: var(--transition-time-fast),
+  normal: var(--transition-time-normal),
+  slow: var(--transition-time-slow),
+);
+
+@each $speed, $time in $speeds {
+  $transition: '.transition-fade-#{$speed}';
+
+  #{$transition}-enter-active,
+  #{$transition}-leave-active,
+  #{$transition}-move {
+    transition:
+      width #{$time},
+      height #{$time},
+      opacity #{$time};
   }
 
-  &-enter-active,
-  &-leave-active {
-    transition: opacity var(--transition-time-fade);
-  }
-
-  &-enter-from {
-    opacity: 0;
-  }
-  &-leave-to {
+  #{$transition}-enter-from,
+  #{$transition}-leave-to {
     opacity: 0;
   }
 }

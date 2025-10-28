@@ -1,17 +1,17 @@
 <template>
   <div class="px-language-switch">
     <client-only>
-      <TransitionSwipeY>
+      <TransitionSwipe>
         <div class="px-language-switch__value" :key="locale" @click="handleClick">
           {{ locale }}
         </div>
-      </TransitionSwipeY>
+      </TransitionSwipe>
     </client-only>
   </div>
 </template>
 
 <script setup lang="ts">
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 const { locale, setLocale } = useI18n()
 

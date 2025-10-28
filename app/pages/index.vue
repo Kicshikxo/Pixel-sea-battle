@@ -20,7 +20,7 @@
       </div>
 
       <div class="index-page__rooms">
-        <TransitionExpandY>
+        <TransitionExpand>
           <RoomsList
             v-if="roomsStore.activeRooms.length"
             :title="$t('page.index.room.listActive')"
@@ -29,9 +29,9 @@
             :join-room-loading="joinRoomLoading"
             @join-room="handleJoinRoom"
           />
-        </TransitionExpandY>
+        </TransitionExpand>
 
-        <TransitionExpandY>
+        <TransitionExpand>
           <RoomsList
             v-if="roomsStore.publicRooms.length || roomsLoading"
             :title="$t('page.index.room.listPublic')"
@@ -40,7 +40,7 @@
             :join-room-loading="joinRoomLoading"
             @join-room="handleJoinRoom"
           />
-        </TransitionExpandY>
+        </TransitionExpand>
       </div>
     </PixelContainer>
 
@@ -90,7 +90,7 @@ import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
-import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
+import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
 
 import RoomsList from '~/components/pages/index/RoomsList.vue'
 

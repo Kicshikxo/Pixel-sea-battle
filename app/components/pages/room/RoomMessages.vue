@@ -24,48 +24,42 @@
       </div>
     </PixelForm>
 
-    <TransitionExpandY>
+    <TransitionExpand>
       <PixelLoader v-if="messagesLoading" class="room-messages__loader" />
-    </TransitionExpandY>
+    </TransitionExpand>
 
-    <TransitionExpandY>
-      <div v-if="messages?.length" class="room-messages__list">
-        <div
-          v-for="message in messages"
-          :key="message.id"
-          class="room-messages__list__container-wrapper"
-        >
-          <TransitionExpandY :appear="animateMessages">
-            <div class="room-messages__list__container">
-              <PixelContainer full-width>
-                <div class="room-messages__list-item">
-                  <span class="room-messages__list-item__time">
-                    ({{ new Date(message.createdAt).toLocaleTimeString() }})
+    <TransitionExpand>
+      <div v-if="messages.length" class="room-messages__list">
+        <TransitionExpand group>
+          <div v-for="message in messages" :key="message.id" class="room-messages__list__container">
+            <PixelContainer full-width>
+              <div class="room-messages__list-item">
+                <span class="room-messages__list-item__time">
+                  ({{ new Date(message.createdAt).toLocaleTimeString() }})
+                </span>
+                <span>
+                  <span
+                    :class="[
+                      'room-messages__list-item__username',
+                      {
+                        'room-messages__list-item__username--current':
+                          session.data.value?.id === message.user.id,
+                      },
+                    ]"
+                  >
+                    {{ message.user.username }}
                   </span>
-                  <span>
-                    <span
-                      :class="[
-                        'room-messages__list-item__username',
-                        {
-                          'room-messages__list-item__username--current':
-                            session.data.value?.id === message.user.id,
-                        },
-                      ]"
-                    >
-                      {{ message.user.username }}
-                    </span>
-                    <span>:</span>
-                  </span>
-                  <span class="room-messages__list-item__message">
-                    {{ message.text }}
-                  </span>
-                </div>
-              </PixelContainer>
-            </div>
-          </TransitionExpandY>
-        </div>
+                  <span>:</span>
+                </span>
+                <span class="room-messages__list-item__message">
+                  {{ message.text }}
+                </span>
+              </div>
+            </PixelContainer>
+          </div>
+        </TransitionExpand>
       </div>
-    </TransitionExpandY>
+    </TransitionExpand>
   </div>
 </template>
 
@@ -75,7 +69,7 @@ import PixelFormTextInput from '~/components/pixel/form/PixelFormTextInput.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelLoader from '~/components/pixel/PixelLoader.vue'
-import TransitionExpandY from '~/components/transitions/TransitionExpandY.vue'
+import TransitionExpand from '~/components/transitions/TransitionExpand.vue'
 
 import type { RoomMessage, User } from '@prisma/client'
 import type { FormContext } from 'vee-validate'
@@ -112,16 +106,6 @@ const messageValidationSchema = computed(() =>
 )
 type MessageFormValues = z.infer<typeof messageValidationSchema.value>
 
-const animateMessages = ref(false)
-watch(
-  () => props.messages,
-  () => {
-    nextTick(() => {
-      animateMessages.value = !!props.messages.length
-    })
-  },
-)
-
 defineExpose({
   resetForm() {
     form.value?.formContext.resetForm()
@@ -156,12 +140,8 @@ async function handleSubmit(values: MessageFormValues) {
     max-height: calc((52px + 8px) * 5 - 8px);
     overflow-y: auto;
 
-    &__container {
+    &__container:not(:last-child) {
       margin-bottom: 8px;
-    }
-
-    &__container-wrapper:last-child &__container {
-      margin-bottom: 0;
     }
   }
 

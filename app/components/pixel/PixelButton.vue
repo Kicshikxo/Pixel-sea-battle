@@ -25,7 +25,7 @@
       :disabled="loading || disabled"
     >
       <div>
-        <TransitionSwipeY speed="fast">
+        <TransitionSwipe>
           <div class="px-button__content-wrapper" :key="loading.toString()">
             <PixelLoader v-if="loading" class="px-button__icon px-button__content-loader" />
 
@@ -50,7 +50,7 @@
               </template>
             </div>
           </div>
-        </TransitionSwipeY>
+        </TransitionSwipe>
       </div>
     </component>
   </PixelBorder>
@@ -61,7 +61,7 @@ import { NuxtLink } from '#components'
 
 import PixelBorder from '~/components/pixel/PixelBorder.vue'
 import PixelLoader from '~/components/pixel/PixelLoader.vue'
-import TransitionSwipeY from '~/components/transitions/TransitionSwipeY.vue'
+import TransitionSwipe from '~/components/transitions/TransitionSwipe.vue'
 
 const props = withDefaults(
   defineProps<{
