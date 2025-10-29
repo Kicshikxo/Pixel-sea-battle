@@ -218,6 +218,6 @@ async function handleQuickJoin() {
 }
 
 .create-room-modal {
-  width: 400px;
+  max-width: 400px;
 }
 </style>
