@@ -20,27 +20,29 @@
       </div>
 
       <div class="index-page__rooms">
-        <TransitionExpand>
-          <RoomsList
-            v-if="roomsStore.activeRooms.length"
-            :title="$t('page.index.room.listActive')"
-            :rooms="roomsStore.activeRooms"
-            :rooms-loading="roomsLoading"
-            :join-room-loading="joinRoomLoading"
-            @join-room="handleJoinRoom"
-          />
-        </TransitionExpand>
+        <div>
+          <TransitionExpand>
+            <RoomsList
+              v-if="roomsStore.activeRooms.length"
+              :title="$t('page.index.room.listActive')"
+              :rooms="roomsStore.activeRooms"
+              :rooms-loading="roomsLoading"
+              :join-room-loading="joinRoomLoading"
+              @join-room="handleJoinRoom"
+            />
+          </TransitionExpand>
 
-        <TransitionExpand>
-          <RoomsList
-            v-if="roomsStore.publicRooms.length || roomsLoading"
-            :title="$t('page.index.room.listPublic')"
-            :rooms="roomsStore.publicRooms ?? []"
-            :rooms-loading="roomsLoading"
-            :join-room-loading="joinRoomLoading"
-            @join-room="handleJoinRoom"
-          />
-        </TransitionExpand>
+          <TransitionExpand>
+            <RoomsList
+              v-if="roomsStore.publicRooms.length || roomsLoading"
+              :title="$t('page.index.room.listPublic')"
+              :rooms="roomsStore.publicRooms ?? []"
+              :rooms-loading="roomsLoading"
+              :join-room-loading="joinRoomLoading"
+              @join-room="handleJoinRoom"
+            />
+          </TransitionExpand>
+        </div>
       </div>
     </PixelContainer>
 
@@ -194,7 +196,9 @@ async function handleQuickJoin() {
 
   &__actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    gap: 8px;
     margin-bottom: 8px;
   }
 
@@ -202,6 +206,14 @@ async function handleQuickJoin() {
     display: flex;
     flex-direction: column;
     width: 600px;
+
+    &-wrapper {
+      width: 100%;
+    }
+
+    @include on-breakpoint(sm) {
+      width: calc(100vw - 64px);
+    }
   }
 }
 

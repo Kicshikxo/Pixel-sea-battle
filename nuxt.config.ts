@@ -109,5 +109,12 @@ export default defineNuxtConfig({
     resolve: {
       alias: { '.prisma/client/index-browser': './node_modules/.prisma/client/index-browser.js' },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "~/assets/scss/breakpoints.scss" as *;',
+        },
+      },
+    },
   },
 })

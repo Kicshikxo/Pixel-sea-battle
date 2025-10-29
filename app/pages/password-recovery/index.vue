@@ -106,7 +106,12 @@ async function handleOpenAuthPage() {
   align-items: center;
 
   &__container {
-    width: 450px !important;
+    width: 400px;
+
+    @include on-breakpoint(sm) {
+      width: auto;
+      max-width: 100%;
+    }
   }
 
   &__column {

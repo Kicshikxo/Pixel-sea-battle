@@ -10,8 +10,8 @@ export default {
     ru: 'Сообщение',
   },
   sendMessage: {
-    en: 'Send message',
-    ru: 'Отправить сообщение',
+    en: 'Send',
+    ru: 'Отправить',
   },
   board: {
     A: { en: 'A', ru: 'А' },

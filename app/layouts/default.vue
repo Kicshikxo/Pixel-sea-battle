@@ -97,6 +97,11 @@ function openProfile() {
   background-color: var(--px-color-page-header);
   border-bottom: 2px solid var(--px-color-border);
 
+  @include on-breakpoint(sm) {
+    padding: 8px;
+    padding-left: 0;
+  }
+
   &__logo {
     display: flex;
     gap: 8px;

@@ -1,16 +1,17 @@
 <template>
-  <div class="sign-in-page">
+  <div class="auth-page">
     <PixelContainer>
       <PixelForm
-        class="sign-in-page__form"
+        ref="form"
+        class="auth-page__form"
         :validation-schema="validationSchema"
-        :title="action === 'signIn' ? $t('page.auth.signInTitle') : $t('page.auth.signUpTitle')"
+        :title="action === 'sign-in' ? $t('page.auth.signInTitle') : $t('page.auth.signUpTitle')"
         animated-title
         @submit="handleSubmit"
       >
         <TransitionExpand>
-          <div class="sign-in-page__form-content" :key="action">
-            <template v-if="action === 'signIn'">
+          <div class="auth-page__form-content" :key="action">
+            <template v-if="action === 'sign-in'">
               <PixelFormTextInput
                 name="email"
                 type="email"
@@ -34,7 +35,7 @@
                 </template>
               </PixelFormTextInput>
             </template>
-            <template v-if="action === 'signUp'">
+            <template v-if="action === 'sign-up'">
               <PixelFormTextInput
                 name="name"
                 :label="$t('page.auth.usernameLabel')"
@@ -71,32 +72,32 @@
         </TransitionExpand>
 
         <TransitionSwipe>
-          <div class="sign-in-page__options" :key="action">
+          <div class="auth-page__options" :key="action">
             <span
-              v-if="action === 'signIn'"
-              class="sign-in-page__options__forgot-password"
+              v-if="action === 'sign-in'"
+              class="auth-page__options__forgot-password"
               @click="handlePasswordRecovery"
             >
               {{ $t('page.auth.forgotPassword') }}
             </span>
             <span
-              v-if="action === 'signUp'"
-              class="sign-in-page__options__guest-sign-in"
+              v-if="action === 'sign-up'"
+              class="auth-page__options__guest-sign-in"
               @click="handleGuestSignIn"
             >
               {{ $t('page.auth.guestSignIn') }}
             </span>
             <span
-              v-if="action === 'signIn'"
-              class="sign-in-page__options__sign-in"
-              @click="action = 'signUp'"
+              v-if="action === 'sign-in'"
+              class="auth-page__options__sign-up"
+              @click="action = 'sign-up'"
             >
               {{ $t('page.auth.noAccount') }}
             </span>
             <span
-              v-if="action === 'signUp'"
-              class="sign-in-page__options__sign-up"
-              @click="action = 'signIn'"
+              v-if="action === 'sign-up'"
+              class="auth-page__options__sign-in"
+              @click="action = 'sign-in'"
             >
               {{ $t('page.auth.haveAnAccount') }}
             </span>
@@ -105,7 +106,7 @@
 
         <PixelButton
           type="submit"
-          :label="action === 'signIn' ? $t('page.auth.signIn') : $t('page.auth.signUp')"
+          :label="action === 'sign-in' ? $t('page.auth.signIn') : $t('page.auth.signUp')"
           :loading="loading"
           :disabled="googleLoading"
           full-width
@@ -117,14 +118,22 @@
 
         <PixelDivider :text="$t('page.auth.googleSignIn')" width="32" />
 
-        <PixelBorder class="sign-in-page__google-signin" full-width>
+        <PixelBorder class="auth-page__google-signin">
           <GoogleSignInButton
-            class="sign-in-page__google-signin-button"
-            @success="handleGoogleSignIn"
+            class="auth-page__google-signin-button--desktop"
+            text="continue_with"
+            :width="400"
             :locale="locale"
             :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'"
-            :width="400"
+            @success="handleGoogleSignIn"
+          />
+          <GoogleSignInButton
+            class="auth-page__google-signin-button--mobile"
             text="continue_with"
+            :width="250"
+            :locale="locale"
+            :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'"
+            @success="handleGoogleSignIn"
           />
         </PixelBorder>
       </PixelForm>
@@ -155,12 +164,12 @@ const router = useRouter()
 const { t, locale } = useI18n()
 const { signIn, signUp, googleSignIn, guestSignIn } = useAuth()
 
-const action = ref<'signIn' | 'signUp'>(
+const action = ref<'sign-in' | 'sign-up'>(
   route.query.signIn !== undefined
-    ? 'signIn'
+    ? 'sign-in'
     : route.query.signUp !== undefined
-      ? 'signUp'
-      : 'signIn',
+      ? 'sign-up'
+      : 'sign-in',
 )
 
 const loading = ref(false)
@@ -212,7 +221,7 @@ const signUpValidationSchema = computed(() =>
 type SignUpFormValues = z.infer<typeof signUpValidationSchema.value>
 
 const validationSchema = computed(() =>
-  action.value === 'signIn' ? signInValidationSchema.value : signUpValidationSchema.value,
+  action.value === 'sign-in' ? signInValidationSchema.value : signUpValidationSchema.value,
 )
 
 async function handleGoogleSignIn(response: CredentialResponse) {
@@ -258,7 +267,7 @@ function handlePasswordRecovery() {
 }
 
 async function handleSubmit(values: Record<string, any>) {
-  if (action.value === 'signIn') {
+  if (action.value === 'sign-in') {
     await handleSignIn(values as SignInFormValues)
   } else {
     await handleSignUp(values as SignUpFormValues)
@@ -267,7 +276,7 @@ async function handleSubmit(values: Record<string, any>) {
 </script>
 
 <style lang="scss" scoped>
-.sign-in-page {
+.auth-page {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -276,6 +285,11 @@ async function handleSubmit(values: Record<string, any>) {
 
   &__form {
     width: 400px;
+
+    @include on-breakpoint(sm) {
+      width: auto;
+      max-width: 100%;
+    }
 
     &-content {
       width: 100%;
@@ -319,15 +333,26 @@ async function handleSubmit(values: Record<string, any>) {
   &__google-signin {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    width: 400px;
+    align-items: center;
     height: 64px !important;
+    margin: 0 auto;
 
-    &-button {
-      width: 100%;
-      height: 40px;
+    &-button--desktop,
+    &-button--mobile {
       background-color: var(--px-color-white-on-light-black-on-dark);
       color-scheme: auto;
+    }
+
+    &-button--desktop {
+      @include on-breakpoint(sm) {
+        display: none !important;
+      }
+    }
+    &-button--mobile {
+      display: none !important;
+      @include on-breakpoint(sm) {
+        display: inline-flex !important;
+      }
     }
   }
 }

@@ -1,0 +1,30 @@
+@use 'sass:map';
+
+$breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  2xl: 1536px,
+) !default;
+
+@function get-breakpoint($name) {
+  @if map.has-key($breakpoints, $name) {
+    @return map.get($breakpoints, $name);
+  }
+  @error "Breakpoint `#{$name}` not found. Available: #{map.keys($breakpoints)}";
+}
+
+@mixin on-breakpoint($name) {
+  $value: get-breakpoint($name);
+  @media only screen and (max-width: $value) {
+    @content;
+  }
+}
+
+@mixin from-breakpoint($name) {
+  $value: get-breakpoint($name);
+  @media only screen and (min-width: $value) {
+    @content;
+  }
+}

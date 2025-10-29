@@ -62,7 +62,12 @@ async function handleSignout() {
 
   &__profile {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    @include on-breakpoint(sm) {
+      flex-direction: column;
+    }
 
     &-info {
       flex: 1;
@@ -76,7 +81,6 @@ async function handleSignout() {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      padding: 8px;
     }
   }
 }

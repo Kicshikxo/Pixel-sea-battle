@@ -20,7 +20,26 @@
           </template>
         </PixelFormTextInput>
 
-        <PixelButton type="submit" :label="$t('page.room.sendMessage')" :loading="sendLoading" />
+        <PixelButton
+          type="submit"
+          :label="$t('page.room.sendMessage')"
+          :loading="sendLoading"
+          class="room-messages__input__button--desktop"
+        >
+          <template #append-icon>
+            <icon name="pixelarticons:forward" />
+          </template>
+        </PixelButton>
+        <PixelButton
+          type="submit"
+          :loading="sendLoading"
+          icon-only
+          class="room-messages__input__button--mobile"
+        >
+          <template #icon>
+            <icon name="pixelarticons:forward" />
+          </template>
+        </PixelButton>
       </div>
     </PixelForm>
 
@@ -131,6 +150,19 @@ async function handleSubmit(values: MessageFormValues) {
     align-items: center;
     gap: 8px;
     width: 100%;
+    margin-bottom: 8px;
+
+    &__button--desktop {
+      @include on-breakpoint(sm) {
+        display: none;
+      }
+    }
+    &__button--mobile {
+      display: none;
+      @include on-breakpoint(sm) {
+        display: flex;
+      }
+    }
   }
 
   &__list {
