@@ -130,7 +130,7 @@
           <GoogleSignInButton
             class="auth-page__google-signin-button--mobile"
             text="continue_with"
-            :width="250"
+            :width="300"
             :locale="locale"
             :theme="$colorMode.value === 'dark' ? 'filled_black' : 'outline'"
             @success="handleGoogleSignIn"
@@ -337,8 +337,16 @@ async function handleSubmit(values: Record<string, any>) {
     height: 64px !important;
     margin: 0 auto;
 
+    &-button--desktop {
+      width: 400px;
+    }
+    &-button--mobile {
+      width: 300px;
+    }
+
     &-button--desktop,
     &-button--mobile {
+      height: 40px;
       background-color: var(--px-color-white-on-light-black-on-dark);
       color-scheme: auto;
     }
