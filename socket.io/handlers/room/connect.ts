@@ -1,9 +1,9 @@
 import type {
+  GamePlayerShip,
+  GamePlayerShot,
   Room,
   RoomMessage,
   RoomPlayer,
-  RoomPlayerShip,
-  RoomPlayerShot,
   User,
 } from '@prisma/client'
 import { prisma } from '~~/prisma/client'
@@ -61,9 +61,9 @@ export default {
     messages: (RoomMessage & { user: User })[]
     players: (RoomPlayer & {
       user: User
-      ships: RoomPlayerShip[]
-      sourceShots: RoomPlayerShot[]
-      targetShots: RoomPlayerShot[]
+      ships: GamePlayerShip[]
+      sourceShots: GamePlayerShot[]
+      targetShots: GamePlayerShot[]
     })[]
   },
   [
@@ -71,18 +71,18 @@ export default {
       event: 'room:playerConnect'
       data: RoomPlayer & {
         user: User
-        ships: RoomPlayerShip[]
-        sourceShots: RoomPlayerShot[]
-        targetShots: RoomPlayerShot[]
+        ships: GamePlayerShip[]
+        sourceShots: GamePlayerShot[]
+        targetShots: GamePlayerShot[]
       }
     },
     {
       event: 'room:playerJoin'
       data: RoomPlayer & {
         user: User
-        ships: RoomPlayerShip[]
-        sourceShots: RoomPlayerShot[]
-        targetShots: RoomPlayerShot[]
+        ships: GamePlayerShip[]
+        sourceShots: GamePlayerShot[]
+        targetShots: GamePlayerShot[]
       }
     },
   ]

@@ -29,12 +29,36 @@ export const roomRouter = trpcRouter({
         }),
     )
     .mutation(async ({ ctx, input }) => {
+      const existingRoom = await prisma.room.findFirst({
+        where: {
+          name: input.name,
+          status: { not: RoomStatus.FINISHED },
+        },
+      })
+      if (existingRoom) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'error.room.nameAlreadyExists',
+        })
+      }
+
       const room = await prisma.room.create({
         data: {
           name: input.name,
           type: input.type,
           creatorId: ctx.user.id,
         },
+      })
+
+      const game = await prisma.game.create({
+        data: {
+          roomId: room.id,
+        },
+      })
+
+      const updatedRoom = await prisma.room.update({
+        where: { id: room.id },
+        data: { currentGameId: game.id },
         include: {
           players: {
             include: { user: true },
@@ -42,7 +66,7 @@ export const roomRouter = trpcRouter({
         },
       })
 
-      io.server.emit('rooms:updateRoom', room)
+      io.server.emit('rooms:updateRoom', updatedRoom)
 
       return room
     }),

@@ -3,7 +3,6 @@
     <PixelForm
       ref="form"
       :validation-schema="messageValidationSchema"
-      :title="$t('page.room.messages')"
       full-width
       @submit="handleSubmit"
     >

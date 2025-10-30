@@ -1,6 +1,10 @@
 import type { Locales } from '~~/types/i18n'
 
 export default {
+  nameAlreadyExists: {
+    en: 'A room with this name already exists',
+    ru: 'Комната с таким названием уже существует',
+  },
   notFound: {
     en: 'Room not found',
     ru: 'Комната не найдена',

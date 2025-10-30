@@ -132,6 +132,9 @@ watch(
       router.replace({ query: {} })
     }
   },
+  {
+    immediate: true,
+  },
 )
 
 const createRoomValidationSchema = computed(() =>

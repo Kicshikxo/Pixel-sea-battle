@@ -1,9 +1,9 @@
 import type {
+  GamePlayerShip,
+  GamePlayerShot,
   Room,
   RoomMessage,
   RoomPlayer,
-  RoomPlayerShip,
-  RoomPlayerShot,
   User,
 } from '@prisma/client'
 import { defineStore } from 'pinia'
@@ -20,9 +20,9 @@ export default defineStore('room', () => {
         messages: (RoomMessage & { user: User })[]
         players: (RoomPlayer & {
           user: User
-          ships: RoomPlayerShip[]
-          sourceShots: RoomPlayerShot[]
-          targetShots: RoomPlayerShot[]
+          ships: GamePlayerShip[]
+          sourceShots: GamePlayerShot[]
+          targetShots: GamePlayerShot[]
         })[]
       })
     | null
