@@ -40,6 +40,16 @@
           </template>
         </PixelButton>
       </div>
+      <TransitionExpand>
+        <div v-if="showTypingIndicator">
+          <div class="room-messages__typing-indicator">
+            <icon class="room-messages__typing-indicator__icon" name="pixelarticons:edit" />
+            <span class="room-messages__typing-indicator__text">
+              {{ t('page.room.typing') }}
+            </span>
+          </div>
+        </div>
+      </TransitionExpand>
     </PixelForm>
 
     <TransitionExpand>
@@ -99,11 +109,13 @@ const { session } = useAuth()
 const props = withDefaults(
   defineProps<{
     messages?: (RoomMessage & { user: User })[]
+    showTypingIndicator?: boolean
     messagesLoading?: boolean
     sendLoading?: boolean
   }>(),
   {
     messages: () => [],
+    showTypingIndicator: false,
     messagesLoading: false,
     sendLoading: false,
   },
@@ -125,9 +137,7 @@ const messageValidationSchema = computed(() =>
 type MessageFormValues = z.infer<typeof messageValidationSchema.value>
 
 defineExpose({
-  resetForm() {
-    form.value?.formContext.resetForm()
-  },
+  formContext: () => form.value?.formContext,
 })
 
 async function handleSubmit(values: MessageFormValues) {
@@ -160,6 +170,60 @@ async function handleSubmit(values: MessageFormValues) {
       display: none;
       @include on-breakpoint(sm) {
         display: flex;
+      }
+    }
+  }
+
+  &__typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 16px;
+
+    &__icon {
+      animation: typing-icon 1s infinite;
+    }
+
+    @keyframes typing-icon {
+      0% {
+        transform: translateX(0);
+      }
+      20% {
+        transform: translateX(8px);
+      }
+      40% {
+        transform: translateX(0);
+      }
+      60% {
+        transform: translateX(4px);
+      }
+      80%,
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    &__text:after {
+      content: '123';
+      display: inline-block;
+      width: 1ch;
+      animation: typing-dots 1s steps(3, end) infinite;
+    }
+
+    @keyframes typing-dots {
+      0%,
+      20% {
+        content: '';
+      }
+      40% {
+        content: '.';
+      }
+      60% {
+        content: '..';
+      }
+      80%,
+      100% {
+        content: '...';
       }
     }
   }

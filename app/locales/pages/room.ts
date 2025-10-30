@@ -9,6 +9,10 @@ export default {
     en: 'Send',
     ru: 'Отправить',
   },
+  typing: {
+    en: 'Typing',
+    ru: 'Печатает',
+  },
   board: {
     A: { en: 'A', ru: 'А' },
     B: { en: 'B', ru: 'Б' },

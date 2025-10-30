@@ -15,7 +15,7 @@ export default {
     if (!socket.user) return callback?.()
 
     const room = await prisma.room.findUnique({
-      where: { id: data?.id, players: { some: { userId: socket.user.id } } },
+      where: { id: data?.roomId, players: { some: { userId: socket.user.id } } },
       include: {
         messages: {
           include: { user: true },
@@ -56,7 +56,7 @@ export default {
   },
 } as SocketHandler<
   'room:connect',
-  { id: string },
+  { roomId: string },
   Room & {
     messages: (RoomMessage & { user: User })[]
     players: (RoomPlayer & {

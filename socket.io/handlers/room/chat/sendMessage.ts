@@ -26,5 +26,10 @@ export default {
   'room:chat:sendMessage',
   { roomId: string; text: string },
   RoomMessage & { user: User },
-  [{ event: 'room:chat:addMessage'; data: RoomMessage & { user: User } }]
+  [
+    {
+      event: 'room:chat:addMessage'
+      data: RoomMessage & { user: User }
+    },
+  ]
 >

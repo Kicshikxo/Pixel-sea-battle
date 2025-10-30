@@ -8,6 +8,7 @@
       <RoomMessages
         ref="roomMessages"
         :messages="roomStore.room?.messages"
+        :show-typing-indicator="chatStore.otherPlayerTyping"
         :messages-loading="messagesLoading"
         :send-loading="sendMessageLoading"
         @send-message="handleSendMessage"
@@ -50,6 +51,7 @@ import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
 
+import useChatStore from '~/store/chat'
 import useRoomStore from '~/store/room'
 
 import { RoomStatus } from '@prisma/client'
@@ -72,6 +74,7 @@ const toast = useToast()
 const route = useRoute('room-id')
 const router = useRouter()
 const roomStore = useRoomStore()
+const chatStore = useChatStore()
 
 const roomMessages = ref<InstanceType<typeof RoomMessages>>()
 const messagesLoading = ref(true)
@@ -140,12 +143,24 @@ async function handleLeaveRoom() {
   }
 }
 
+watch(
+  () => roomMessages.value?.formContext()?.values.message,
+  async (message) => {
+    if (message) {
+      await chatStore.startTyping(roomId.value)
+    } else {
+      await chatStore.stopTyping(roomId.value)
+    }
+  },
+)
+
 async function handleSendMessage(messageText: string) {
   sendMessageLoading.value = true
   try {
-    await roomStore.sendMessage(messageText)
+    await chatStore.stopTyping(roomId.value)
+    await chatStore.sendMessage(messageText)
   } finally {
-    roomMessages.value?.resetForm()
+    roomMessages.value?.formContext()?.resetForm()
     sendMessageLoading.value = false
   }
 }

@@ -28,33 +28,34 @@ export default defineStore('room', () => {
     | null
   >(null)
 
-  async function connectRoom(id: string) {
+  async function connectRoom(roomId: string) {
     await new Promise<void>((resolve) =>
-      socket.emit('room:connect', { id }, (response) => {
+      socket.emit('room:connect', { roomId }, (response) => {
         room.value = response ?? null
         resolve()
       }),
     )
   }
-  async function disconnectRoom(id: string) {
-    await new Promise<void>((resolve) =>
-      socket.emit('room:disconnect', { id }, () => {
-        room.value = null
-        resolve()
-      }),
-    )
-  }
-
   socket.on('room:playerConnect', (response) => {
     toast.success(t('page.room.playerConnect', { username: response.user.username }))
     if (!room.value) return
     room.value.players.push(response)
   })
+
+  async function disconnectRoom(roomId: string) {
+    await new Promise<void>((resolve) =>
+      socket.emit('room:disconnect', { roomId }, () => {
+        room.value = null
+        resolve()
+      }),
+    )
+  }
   socket.on('room:playerDisconnect', (response) => {
     toast.error(t('page.room.playerDisconnect', { username: response.user.username }))
     if (!room.value) return
     room.value.players = room.value.players.filter((player) => player.userId !== response.userId)
   })
+
   socket.on('room:playerLeave', (response) => {
     if (response.user.id === session.data.value?.id) {
       toast.error(t('page.room.youLeave'))
@@ -62,18 +63,5 @@ export default defineStore('room', () => {
     }
   })
 
-  async function sendMessage(text: string) {
-    if (!room.value) return
-    return new Promise<void>((resolve) =>
-      socket.emit('room:chat:sendMessage', { roomId: room.value!.id, text }, () => resolve()),
-    )
-  }
-
-  socket.on('room:chat:addMessage', (message) => {
-    if (room.value) {
-      room.value.messages = [message, ...room.value.messages]
-    }
-  })
-
-  return { room, connectRoom, disconnectRoom, sendMessage }
+  return { room, connectRoom, disconnectRoom }
 })
