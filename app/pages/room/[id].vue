@@ -1,7 +1,7 @@
 <template>
   <div class="room-page">
     <PixelContainer full-width>
-      <RoomBoard />
+      <RoomPlayerBoards />
     </PixelContainer>
 
     <PixelContainer full-width>
@@ -45,8 +45,8 @@
 </template>
 
 <script setup lang="ts">
-import RoomBoard from '~/components/pages/room/RoomBoard.vue'
 import RoomMessages from '~/components/pages/room/RoomMessages.vue'
+import RoomPlayerBoards from '~/components/pages/room/RoomPlayerBoards.vue'
 import PixelButton from '~/components/pixel/PixelButton.vue'
 import PixelContainer from '~/components/pixel/PixelContainer.vue'
 import PixelModal from '~/components/pixel/PixelModal.vue'
@@ -125,9 +125,8 @@ async function handleLeaveRoom() {
   try {
     roomLastStatus.value = roomStore.room?.status ?? null
 
-    await roomStore.disconnectRoom(roomId.value)
     if (roomLastStatus.value === RoomStatus.PENDING) {
-      await trpc.room.leave.mutate({ id: roomId.value })
+      await roomStore.disconnectRoom(roomId.value)
     }
   } catch (error: any) {
     toast.error(t(error.message))

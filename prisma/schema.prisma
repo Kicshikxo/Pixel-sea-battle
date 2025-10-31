@@ -12,7 +12,7 @@ model User {
   type UserType @default(DEFAULT)
 
   email    String? @unique @map("email")
-  username String  @map("username")
+  username String  @map("username") @db.Char(32)
   password String? @map("password") @db.Char(60)
 
   rooms    Room[]

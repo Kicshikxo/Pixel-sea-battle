@@ -15,7 +15,7 @@
               <PixelFormTextInput
                 name="email"
                 type="email"
-                autocomplete="username"
+                autocomplete="email"
                 :label="$t('page.auth.emailLabel')"
                 :placeholder="$t('page.auth.emailPlaceholder')"
               >
@@ -37,7 +37,8 @@
             </template>
             <template v-if="action === 'sign-up'">
               <PixelFormTextInput
-                name="name"
+                name="username"
+                autocomplete="username"
                 :label="$t('page.auth.usernameLabel')"
                 :placeholder="$t('page.auth.usernamePlaceholder')"
               >
@@ -48,7 +49,7 @@
               <PixelFormTextInput
                 name="email"
                 type="email"
-                autocomplete="username"
+                autocomplete="email"
                 :label="$t('page.auth.emailLabel')"
                 :placeholder="$t('page.auth.emailPlaceholder')"
               >
@@ -165,9 +166,9 @@ const { t, locale } = useI18n()
 const { signIn, signUp, googleSignIn, guestSignIn } = useAuth()
 
 const action = ref<'sign-in' | 'sign-up'>(
-  route.query.signIn !== undefined
+  route.query['sign-in'] !== undefined
     ? 'sign-in'
-    : route.query.signUp !== undefined
+    : route.query['sign-up'] !== undefined
       ? 'sign-up'
       : 'sign-in',
 )
@@ -206,10 +207,10 @@ const signUpValidationSchema = computed(() =>
       .min(1, t('validation.required'))
       .email(t('validation.invalidEmail'))
       .default(''),
-    name: z
+    username: z
       .string()
       .min(1, t('validation.required'))
-      .max(100, { message: t('validation.tooManyCharacters') })
+      .max(32, { message: t('validation.tooManyCharacters') })
       .default(''),
     password: z
       .string()
@@ -255,7 +256,7 @@ async function handleSignUp(values: SignUpFormValues) {
   loading.value = true
   const { error } = await signUp({
     email: values.email,
-    username: values.name,
+    username: values.username,
     password: values.password,
     redirectTo: (route.query.redirectTo as string) ?? '/',
   })

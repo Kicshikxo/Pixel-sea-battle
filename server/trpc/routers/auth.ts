@@ -15,8 +15,8 @@ export const authRouter = trpcRouter({
     .input(
       z.object({
         email: z.string().email(),
-        username: z.string(),
-        password: z.string(),
+        username: z.string().max(32),
+        password: z.string().max(100),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -49,7 +49,7 @@ export const authRouter = trpcRouter({
     .input(
       z.object({
         email: z.string().email(),
-        password: z.string(),
+        password: z.string().max(100),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -123,7 +123,7 @@ export const authRouter = trpcRouter({
     const user = await prisma.user.create({
       data: {
         type: UserType.GUEST,
-        username: `guest-${new Date().getTime()}`,
+        username: `guest-${Math.random().toString(36).slice(2, 8)}`,
       },
     })
 

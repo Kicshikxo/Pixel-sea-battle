@@ -36,10 +36,10 @@ export default defineStore('room', () => {
       }),
     )
   }
-  socket.on('room:playerConnect', (response) => {
-    toast.success(t('page.room.playerConnect', { username: response.user.username }))
+  socket.on('room:playerConnect', (player) => {
+    toast.success(t('page.room.playerConnect', { username: player.user.username }))
     if (!room.value) return
-    room.value.players.push(response)
+    room.value.players.push(player)
   })
 
   async function disconnectRoom(roomId: string) {
@@ -50,17 +50,21 @@ export default defineStore('room', () => {
       }),
     )
   }
-  socket.on('room:playerDisconnect', (response) => {
-    toast.error(t('page.room.playerDisconnect', { username: response.user.username }))
+  socket.on('room:playerDisconnect', (player) => {
+    toast.error(t('page.room.playerDisconnect', { username: player.user.username }))
     if (!room.value) return
-    room.value.players = room.value.players.filter((player) => player.userId !== response.userId)
+    room.value.players = room.value.players.filter(({ userId }) => player.userId !== userId)
   })
 
-  socket.on('room:playerLeave', (response) => {
-    if (response.user.id === session.data.value?.id) {
+  socket.on('room:playerLeave', (player) => {
+    if (player.user.id === session.data.value?.id) {
       toast.error(t('page.room.youLeave'))
       room.value = null
+    } else {
+      toast.error(t('page.room.playerLeave', { username: player.user.username }))
     }
+    if (!room.value) return
+    room.value.players = room.value.players.filter(({ userId }) => player.userId !== userId)
   })
 
   return { room, connectRoom, disconnectRoom }
